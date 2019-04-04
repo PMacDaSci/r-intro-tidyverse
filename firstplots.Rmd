@@ -1,0 +1,212 @@
+---
+title: "Introduction to R"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  html_notebook: default
+  html_document: default
+subtitle: visualising RNA-seq data with ggplot2 (bar plots, density plots, box plots
+  and violin plots)
+---
+
+## Objectives
+  
+* Demonstrate how R can be used to visualise RNA-Seq data
+* Demonstrate basic R syntax (`<-`, `dim()`, `head()`, `View()`)
+* Demonstrate how to create bar plots, density plots, box plots and violin plots with ggplot2
+
+## Introduction
+
+In this tutorial, we will learn some R through creating plots to visualise data from an RNA-seq experiment.
+
+## Analysis
+
+We will use published RNA-seq data from the paper (add ref) to create some plots. This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. We will use the raw counts here. These are the counts of reads for each gene for each sample.
+
+First we will load in the libraries we need. These are already installed for you but if you need to install it on your own computer you can use `install.packages('tidyverse')`. 
+
+```{r, message=FALSE}
+library(tidyverse)
+```
+
+The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. To see what the `read_tsv()` function (or any function in R) does, type a `?` before the name and the help will appear in the Help panel on the right in RStudio.
+
+```{r, eval=FALSE}
+?read_tsv
+```
+
+In R we use `<-` to assign values or data to variables. A variable is name we can use to store the data in R's memory. We can read in a file from a path on our computer on on the web. Note that we need to put quotes ("") around file paths.
+
+```{r results = 'hide'}
+counts <- read_tsv("data/counts.tsv")
+```
+
+
+Let's take a look at the data. 
+
+We can use `dim()` to see the number of rows and columns.
+
+```{r}
+dim(counts)
+```
+
+There are 326,148 rows and 5 columns.
+
+We can take a look the first few lines with `head()`.
+
+```{r}
+head(counts)
+```
+
+We can look at the last few lines with 
+```{r}
+tail(counts)
+```
+
+Or we can see the whole file with `View()`.
+
+```{r eval=FALSE}
+View(counts)
+```
+
+
+## Bar plots
+
+How many counts do we have for each sanple?
+  
+We can make bar plots to visualise this. Let's take a look at the help for `geom_bar()`.
+
+```{r eval=FALSE}
+?geom_bar() 
+```
+
+We give `ggplot()` the data `counts` and in `aes()` we usually say which columns are the x and y axis values. However, in this case, note the part in the help that says "geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights)." Our input table contains the count for each gene for each sample but we want to plot the sum of counts for each sample. So we can specify x=Sample and use weight=Counts and ggplot will automatically sum the counts for each sample for us.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, weight=Counts)) +
+  geom_bar() 
+```
+
+We can colour by cell type (basal vs luminal) using the CellType column in our data. We simply need to add `fill=` into the `aes()` and specify the column in our data with the variable we want to colour.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=CellType)) +
+  geom_bar() 
+```
+
+A really nice feature about ggplot is that we can easily colour by another variable e.g. status (virgin vs pregnant vs lactating) by simply changing the column we give to `fill=`.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=Status)) +
+  geom_bar() 
+```
+
+## Density plots
+
+In addition to viewing the number of counts per sample it is also useful to visualise the distribution of the counts. We can visualise distributions with density plots. As count data is not normally distributed, if we want to examine the distributions we need to log the counts so we plot the Sample on the X axis and the log2 Counts on the y axis. As counts may be zero we add a small number to every count to avoid taking a log of zero. We'll add 2 to each count.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=log2(Counts+2))) +
+  geom_density()
+```
+
+We can colour by sample using `fill=`.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=log2(Counts+2), fill=Sample)) +
+  geom_density() 
+```
+
+If we would like to colour the lines in the plot instead of the area we can use `colour=` instead of `fill=`.
+
+
+```{r}
+ggplot(data=counts, mapping=aes(x=log2(Counts+2), colour=Sample)) +
+  geom_density() 
+```
+
+If we don't want the line at the bottom (polygon) we can use `geom_line()` e.g. https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r
+```{r}
+ggplot(data=counts, mapping=aes(x=log2(Counts+2), y = stat(density), colour=Sample)) +
+  geom_line(stat="density") 
+```
+
+## Boxplots
+
+We can also make box plots to see the distribution of counts for each sample.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts))) +
+  geom_boxplot()
+```
+
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
+  geom_boxplot()
+```
+
+# Exercise: Colour by Status instead of CellType
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
+  geom_boxplot()
+```
+
+Make a violin plot instead of a box plot (Hint: there is a geom_violin())
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
+  geom_violin()
+```
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
+  geom_violin()
+```
+
+
+#### Exercise
+  * Read in the normalised counts (from "data/normcounts.tsv")
+  * How many rows and columns are in the file
+  * What is the first gene in the file and it's counts
+  * What is the last gene in the file and it's counts
+  * Make as many plots as you like from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
+  * Colour by CellType and by Status
+  * Do you notice any differences versus the unnormalised counts
+  
+```{r, eval=FALSE}
+norm_counts <- read_tsv()
+norm_counts
+```
+
+
+```{r, eval=FALSE}
+ggplot(data=, mapping=aes(x=, colour=)) +
+  geom_density() 
+```
+
+
+```{r, eval=FALSE}
+ggplot(data=, mapping=aes(x=, weight=, fill=)) +
+  geom_bar() 
+```
+ 
+ 
+
+```{r, eval=FALSE}
+ggplot(data=, mapping=aes(x=, y=, fill=)) +
+  geom_boxplot() 
+```
+
+
+
+```{r, eval=FALSE}
+ggplot(data=, mapping=aes(x=, y=, fill=)) +
+  geom_violin()
+```
+
+
+## Further Reading
+[An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
+[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge 
