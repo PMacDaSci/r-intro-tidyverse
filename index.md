@@ -2,8 +2,6 @@
 This course provides an introduction to the R programming language through the tidyverse. 
 A variety of plots will be taught using RNA-seq data from a published paper.
 
-![R workshop](images/rintro.jpg)
-
 ## Course Objectives
 
 After this course you should be able to:
@@ -29,6 +27,7 @@ After this course you should be able to:
 ## Course Materials
 
 ### Week 1
+- [First plots](https://mblue9.github.io/r-intro-tidyverse/firstplots.html)
 
 ### Week 2
 
