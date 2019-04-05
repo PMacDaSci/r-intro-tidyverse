@@ -2,9 +2,11 @@
 title: "Introduction to R"
 author: "Maria Doyle"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output:
-  html_notebook: default
-  html_document: default
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
 subtitle: visualising RNA-seq data with the tidyverse (volcano plot)
 ---
 
@@ -53,14 +55,14 @@ Or look at all the data with `View()`.
 View(de_results)
 ```
 
-To make our volcano plot we make a scatterplot with logFC on the x axis and -log10(P.Value) on the y axis.
+To make our volcano plot we make a scatterplot using `geom_point()`. We plot logFC on the x axis and -log10(P.Value) on the y axis.
 
 ```{r}
 ggplot(de_results, aes(logFC, -log10(P.Value))) +
     geom_point()
 ```
 
-Let's colour points that are significant at adj.P.Value < 0.05. To do this we use `mutate()` to add a column called "sig" and we use `ifelse()` to say if our adj.P.Val is below 0.05 we add "Sig" to the sig column, othewise add "Not sig". 
+Let's colour points that are significant at adj.P.Value < 0.05. To do this we use dplyr's `mutate()` to add a column called "sig" and we use `ifelse()` to say if our adj.P.Val is below 0.05 we add "Sig" to the sig column, othewise add "Not sig". 
 
 ```{r}
 de_results <- de_results %>%  
@@ -220,7 +222,7 @@ p
 ```
 
 
-### Exercise
+#### Exercise
 
 Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". You can choose to colour and modify it whatever way you like.
 

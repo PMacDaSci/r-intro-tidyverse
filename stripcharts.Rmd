@@ -2,9 +2,11 @@
 title: "Introduction to R"
 author: "Maria Doyle"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output:
-  html_notebook: default
-  html_document: default
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
 subtitle: visualising RNA-seq data with stripcharts
 ---
 

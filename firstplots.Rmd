@@ -2,9 +2,11 @@
 title: "Introduction to R"
 author: "Maria Doyle"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output:
-  html_notebook: default
-  html_document: default
+output: 
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
 subtitle: visualising RNA-seq data with ggplot2 (bar plots, density plots, box plots
   and violin plots)
 ---
@@ -21,7 +23,7 @@ In this tutorial, we will learn some R through creating plots to visualise data 
 
 ## Analysis
 
-We will use published RNA-seq data from the paper (add ref) to create some plots. This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. We will use the raw counts here. These are the counts of reads for each gene for each sample.
+We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015] (https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. We will use the raw counts here. These are the counts of reads for each gene for each sample.
 
 First we will load in the libraries we need. These are already installed for you but if you need to install it on your own computer you can use `install.packages('tidyverse')`. 
 
@@ -117,7 +119,7 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+2), fill=Sample)) +
   geom_density() 
 ```
 
-If we would like to colour the lines in the plot instead of the area we can use `colour=` instead of `fill=`.
+If we would like to colour the lines in the plot we can use `colour=` instead of `fill=`. `fill=` is used to **fill** in areas in ggplot2 plots, whereas `colour=` is used to colour lines and points.
 
 
 ```{r}
@@ -125,13 +127,13 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+2), colour=Sample)) +
   geom_density() 
 ```
 
-If we don't want the line at the bottom (polygon) we can use `geom_line()` e.g. https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r
+The line at the bottom is present because geom_density plots a polygon shape. If we don't want that line we can use `geom_line()` e.g. https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r
 ```{r}
-ggplot(data=counts, mapping=aes(x=log2(Counts+2), y = stat(density), colour=Sample)) +
+ggplot(data=counts, mapping=aes(x=log2(Counts+2), colour=Sample)) +
   geom_line(stat="density") 
 ```
 
-## Boxplots
+## Box plots
 
 We can also make box plots to see the distribution of counts for each sample.
 
@@ -140,20 +142,28 @@ ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts))) +
   geom_boxplot()
 ```
 
+#### Exercise
+
+Colour the box plots by CellType and Status
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
   geom_boxplot()
 ```
 
-# Exercise: Colour by Status instead of CellType
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
   geom_boxplot()
 ```
 
+## Violin plots
+
+#### Exercise
+
 Make a violin plot instead of a box plot (Hint: there is a geom_violin())
+
+Solution
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
@@ -182,27 +192,25 @@ norm_counts
 
 
 ```{r, eval=FALSE}
-ggplot(data=, mapping=aes(x=, colour=)) +
+ggplot(data= , mapping=aes(x= , weight= , fill= )) +
+  geom_bar() 
+```
+ 
+
+```{r, eval=FALSE}
+ggplot(data= , mapping=aes(x= , colour= )) +
   geom_density() 
 ```
 
 
 ```{r, eval=FALSE}
-ggplot(data=, mapping=aes(x=, weight=, fill=)) +
-  geom_bar() 
-```
- 
- 
-
-```{r, eval=FALSE}
-ggplot(data=, mapping=aes(x=, y=, fill=)) +
+ggplot(data= , mapping=aes(x= , y= , fill= )) +
   geom_boxplot() 
 ```
 
 
-
 ```{r, eval=FALSE}
-ggplot(data=, mapping=aes(x=, y=, fill=)) +
+ggplot(data= , mapping=aes(x= , y= , fill= )) +
   geom_violin()
 ```
 
