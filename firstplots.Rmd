@@ -175,6 +175,16 @@ ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
   geom_violin()
 ```
 
+## Saving plots
+
+We can output plots to pdf using `pdf()` followed by `dev.off()`. We put our plot code after the call to `pdf()` and before closing the plot device with `dev.off()`.
+
+```{r, eval=FALSE}
+pdf("myplot.pdf")
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
+  geom_violin()
+dev.off()
+```
 
 #### Exercise
   * Read in the normalised counts (from "data/normcounts.tsv")
