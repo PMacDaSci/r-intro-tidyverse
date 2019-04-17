@@ -33,7 +33,7 @@ library(ggrepel)
 Next we load in our RNA-seq data. We will use the published data for 12 samples from mouse luminal and basal cells (ref). The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in a variable called `de_results`.
 
 ```{r}
-de_results <- read_tsv("https://zenodo.org/record/2596382/files/limma-voom_luminalpregnant-luminallactate")
+de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
 ```
 
 Next we can check the number of rows and columns in our file using R's `dim()`function.

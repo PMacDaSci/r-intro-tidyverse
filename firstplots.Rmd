@@ -40,7 +40,7 @@ The file we will use is tab-separated, so we will use the `read_tsv()` function 
 In R we use `<-` to assign values or data to variables. A variable is name we can use to store the data in R's memory. We can read in a file from a path on our computer on on the web. Note that we need to put quotes ("") around file paths.
 
 ```{r results = 'hide'}
-counts <- read_tsv("data/counts.tsv")
+counts <- read_tsv("/training/r-intro-tidyverse/data/counts.tsv.gz")
 ```
 
 
@@ -187,7 +187,7 @@ dev.off()
 ```
 
 #### Exercise
-  * Read in the normalised counts (from "data/normcounts.tsv")
+  * Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz")
   * How many rows and columns are in the file
   * What is the first gene in the file and it's counts
   * What is the last gene in the file and it's counts
