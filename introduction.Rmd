@@ -2,7 +2,7 @@
 title: "Introduction to R"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: 
-  html_document:
+  html_notebook:
     toc: yes
     toc_float: yes
     toc_depth: 2
