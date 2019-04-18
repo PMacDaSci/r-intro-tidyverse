@@ -27,14 +27,14 @@ After this course you should be able to:
 ## Course Materials
 
 ### Week 1
-- [Introduction](https://mblue9.github.io/r-intro-tidyverse/introduction.html)
-- [First plots](https://mblue9.github.io/r-intro-tidyverse/firstplots.html)
+- [Introduction](https://pmacdasci.github.io/r-intro-tidyverse/introduction.html)
+- [First plots](https://pmacdasci.github.io/r-intro-tidyverse/firstplots.html)
 
 ### Week 2
-- [Volcano plots](https://mblue9.github.io/r-intro-tidyverse/volcanoplot.html)
+- [Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
 
 ### Week 3
-- [Stripcharts](https://mblue9.github.io/r-intro-tidyverse/stripcharts.html)
+- [Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
 
 ### Week 4
 
