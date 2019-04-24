@@ -102,7 +102,7 @@ To build a ggplot, we will use the following basic template that can be used for
 ggplot(data=, mapping=aes()) + geom_ ()
 ```
 
-There are different geom_ we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 reference here: https://ggplot2.tidyverse.org/reference/ and the ggplot2 cheat sheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
+There are different geoms we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 reference here: https://ggplot2.tidyverse.org/reference/ and the ggplot2 cheat sheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
 
 An example scatter plot
 To demonstrate how ggplot works we will use one of the built-in datasets that R has. The dataset is called women and it contains the average heights and weights for American women.
