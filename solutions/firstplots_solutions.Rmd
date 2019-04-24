@@ -1,0 +1,149 @@
+---
+title: "Introduction to R: Week 1 Solutions"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: visualising RNA-seq data with ggplot2
+---
+
+
+#### Exercise
+* Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz")
+* How many rows and columns are in the file
+* In the first row, what is the sample id, the gene symbol and the value for the counts.
+* In the last row, what is the sample id, the gene symbol and the value for the counts.
+* Make as many plots as you can from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
+* Make separate plots coloured by Sample, CellType, Status, where appropriate.
+* Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset).
+
+```{r}
+norm_counts <- read_tsv("/training/r-intro-tidyverse/data/normcounts.tsv.gz")
+```
+
+```{r}
+dim(norm_counts)
+```
+
+There are 189,648 rows and 5 columns.
+
+```{r}
+head(norm_counts)
+```
+
+In the first row, the sample is DG, the gene is Xkr4 and the counts value is 3.932532.
+
+```{r}
+tail(norm_counts)
+```
+
+In the last row, the sample is LF, the gene is Erdr1 and the counts value is 3.0911666.
+
+## Bar plots
+
+Bar plot coloured by Sample.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, weight=Norm_counts, fill=Sample)) +
+  geom_bar() 
+```
+
+Bar plot coloured by CellType.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, weight=Norm_counts, fill=CellType)) +
+  geom_bar() 
+```
+
+Bar plot coloured by Status.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, weight=Norm_counts, fill=Status)) +
+  geom_bar() 
+```
+
+## Density Plots
+
+Density plots coloured by Sample.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Sample)) +
+  geom_density() 
+```
+
+
+Density plots coloured by CellType.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=CellType)) +
+  geom_density() 
+```
+
+Density plots coloured by Status.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Status)) +
+  geom_density() 
+```
+
+
+## Box plots
+
+Box plots coloured by Sample.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=Sample)) +
+  geom_boxplot() 
+```
+
+Box plots coloured by CellType.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=CellType)) +
+  geom_boxplot() 
+```
+
+
+Box plots coloured by Status.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=Status)) +
+  geom_boxplot() 
+```
+
+
+## Violin plots
+
+Violin plots coloured by Sample.
+
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=Sample)) +
+  geom_violin()
+```
+
+Violin plots coloured by CellType.
+
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=CellType)) +
+  geom_violin()
+```
+
+
+Violin plots coloured by Status.
+
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=Status)) +
+  geom_violin()
+```
+
+
+Differences versus the unnormalised counts
+* The normalised counts density plots don't have the large peak on left that's present in the unnormalised counts (the normalised counts have been filtered to remove lowly expressed genes)
+* The normalised counts box plots and violin plots, don't give the warning about non-infinite values (the normalised counts have been filtered to remove lowly expressed genes)
+* In the box plots of normalised data, the median line is more similar in the samples compared to the unnormalised data.  

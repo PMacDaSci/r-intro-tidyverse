@@ -26,9 +26,14 @@ In this tutorial, we will learn some R through creating plots to visualise data 
 
 ## Analysis
 
-We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015] (https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of reads/counts the more the gene is expressed. Some of the plots are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2*.
+We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015] (https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. 
 
-First we will load in the libraries we need. **`ggplot2`** is included in the **`tidyverse`** package. This is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.
+![Mouse mammary gland dataset](images/mouse_exp.png)
+
+We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of counts the more the gene is expressed. Some of the plots we will make are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2*.
+
+First we will load in the libraries we need. **`ggplot2`** is included in the **`tidyverse`** package. This is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.  
+  
 
 **The [tidyverse](https://www.tidyverse.org/) makes data science faster, easier and more fun.**
 
@@ -86,17 +91,15 @@ View(counts)
 
 ## Plotting with **`ggplot2`**
 
-**`ggplot2`** is a plotting package that makes it simple to create complex plots. We only need minimal changes if the underlying data change
-or if we decide to change our plot type, for example, from a bar plot to a box plot. This helps in creating publication quality plots with minimal amounts of adjustments and tweaking.
+**`ggplot2`** is a plotting package that makes it simple to create complex plots. One really great benefit of ggplot2 versus the older base R plotting is that we only need to make minimal changes if the underlying data change or if we decide to change our plot type, for example, from a bar plot to a box plot. This helps in creating publication quality plots with minimal amounts of adjustments and tweaking.
 
-**`ggplot2`** likes data in the 'long' format, also called 'tidy' format i.e., a column for every variable,
-and a row for every observation. Well-structured data will save you lots of time
-when making figures with **`ggplot2`**. We will discuss this more later in the course.
+**`ggplot2`** likes data in the 'long' format, also called 'tidy' format, i.e., a column for every variable, and a row for every observation. Well-structured data will save you lots of time
+when making figures with **`ggplot2`**. We will discuss tidy data more later in the course.
 
 ggplot graphics are built step by step by adding new elements. Adding layers in
 this fashion allows for extensive flexibility and customization of plots.
 
-To build a ggplot, we will use the following basic template that can be used for different types of plots:
+To build a ggplot, we use the following basic template that can be used for different types of plots:
 
 ```{r eval=FALSE}
 ggplot(data=, mapping=aes()) + geom_ ()
@@ -105,15 +108,15 @@ ggplot(data=, mapping=aes()) + geom_ ()
 There are different geoms we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 reference here: https://ggplot2.tidyverse.org/reference/ and the ggplot2 cheat sheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
 
 An example scatter plot
-To demonstrate how ggplot works we will use one of the built-in datasets that R has. The dataset is called women and it contains the average heights and weights for American women.
+To demonstrate how ggplot works we will use one of the built-in datasets that R has. We will use the dataset called `women` that contains the average heights and weights for American women.
 
-Take a look at the dataset.
+Frist take a look at the dataset.
 
 ```{r}
 head(women)
 ```
 
-Let's make a scatterplot. Note that to add a geom to the plot we use the `+` operator.
+Let's make a scatterplot. Note that to add a geom to the plot we use the `+` operator. This must go at the end of the line, and not at the beginning or ggplot2 will give an error.
 
 ```{r}
 ggplot(data=women, mapping=aes(x=height, y=weight)) + 
@@ -132,7 +135,7 @@ We can make bar plots to visualise this. To do this we will use `geom_bar()`. Le
 ?geom_bar() 
 ```
 
-We give `ggplot()` the data `counts` and in `aes()` we usually say which columns are the x and y axis values. However, in this case, note the part in the help that says "geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights)." Our input table contains the count for each gene for each sample but we want to plot the sum of counts for each sample. So we can specify `x=Sample` and use `weight=Counts` and ggplot will automatically sum the counts for each sample for us.
+We give `ggplot()` the data `counts` and in `aes()` we usually say which columns are the x and/or y axis values. However, in this case, note the part in the `geom_bar()` help that says "geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights)." Our input table contains the count for each gene for each sample but we want to plot the **sum** of counts for each sample. So we can specify `x=Sample` and use `weight=Counts` and ggplot will automatically sum the counts for each sample for us.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, weight=Counts)) +
@@ -155,7 +158,7 @@ ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=Status)) +
 
 ## Density plots
 
-In addition to viewing the number of counts per sample it is also useful to visualise the distribution of the counts. This helps us to compare the samples and check if any look unusual. We can visualise distributions with density plots. As count data is not normally distributed, to make it easier to visualise the distributions we log the counts. We'll plot the Sample on the X axis and log2 Counts on the y axis. As counts may be zero we add a small number to every count to avoid taking a log of zero. We'll add 0.25 to each count.
+In addition to viewing the number of counts per sample it is also useful to visualise the distribution of the counts. This helps us to compare the samples and check if any look unusual. We can visualise distributions with density plots. As count data is not normally distributed, to make it easier to visualise the distributions we log the counts. We'll plot the Sample on the X axis and log2 Counts on the y axis. As counts may be zero we add a small number to every count to avoid taking a log of zero. We'll add 0.25 to each count. 
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=log2(Counts+0.25))) +
@@ -177,24 +180,29 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
   geom_density() 
 ```
 
-The line at the bottom is present because geom_density plots a polygon shape. If we don't want that line we can use `geom_line()` e.g. https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r
+Why is there a line across the bottom of the plot? 
+
+We can use the bioinformatician's good friend Google to try to figure out why. Through Google we can find an answer on Stack Overflow (Stack Overflow is another great friend of bioinformaticians) https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r. It is because `geom_density()` plots a polygon shape. If we don't want that line we can adapt the code given in that Stack Overflow post.
+
 ```{r}
 ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
-  geom_line(stat="density") 
+  geom_line(stat="density")
 ```
 
 ## Box plots
 
-We can also make box plots to visualise the distribution of counts for each sample.
+We can also make box plots to visualise the distribution of counts for each sample. With box plots we can see the distribution of counts for each sample, the distributions don't overlap as in the density plot.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts))) +
   geom_boxplot()
 ```
 
+Note that we get a warning here about rows containing non-finite values being removed. This is because some of the genes have zero counts. We could add a small number as before to each count but the box plot ends up with no bottom whisker as there are so many zero counts. Usually we would filter lowly expressed genes before creating the box plots. We will plot the data as is, as we are just demonstrating the different types of plots that can be made here.
+
 #### Exercise
 
-Colour the box plots by CellType and Status
+Colour the box plots by Sample, then CellType, then Status.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
@@ -209,8 +217,7 @@ ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
 
 ## Violin plots
 
-Boxplots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape 
-(of the density of points) is drawn.
+Box plots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.
 
 #### Exercise
 
@@ -240,17 +247,16 @@ dev.off()
 ```
 
 #### Exercise
-  * Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz")
-  * How many rows and columns are in the file
-  * What is the first gene in the file and it's counts
-  * What is the last gene in the file and it's counts
-  * Make as many plots as you like from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
-  * Colour by CellType and by Status
-  * Do you notice any differences versus the unnormalised counts
+* Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz")
+* How many rows and columns are in the file
+* In the first row, what is the sample id, the gene symbol and the value for the counts.
+* In the last row, what is the sample id, the gene symbol and the value for the counts.
+* Make as many plots as you can from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
+* Colour by CellType and then by Status where appropriate.
+* Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset).
   
 ```{r, eval=FALSE}
 norm_counts <- read_tsv()
-norm_counts
 ```
 
 
