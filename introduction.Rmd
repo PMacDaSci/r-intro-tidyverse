@@ -9,8 +9,7 @@ output:
 subtitle: Intro to R and RStudio
 ---
 
-*PeterMac Data Science's modified version of material by the University of Cambridge (Mark Dunning, Suraj Menon and Aiora Zabala, Robert Stojnić,
-  Laurent Gatto, Rob Foy, John Davey, Dávid Molnár and Ian Roberts, original material: http://cambiotraining.github.io/r-intro) and Software Carpentry.*
+*PeterMac Data Science's modified version of material by the University of Cambridge  (http://cambiotraining.github.io/r-intro) and Software Carpentry.*
 
 #1. Introduction to R and its environment
 
