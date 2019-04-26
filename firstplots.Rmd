@@ -33,8 +33,6 @@ We will create some plots using published RNA-seq data from the Nature Cell Biol
 
 We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of counts the more the gene is expressed. Some of the plots we will make are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2*.
 
-First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
-
 ### Tidyverse
 
 ![www.tidyverse.org](images/tidyverse.png)
@@ -47,13 +45,15 @@ The **tidyverse** is a collection of packages that includes  **`ggplot2`** and w
 
 ## Loading the data
 
+First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
+
 We will begin by loading in the packages that we need.
 
 ```{r, message=FALSE}
 library(tidyverse)
 ```
 
-`library()` is the *function* in R that we use to load packages. We will see many functions in the course. Functions are "canned scripts" that automate more complicated sets of commands. Many functions are predefined, or can be
+`library()` is the **function** in R that we use to load packages. We will see many functions in the course. Functions are "canned scripts" that automate more complicated sets of commands. Many functions are predefined, or can be
 made available by importing R *packages*. A function
 usually takes one or more inputs called *arguments*. Here tidyverse is the argument to the `library()` function. Note that functions require parentheses after the function name.
 
@@ -63,31 +63,24 @@ The file we will use is tab-separated, so we will use the `read_tsv()` function 
 ?read_tsv
 ```
 
-In R we use `<-` to assign _values_ to _objects_. To create an object, we need to give it a name followed by the assignment operator `<-`, and the value we want to give it.
-
-We can read in a file from a path on our computer on on the web and use this as the value. Note that we need to put quotes ("") around file paths.
+In R we use `<-` to assign values to **objects**. `<-` is the **assignment operator**.  It assigns values on the right to objects on
+the left. So to create an object, we need to give it a name, followed by the assignment operator `<-`, and the value we want to give it. We can read in a file from a path on our computer on on the web and use this as the value. Note that we need to put quotes ("") around file paths.
 
 ```{r results = 'hide'}
 counts <- read_tsv("/training/r-intro-tidyverse/data/counts.tsv.gz")
 ```
 
-`<-` is the assignment operator. It assigns values on the right to objects on
-the left. So, after executing above the value of `counts` is the contents of the counts file. For historical reasons, you can also use `=`
-for assignments, but not in every context. Because of the
-[slight](http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)
-[differences](http://r.789695.n4.nabble.com/Is-there-any-difference-between-and-tp878594p878598.html)
-in syntax, it is good practice to always use `<-` for assignments.
+After executing above the value of `counts` is the contents of the counts file.
 
 In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `rnaseq_counts` but some reommendations on naming objects are:
+Objects can be given any name such as `x`, `rnaseq_counts` but some recommendations on naming objects are:
 
   * You want your object names to be explicit and not too long. 
   * They cannot start with a number (`2x` is not valid, but `x2` is). 
-  * R is case sensitive
-(e.g., `counts` is different from `Counts`). 
+  * R is case sensitive (e.g., `counts` is different from `Counts`). 
   * There are some names that cannot be used because they are the names of fundamental functions in R (e.g.,`if`, `else`, `for`, see
 [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
 for a complete list). In general, even if it's allowed, it's best to not use
@@ -109,7 +102,7 @@ dim(counts)
 
 This show us there are 326,148 rows and 5 columns.
 
-In the Environment Tab on the top right in RStudio we can also see the number of rows and columns in the objects we have in our session.
+In the Environment Tab in the top right panel in RStudio we can also see the number of rows and columns in the objects we have in our session.
 
 We can also take a look the first few lines with `head()`. This shows us the first 6 lines.
 
@@ -144,15 +137,19 @@ To build a ggplot, we use the following basic template that can be used for diff
 ggplot(data=, mapping=aes()) + geom_ ()
 ```
 
+Three things are required for a ggplot:
+
 1. The data
 2. The mapping of variables (columns) in the data to visual properties (called aesthetics in ggplot2) of objects in the plot
 3. The type of plot – this is called a geom in ggplot2 terminology
 
 There are different geoms we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 help or the cheatsheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
 
-Before we start plotting the RNA-seq data we'll demonstrate how ggplot works using one of the built-in datasets in R (you can see the built-in datasets by typing `data()`. We will use the dataset called `women` that contains the average heights and weights for American women.
+##Our first plot
 
-Frist take a look at the dataset.
+Before we start plotting the RNA-seq data we'll demonstrate how ggplot works using one of the built-in datasets in R (you can see what built-in datasets there are by typing `data()`. We will use the dataset called `women` that contains the average heights and weights for American women.
+
+First take a look at the dataset.
 
 ```{r}
 women
@@ -184,7 +181,7 @@ ggplot(data=counts, mapping=aes(x=Sample, y=Counts)) +
 
 We get an error `Error: stat_count() must not be used with a y aesthetic.`
 
-We can use the bioinformatician's good friend Google to try to figure out why. Through Google we can find an answer on Stack Overflow (Stack Overflow is another great friend of bioinformaticians) https://stackoverflow.com/questions/39679057/r-ggplot2-stat-count-must-not-be-used-with-a-y-aesthetic-error-in-bar-graph/39679104. As pointed out in that post, we could specify y=Counts if we had already calculated the total counts for each sample, and we were just plotting the calculated value. However, our input data contains the individual counts for each gene for each sample we want to **sum** the counts for each sample. If we look at the help for `geom_bar()` (or that post):
+We can use the bioinformatician's good friend Google to try to figure out why. Through Google we can find an answer on Stack Overflow (Stack Overflow is another good friend of bioinformaticians) https://stackoverflow.com/questions/39679057/r-ggplot2-stat-count-must-not-be-used-with-a-y-aesthetic-error-in-bar-graph/39679104. As pointed out in that post, we could specify y=Counts if we had already calculated the value we wanted to plot (the total counts for each sample). However, our input data contains the counts for *each gene* for each sample. We want to **sum** the counts for each sample. Let's take a look at the help for `geom_bar()` (or that post).
 
 ```{r eval=FALSE}
 ?geom_bar() 
