@@ -6,12 +6,21 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 2
-subtitle: Intro to R and RStudio
+subtitle: R and RStudio
 ---
+\  
+\  
 
-*PeterMac Data Science's modified version of material by the University of Cambridge (http://cambiotraining.github.io/r-intro) and Software Carpentry.*
+#### Acknowledgements
+Peter Mac Data Science's remix of material from [CRUK Cambridge](https://github.com/bioinformatics-core-shared-training), [The Carpentries](https://carpentries.org/) and [Monash Bioinformatics Platform](https://monashdatafluency.github.io/r-intro-2/index.html)
 
-#1. Introduction to R and its environment
+##Why not just use Excel?
+Spreadsheets are a common entry point for many types of analysis and Excel is used widely but 
+
+* can be unwieldy and difficult to deal with large amounts of data
+* error prone (e.g. gene symbols turning into dates)
+* tedious and time consuming to repeatedly process multiple files
+* **how can you, or someone else, repeat what you did several months or years down the line?**
 
 ##What is R?
 
@@ -26,17 +35,14 @@ subtitle: Intro to R and RStudio
 
 http://www.r-project.org/
 
-![R screenshot](images/R-project.png)
-
-![New York Times, Jan 2009](images/NYTimes_R_Article.png)
-
-
-##R plotting capabilities
-
-https://www.facebook.com/notes/facebook-engineering/visualizing-friendships/469716398919
-![R facebook](images/facebook-network.png)
+![](images/R-project.png)
+\  
+\  
 
 ##Who uses R? Not just academics!
+\  
+\  
+![](images/NYTimes_R_Article.png)
 
 http://www.revolutionanalytics.com/companies-using-r
 
@@ -52,12 +58,12 @@ http://www.revolutionanalytics.com/companies-using-r
     + http://blog.revolutionanalytics.com/2015/12/buzzfeed-uses-r-for-data-journalism.html
 - New Zealand Tourist Board
     + https://mbienz.shinyapps.io/tourism_dashboard_prod/
-
+\  
+\  
     
 ## R can facilitate Reproducible Research
 
 ![Sidney Harris - New York Times](images/SidneyHarris_MiracleWeb.jpg)
-
 
 
 
@@ -76,30 +82,38 @@ According to recent editorials, the reproducibility crisis is still on-going
 
 ![Nature, May 2016](images/rep-crisis.png)
 
+[Challenges in irreproducible research](https://www.nature.com/collections/prbfkwmwvz)
 
 [Reality check on reproducibility](http://www.nature.com/news/reality-check-on-reproducibility-1.19961)
 
 [1,500 scientists lift the lid on reproducibility](http://www.nature.com/news/1-500-scientists-lift-the-lid-on-reproducibility-1.19970)
 
+##R plotting capabilities
+
+R enables making **complex, publication-quality, reproducible** plots. An example of one of the plots we will make in this course is shown below.
+
+![Volcano Plot](images/volcano.png)
+
+\  
+\  
 
 ##Getting started
 - In this course we use a server that has everything already installed for you.
 - If you want to install on your own computer you can get the latest release of R from https://www.r-project.org/
     + Base package and Contributed packages (general purpose extras)
     + `r length(XML:::readHTMLTable("http://cran.r-project.org/web/packages/available_packages_by_date.html")[[1]][[2]])` available packages as of `r date()`
-- Download from http://mirrors.ebi.ac.uk/CRAN/
+- Download from https://cran.rstudio.com/
 - Windows, Mac and Linux versions available
 - Executed using command line, or a graphical user interface (GUI)
 - On this course, we use the RStudio GUI (www.rstudio.com)
 
 ![rstudio](http://www.rstudio.com/wp-content/uploads/2014/03/blue-125.png) 
+\  
+\  
     
 ## Introduction to RStudio
 
-*(from Software Carpentry)*
-
-Throughout this lesson, we're going to teach you some of the fundamentals of
-the R language. We'll be using RStudio: a free, open source R integrated development
+Throughout this lesson, we'll be using RStudio: a free, open source R integrated development
 environment. It provides a built in editor, works on all platforms (including
 on servers) and provides many advantages such as integration with version
 control and project management.
@@ -113,31 +127,35 @@ When you first open RStudio, you will be greeted by three panels:
   * Environment/History (tabbed in upper right)
   * Files/Plots/Packages/Help/Viewer (tabbed in lower right)
 
-![RStudio layout](images/01-rstudio.png)
+![RStudio layout](images/rstudio.png)
 
 Once you open files, such as R scripts, an editor panel will also open
 in the top left.
 
-![RStudio layout with .R file open](images/01-rstudio-script.png)
+![RStudio layout with .R file open](images/rstudio-script.png)
 
+\  
+\  
 
 ## Workflow within RStudio
 There are two main ways one can work within RStudio.
 
-1. Test and play within the interactive R console then copy code into
+1. Test and play within the interactive R **console** then copy code into
 a .R file to run later.
    *  This works well when doing small tests and initially starting off.
    *  It quickly becomes laborious
-2. Start writing in an .R file and use RStudio's short cut keys for the Run command
+2. Start writing in a **script** (a .R file) and use RStudio's short cut keys for the Run command
 to push the current line, selected lines or modified lines to the
 interactive R console.
    * This is a great way to start; all your code is saved for later
    * You will be able to run the file you create from within RStudio
    or using R's `source()`  function.
    
+The console window is the place where R is waiting for you to tell it what to do, and where it will show the results of a command. `>` means that R is ready to take a command. `+` means the command is not complete, such as you are missing a `)`. You can type commands directly into the console, but they will be forgotten when you close the session. The script is a simple text (.R) file that stores your code. The point of a well constructed script is not just to “do stuff” but to do it in a way that maintains a complete record of your work so anyone can easily and exactly replicate your workflow and results.
+   
 We will use the second way in this course.
 
-## Tip: Running segments of your code
+### Tip: Running segments of your code
 
 RStudio offers you great flexibility in running code from within the editor
 window. There are buttons, menu choices, and keyboard shortcuts. To run the
@@ -153,3 +171,15 @@ there is no need to reselct the section and `Run`, you can use the next button
 along, `Re-run the previous region`. This will run the previous code block
 including the modifications you have made.
 
+
+### Comments
+
+The comment character in R is `#`, anything to the right of a `#` in a script
+will be ignored by R. It is useful to leave notes, and explanations in your
+scripts.
+RStudio makes it easy to comment or uncomment a paragraph: after selecting the
+lines you  want to comment, press at the same time on your keyboard
+<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd>. If you only want to comment
+out one line, you can put the cursor at any location of that line (i.e. no need 
+to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
+<kbd>C</kbd>.

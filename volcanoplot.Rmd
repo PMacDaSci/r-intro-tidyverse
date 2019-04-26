@@ -30,7 +30,7 @@ library(tidyverse)
 library(ggrepel)
 ```
 
-Next we load in our RNA-seq data. We will use the published data for 12 samples from mouse luminal and basal cells (ref). The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in a variable called `de_results`.
+Next we load in our RNA-seq data. We will use the published data for 12 samples from mouse luminal and basal cells (ref). The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `de_results`.
 
 ```{r}
 de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
@@ -182,13 +182,14 @@ ggplot(de_results, aes(logFC, -log10(P.Value))) +
   geom_text_repel(aes(label=labels), show.legend = FALSE)
 ```
 
-We can also make the plot look nicer, for example, adding a title and changing the background. First let's store our inital plot in a variable called `p`, to make it easier to see what we're changing.
+We can also make the plot look nicer, for example, adding a title and changing the background. First let's store our inital plot in an object called `p`, to make it easier to see what we're changing.
 
 ```{r}
-p <- ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
-  geom_point() +
+p <- ggplot(de_results, aes(logFC, -log10(P.Value))) +
+  geom_point(aes(col=sig)) +
   scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
   geom_text_repel(aes(label=labels), show.legend = FALSE)
+p
 ```
 
 We can add a title.
@@ -214,11 +215,27 @@ p <- p + theme(panel.background = element_blank(),
 p
 ```
 
+We can add axis lines.
+
+```{r}
+p <- p + theme(axis.line = element_line(size=0.2, colour = "black"))
+p
+```
+
 We can adjust the x axis so it's the same limit on the right and left.
 
 ```{r}
 p <- p + scale_x_continuous(limits=c(-10, 10))
 p
+```
+
+We can remove the legend completely.
+
+```{r}
+png("volcano.png")
+p <- p + theme(legend.position = "none")
+p
+dev.off()
 ```
 
 

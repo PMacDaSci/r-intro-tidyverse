@@ -16,7 +16,7 @@ subtitle: visualising RNA-seq data with ggplot2
 * How many rows and columns are in the file
 * In the first row, what is the sample id, the gene symbol and the value for the counts.
 * In the last row, what is the sample id, the gene symbol and the value for the counts.
-* Make as many plots as you can from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
+* Make as many plots as you can from bar plots, box plots, violin plots and density plots using the normalised counts (some starter code is below)
 * Make separate plots coloured by Sample, CellType, Status, where appropriate.
 * Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset).
 
@@ -63,30 +63,6 @@ Bar plot coloured by Status.
 ```{r}
 ggplot(data=norm_counts, mapping=aes(x=Sample, weight=Norm_counts, fill=Status)) +
   geom_bar() 
-```
-
-## Density Plots
-
-Density plots coloured by Sample.
-
-```{r}
-ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Sample)) +
-  geom_density() 
-```
-
-
-Density plots coloured by CellType.
-
-```{r}
-ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=CellType)) +
-  geom_density() 
-```
-
-Density plots coloured by Status.
-
-```{r}
-ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Status)) +
-  geom_density() 
 ```
 
 
@@ -140,6 +116,30 @@ Violin plots coloured by Status.
 ```{r}
 ggplot(data=norm_counts, mapping=aes(x=Sample, y=Norm_counts, fill=Status)) +
   geom_violin()
+```
+
+## Density Plots
+
+Density plots coloured by Sample.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Sample)) +
+  geom_density() 
+```
+
+
+Density plots coloured by CellType.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=CellType)) +
+  geom_density() 
+```
+
+Density plots coloured by Status.
+
+```{r}
+ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Status)) +
+  geom_density() 
 ```
 
 

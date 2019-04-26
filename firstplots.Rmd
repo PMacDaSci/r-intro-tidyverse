@@ -9,76 +9,115 @@ output:
     toc_depth: 2
 subtitle: visualising RNA-seq data with ggplot2
 ---
+\  
+\  
 
-## Acknowledgements
-Some text remixed from [Data Carpentry](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html)
+#### Acknowledgements
+Material created by Peter Mac Data Science with some text remixed from [Data Carpentry](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html) and [University of Cambridge](http://bioinformatics-core-shared-training.github.io/r-intermediate/)
 
 ## Objectives
   
 * Demonstrate how R and ggplot2 can be used to visualise RNA-Seq data
 * Demonstrate basic R syntax (`<-`, `dim()`, `head()`, `View()`)
-* Demonstrate how to create bar plots, density plots, box plots and violin plots with ggplot2
+* Demonstrate how to use ggplot2 to create bar plots, density plots, box plots and violin plots
 
 ## Introduction
 
 In this tutorial, we will learn some R through creating plots to visualise data from an RNA-seq experiment.
 
+### RNA-seq dataset
 
-## Analysis
+We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups, 12 samples in total.
 
-We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015] (https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups so 12 samples in total. 
-
-![Mouse mammary gland dataset](images/mouse_exp.png)
+![](images/mouse_exp.png)
 
 We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of counts the more the gene is expressed. Some of the plots we will make are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2*.
 
-First we will load in the libraries we need. **`ggplot2`** is included in the **`tidyverse`** package. This is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.  
-  
+First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
 
-**The [tidyverse](https://www.tidyverse.org/) makes data science faster, easier and more fun.**
+### Tidyverse
 
 ![www.tidyverse.org](images/tidyverse.png)
 
+The **tidyverse** is a collection of packages that includes  **`ggplot2`** and we will introduce you to some of these packages in this course. The tidyverse package is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.  
+
+**The [tidyverse](https://www.tidyverse.org/) makes data science faster, easier and more fun.**
+
+![Tidyverse packages](images/tidyverse_packages.jpeg)
+
+## Loading the data
+
+We will begin by loading in the packages that we need.
 
 ```{r, message=FALSE}
 library(tidyverse)
 ```
 
-The tidyverse is a collection of packages. We will introduce you to some of these packages in this course.
+`library()` is the *function* in R that we use to load packages. We will see many functions in the course. Functions are "canned scripts" that automate more complicated sets of commands. Many functions are predefined, or can be
+made available by importing R *packages*. A function
+usually takes one or more inputs called *arguments*. Here tidyverse is the argument to the `library()` function. Note that functions require parentheses after the function name.
 
-![Tidyverse packages](images/tidyverse_packages.jpeg)
-
-
-The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse **`readr`** package to read it in. To see what the `read_tsv()` function (or any function in R) does, type a `?` before the name and the help will appear in the Help panel on the right in RStudio.
+The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse **`readr`** package to read it in. Tsv stands for tab-separated values. There is also a `read_csv()` function of csv files. To see what the `read_tsv()` function (or any function in R) does, type a `?` before the name and the help will appear in the Help panel on the right in RStudio. Or you can search with the function name in the RStudio help panel on the bottom right.
 
 ```{r, eval=FALSE}
 ?read_tsv
 ```
 
-In R we use `<-` to assign values or data to variables. A variable is name we can use to store the data in R's memory. We can read in a file from a path on our computer on on the web. Note that we need to put quotes ("") around file paths.
+In R we use `<-` to assign _values_ to _objects_. To create an object, we need to give it a name followed by the assignment operator `<-`, and the value we want to give it.
+
+We can read in a file from a path on our computer on on the web and use this as the value. Note that we need to put quotes ("") around file paths.
 
 ```{r results = 'hide'}
 counts <- read_tsv("/training/r-intro-tidyverse/data/counts.tsv.gz")
 ```
 
+`<-` is the assignment operator. It assigns values on the right to objects on
+the left. So, after executing above the value of `counts` is the contents of the counts file. For historical reasons, you can also use `=`
+for assignments, but not in every context. Because of the
+[slight](http://blog.revolutionanalytics.com/2008/12/use-equals-or-arrow-for-assignment.html)
+[differences](http://r.789695.n4.nabble.com/Is-there-any-difference-between-and-tp878594p878598.html)
+in syntax, it is good practice to always use `<-` for assignments.
 
-Let's take a look at the data. 
+In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
+same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
+same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-We can use `dim()` to see the number of rows and columns.
+Objects can be given any name such as `x`, `rnaseq_counts` but some reommendations on naming objects are:
+
+  * You want your object names to be explicit and not too long. 
+  * They cannot start with a number (`2x` is not valid, but `x2` is). 
+  * R is case sensitive
+(e.g., `counts` is different from `Counts`). 
+  * There are some names that cannot be used because they are the names of fundamental functions in R (e.g.,`if`, `else`, `for`, see
+[here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
+for a complete list). In general, even if it's allowed, it's best to not use
+other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+doubt, check the help to see if the name is already in use. 
+  * It's also best to avoid dots (`.`) within an object name as in `my.dataset`. There are many functions in R with dots in their names for historical reasons, but because dots have a special meaning in R (for methods) and other programming languages, it's best to avoid them. 
+
+When assigning a value to an object, R does not print the value. For example, here we don't see what's in the counts file. But there are ways we can look at the data. We can type the name of the object and it will print the first few lines and some information.
+
+```{r}
+counts
+```
+
+We can also use `dim()` to see the dimensions of an object, the number of rows and columns.
 
 ```{r}
 dim(counts)
 ```
 
-There are 326,148 rows and 5 columns.
+This show us there are 326,148 rows and 5 columns.
 
-We can take a look the first few lines with `head()`.
+In the Environment Tab on the top right in RStudio we can also see the number of rows and columns in the objects we have in our session.
+
+We can also take a look the first few lines with `head()`. This shows us the first 6 lines.
 
 ```{r}
 head(counts)
 ```
 
-We can look at the last few lines with 
+We can look at the last few lines with `tail(). This shows us the last 6 lines. This can be useful to check the bottom of the file, that it looks ok.
 ```{r}
 tail(counts)
 ```
@@ -101,27 +140,32 @@ this fashion allows for extensive flexibility and customization of plots.
 
 To build a ggplot, we use the following basic template that can be used for different types of plots:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 ggplot(data=, mapping=aes()) + geom_ ()
 ```
 
-There are different geoms we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 reference here: https://ggplot2.tidyverse.org/reference/ and the ggplot2 cheat sheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
+1. The data
+2. The mapping of variables (columns) in the data to visual properties (called aesthetics in ggplot2) of objects in the plot
+3. The type of plot – this is called a geom in ggplot2 terminology
 
-An example scatter plot
-To demonstrate how ggplot works we will use one of the built-in datasets that R has. We will use the dataset called `women` that contains the average heights and weights for American women.
+There are different geoms we can use to create different types of plot e.g. bar plot versus box plot, to see some of the geoms available see the ggplot2 help or the cheatsheet here: https://www.rstudio.com/wp-content/uploads/2016/11/ggplot2-cheatsheet-2.1.pdf
+
+Before we start plotting the RNA-seq data we'll demonstrate how ggplot works using one of the built-in datasets in R (you can see the built-in datasets by typing `data()`. We will use the dataset called `women` that contains the average heights and weights for American women.
 
 Frist take a look at the dataset.
 
 ```{r}
-head(women)
+women
 ```
 
-Let's make a scatterplot. Note that to add a geom to the plot we use the `+` operator. This must go at the end of the line, and not at the beginning or ggplot2 will give an error.
+Let's make a scatterplot. We give `ggplot()` the dataset (`women`) and in `aes()` we say which columns are the x and y axis values. To say what type of plot we want we add a geom using the `+` operator. This must go at the end of the line, and not at the beginning or ggplot2 will give an error.
 
 ```{r}
 ggplot(data=women, mapping=aes(x=height, y=weight)) + 
   geom_point()
 ```
+
+We have generated our first plot!
 
 Now we will explore the RNA-Seq data using different types of plots.
 
@@ -129,41 +173,111 @@ Now we will explore the RNA-Seq data using different types of plots.
 
 How many counts do we have for each sample?
   
-We can make bar plots to visualise this. To do this we will use `geom_bar()`. Let's take a look at the help for `geom_bar()`.
+We can make bar plots to visualise this. To do this we will use `geom_bar()`.
+
+You might think we specify the x= and y= values as before with `geom_point()` but look what happens.
+
+```{r, eval=FALSE}
+ggplot(data=counts, mapping=aes(x=Sample, y=Counts)) +
+  geom_bar()
+```
+
+We get an error `Error: stat_count() must not be used with a y aesthetic.`
+
+We can use the bioinformatician's good friend Google to try to figure out why. Through Google we can find an answer on Stack Overflow (Stack Overflow is another great friend of bioinformaticians) https://stackoverflow.com/questions/39679057/r-ggplot2-stat-count-must-not-be-used-with-a-y-aesthetic-error-in-bar-graph/39679104. As pointed out in that post, we could specify y=Counts if we had already calculated the total counts for each sample, and we were just plotting the calculated value. However, our input data contains the individual counts for each gene for each sample we want to **sum** the counts for each sample. If we look at the help for `geom_bar()` (or that post):
 
 ```{r eval=FALSE}
 ?geom_bar() 
 ```
 
-We give `ggplot()` the data `counts` and in `aes()` we usually say which columns are the x and/or y axis values. However, in this case, note the part in the `geom_bar()` help that says "geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights)." Our input table contains the count for each gene for each sample but we want to plot the **sum** of counts for each sample. So we can specify `x=Sample` and use `weight=Counts` and ggplot will automatically sum the counts for each sample for us.
+It says "geom_bar() makes the height of the bar proportional to the number of cases in each group (or if the weight aesthetic is supplied, the sum of the weights)." So we can specify `x=Sample` and `weight=Counts` and ggplot will automatically sum the counts for each sample for us.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, weight=Counts)) +
   geom_bar() 
 ```
 
-We can colour by cell type (basal vs luminal) using the CellType column in our data. We simply need to add `fill=` into the `aes()` and specify the column in our data with the variable we want to colour.
+This shows us we have 20-25 million counts per sample, none are very different.
+
+We can colour each sample using the Sample column in our data. We simply need to add `fill=` into the `aes()` and specify the column in our data with the variable we want to colour.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=Sample)) +
+  geom_bar() 
+```
+
+A really nice feature about ggplot is that we can easily colour by another variable e.g. cell type (basal vs luminal) by simply changing the column we give to `fill=`.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=CellType)) +
   geom_bar() 
 ```
 
-A really nice feature about ggplot is that we can easily colour by another variable e.g. status (virgin vs pregnant vs lactating) by simply changing the column we give to `fill=`.
+Or we can colour by status (virgin vs pregnant vs lactating).
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=Status)) +
   geom_bar() 
 ```
 
+
+## Box plots
+
+In addition to viewing the number of counts per sample it is also useful to visualise the distribution of the counts. This helps us to compare the samples and check if any look unusual. We can make box plots to visualise the distribution of counts for each sample.
+
+Let's try that.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=Counts)) +
+  geom_boxplot()
+```
+
+That looks weird. It's because the counts are not normally distributed, we have some genes with extremely high counts. To make it easier to visualise the distributions we log the counts. We'll plot the Sample on the X axis and log2 Counts on the y axis. We can log the Counts within the `aes()`.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts))) +
+  geom_boxplot()
+```
+
+Note that we get a warning here about rows containing non-finite values being removed. This is because some of the genes have a count of zero in the samples and a log of zero is undefined. Usually we would filter lowly expressed genes before creating the box plots so we may not always get a warning like this. But here we are just demonstrating the different types of plots that can be made.
+
+#### Exercise
+
+Colour the box plots by Sample, then CellType, then Status. Some starter code is below.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=)) +
+  geom_boxplot()
+```
+
+
+## Violin plots
+
+Box plots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.
+
+#### Exercise
+
+Make violin plots instead of a box plot using geom_violin() and colour by Sample, then CellType, then Status.
+
+
 ## Density plots
 
-In addition to viewing the number of counts per sample it is also useful to visualise the distribution of the counts. This helps us to compare the samples and check if any look unusual. We can visualise distributions with density plots. As count data is not normally distributed, to make it easier to visualise the distributions we log the counts. We'll plot the Sample on the X axis and log2 Counts on the y axis. As counts may be zero we add a small number to every count to avoid taking a log of zero. We'll add 0.25 to each count. 
+We can also visualise distributions with density plots. In this case we specify x=log2(Counts) and `geom_density()` will create a density plot of the counts.
+
+```{r}
+ggplot(data=counts, mapping=aes(x=log2(Counts))) +
+  geom_density()
+```
+
+We can add a small number to every count (we'll choose 0.25) in order to view the lowly expressed genes in this plot.
+
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=log2(Counts+0.25))) +
   geom_density()
 ```
+
+Note the large peak that appears on the left. This is the large number of genes with zero counts that would be removed or reduced after filtering lowly expressed genes.
 
 We can colour by sample using `fill=`.
 
@@ -172,7 +286,7 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), fill=Sample)) +
   geom_density() 
 ```
 
-If we would like to colour the lines in the plot we can use `colour=` instead of `fill=`. `fill=` is used to **fill** in areas in ggplot2 plots, whereas `colour=` is used to colour lines and points.
+If we would like to colour the lines in the plot instead of the areas we can use `colour=` instead of `fill=`. `fill=` is used to **fill** in areas in ggplot2 plots, whereas `colour=` is used to colour lines and points.
 
 
 ```{r}
@@ -182,58 +296,13 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
 
 Why is there a line across the bottom of the plot? 
 
-We can use the bioinformatician's good friend Google to try to figure out why. Through Google we can find an answer on Stack Overflow (Stack Overflow is another great friend of bioinformaticians) https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r. It is because `geom_density()` plots a polygon shape. If we don't want that line we can adapt the code given in that Stack Overflow post.
+We can use Google and Stack Overflow again to find out why: https://stackoverflow.com/questions/49593634/unintended-line-across-x-axis-of-density-plot-r. It is because `geom_density()` plots a polygon shape. If we don't want that line we can adapt the code given in that Stack Overflow post.
 
 ```{r}
 ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
   geom_line(stat="density")
 ```
 
-## Box plots
-
-We can also make box plots to visualise the distribution of counts for each sample. With box plots we can see the distribution of counts for each sample, the distributions don't overlap as in the density plot.
-
-```{r}
-ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts))) +
-  geom_boxplot()
-```
-
-Note that we get a warning here about rows containing non-finite values being removed. This is because some of the genes have zero counts. We could add a small number as before to each count but the box plot ends up with no bottom whisker as there are so many zero counts. Usually we would filter lowly expressed genes before creating the box plots. We will plot the data as is, as we are just demonstrating the different types of plots that can be made here.
-
-#### Exercise
-
-Colour the box plots by Sample, then CellType, then Status.
-
-```{r}
-ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
-  geom_boxplot()
-```
-
-
-```{r}
-ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
-  geom_boxplot()
-```
-
-## Violin plots
-
-Box plots are useful summaries, but hide the *shape* of the distribution. For example, if the distribution is bimodal, we would not see it in a boxplot. An alternative to the boxplot is the violin plot, where the shape (of the density of points) is drawn.
-
-#### Exercise
-
-Make a violin plot instead of a box plot using geom_violin()
-
-Solution
-
-```{r}
-ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=CellType)) +
-  geom_violin()
-```
-
-```{r}
-ggplot(data=counts, mapping=aes(x=Sample, y=log2(Counts), fill=Status)) +
-  geom_violin()
-```
 
 ## Saving plots
 
@@ -251,8 +320,8 @@ dev.off()
 * How many rows and columns are in the file
 * In the first row, what is the sample id, the gene symbol and the value for the counts.
 * In the last row, what is the sample id, the gene symbol and the value for the counts.
-* Make as many plots as you can from bar plots, density plots, boxplots and violin plots using the normalised counts (some starter code is below)
-* Colour by CellType and then by Status where appropriate.
+* Make as many plots as you can from bar plots, box plots, violin plots and density plots using the normalised counts (some starter code is below)
+* Make separate plots coloured by Sample, CellType, Status, where appropriate.
 * Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset).
   
 ```{r, eval=FALSE}
@@ -267,12 +336,6 @@ ggplot(data= , mapping=aes(x= , weight= , fill= )) +
  
 
 ```{r, eval=FALSE}
-ggplot(data= , mapping=aes(x= , colour= )) +
-  geom_density() 
-```
-
-
-```{r, eval=FALSE}
 ggplot(data= , mapping=aes(x= , y= , fill= )) +
   geom_boxplot() 
 ```
@@ -283,8 +346,14 @@ ggplot(data= , mapping=aes(x= , y= , fill= )) +
   geom_violin()
 ```
 
+```{r, eval=FALSE}
+ggplot(data= , mapping=aes(x= , colour= )) +
+  geom_density() 
+```
+
+
 ## Key Points
-- We use `library()` to load packages we want to use. Note that they need to be already installed with e.g. `install.packages()`.
+- We use the `library()` function to load packages we want to use. Note that they need to be already installed with e.g. `install.packages()`. 
 - We can read in tab-separated files with `read_tsv()`.
 - We can check our data with `dim()`, `head()`, `tail()` and `View()`.
 - **`ggplot2`** is a plotting package that makes it simple to create complex plots.
@@ -295,4 +364,5 @@ ggplot(data= , mapping=aes(x= , y= , fill= )) +
 
 ## Further Reading
 [An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
-[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge 
+[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge
+[An intro to R and tidyverse](https://monashdatafluency.github.io/r-intro-2/) by Monash Bioinformatics Platform
