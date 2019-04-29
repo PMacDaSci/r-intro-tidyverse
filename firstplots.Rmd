@@ -13,25 +13,31 @@ subtitle: visualising RNA-seq data with ggplot2
 \  
 
 #### Acknowledgements
-Material created by Peter Mac Data Science with some text remixed from [Data Carpentry](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html) and [University of Cambridge](http://bioinformatics-core-shared-training.github.io/r-intermediate/)
+Material created by Peter Mac Data Science with some text remixed from [Data Carpentry](https://datacarpentry.org/R-ecology-lesson/04-visualization-ggplot2.html) and [University of Cambridge](http://bioinformatics-core-shared-training.github.io/r-intermediate/).
 
 ## Objectives
   
 * Demonstrate how R and ggplot2 can be used to visualise RNA-Seq data
-* Demonstrate basic R syntax (`<-`, `dim()`, `head()`, `View()`)
+* Demonstrate basic R syntax (`<-`, `dim()`, `head()`, `View()`, `str()`, `summary()`)
 * Demonstrate how to use ggplot2 to create bar plots, density plots, box plots and violin plots
 
 ## Introduction
 
 In this tutorial, we will learn some R through creating plots to visualise data from an RNA-seq experiment.
 
+\  
+\  
+
 ### RNA-seq dataset
 
-We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups, 12 samples in total.
+We will create some plots using published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group and 6 groups, 12 samples in total. In this first session we will generate some plots to explore the data, to see if it looks ok.
 
 ![](images/mouse_exp.png)
 
-We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of counts the more the gene is expressed. Some of the plots we will make are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2*.
+We will use the raw counts here. These are the counts of reads for each gene for each sample. The higher the number of counts the more the gene is expressed. Some of the plots we will make are based on those in the [COMBINE RNA-seq R workshop](http://combine-australia.github.io/RNAseq-R/06-rnaseq-day1.html), except here we will create plots using **ggplot2** from the **tidyverse**.
+
+\  
+\  
 
 ### Tidyverse
 
@@ -43,9 +49,14 @@ The **tidyverse** is a collection of packages that includes  **`ggplot2`** and w
 
 ![Tidyverse packages](images/tidyverse_packages.jpeg)
 
+\  
+\  
+\  
+
 ## Loading the data
 
 First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
+Let's save it as `first_plots.R`.
 
 We will begin by loading in the packages that we need.
 
@@ -70,23 +81,25 @@ the left. So to create an object, we need to give it a name, followed by the ass
 counts <- read_tsv("/training/r-intro-tidyverse/data/counts.tsv.gz")
 ```
 
-After executing above the value of `counts` is the contents of the counts file.
+After executing above, the value of `counts` is the contents of the counts file. There is some information output by `read_tsv` on column specifications, this is the data type that `read_tsv` has guessed is contained in each column, we will discuss this more later.
 
 In RStudio, typing <kbd>Alt</kbd> + <kbd>-</kbd> (push <kbd>Alt</kbd> at the
 same time as the <kbd>-</kbd> key) will write ` <- ` in a single keystroke in a PC, while typing <kbd>Option</kbd> + <kbd>-</kbd> (push <kbd>Option</kbd> at the
 same time as the <kbd>-</kbd> key) does the same in a Mac.
 
-Objects can be given any name such as `x`, `rnaseq_counts` but some recommendations on naming objects are:
-
-  * You want your object names to be explicit and not too long. 
-  * They cannot start with a number (`2x` is not valid, but `x2` is). 
-  * R is case sensitive (e.g., `counts` is different from `Counts`). 
-  * There are some names that cannot be used because they are the names of fundamental functions in R (e.g.,`if`, `else`, `for`, see
-[here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
-for a complete list). In general, even if it's allowed, it's best to not use
-other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
-doubt, check the help to see if the name is already in use. 
-  * It's also best to avoid dots (`.`) within an object name as in `my.dataset`. There are many functions in R with dots in their names for historical reasons, but because dots have a special meaning in R (for methods) and other programming languages, it's best to avoid them. 
+> #### Naming objects
+> Objects can be given any name such as `x`, `rnaseq_counts` but some recommendations on naming objects are:
+>
+>  * You want your object names to be explicit and not too long. 
+>  * They cannot start with a number (`2x` is not valid, but `x2` is). 
+>  * They cannot contain spaces.
+>  * R is case sensitive (e.g., `counts` is different from `Counts`). 
+>  * There are some names that cannot be used because they are the names of fundamental functions in R (e.g.,`if`, `else`, `for`, see
+> [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/Reserved.html)
+> for a complete list). In general, even if it's allowed, it's best to not use
+> other function names (e.g., `c`, `T`, `mean`, `data`, `df`, `weights`). If in
+> doubt, check the help to see if the name is already in use. 
+>  * It's also best to avoid dots (`.`) within an object name as in `my.dataset`. There are many functions in R with dots in their names for historical reasons, but > because dots have a special meaning in R (for methods) and other programming languages, it's best to avoid them. 
 
 When assigning a value to an object, R does not print the value. For example, here we don't see what's in the counts file. But there are ways we can look at the data. We can type the name of the object and it will print the first few lines and some information.
 
@@ -110,7 +123,7 @@ We can also take a look the first few lines with `head()`. This shows us the fir
 head(counts)
 ```
 
-We can look at the last few lines with `tail(). This shows us the last 6 lines. This can be useful to check the bottom of the file, that it looks ok.
+We can look at the last few lines with `tail()`. This shows us the last 6 lines. This can be useful to check the bottom of the file, that it looks ok.
 ```{r}
 tail(counts)
 ```
@@ -120,6 +133,25 @@ Or we can see the whole file with `View()`.
 ```{r eval=FALSE}
 View(counts)
 ```
+
+
+Other useful commnds for checking data are `str()` and `summary()`.
+
+`str()` shows us the structure of our data. It shows us what columns there are, the first few entries, and what data type they are e.g. character or numbers (double or integer).
+
+```{r eval=FALSE}
+str(counts)
+```
+
+`summary()` generates summary statistics of our data. For numeric columns (columns of type double or integer) it outputs statistics such as the min, max, mean and median.  For character columns it shows us the length (how many rows).
+
+
+```{r eval=FALSE}
+summary(counts)
+```
+
+Try running the above commands yourself. 
+
 
 ## Plotting with **`ggplot2`**
 
@@ -314,12 +346,17 @@ dev.off()
 
 #### Exercise
 * Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz")
-* How many rows and columns are in the file
-* In the first row, what is the sample id, the gene symbol and the value for the counts.
-* In the last row, what is the sample id, the gene symbol and the value for the counts.
+* How many rows and columns are in the file?
+* What are the column names?
+* In the first row, what is the sample id, the gene symbol and the value for the counts?
+* In the last row, what is the sample id, the gene symbol and the value for the counts?
+* What are the minimum, maximum, mean and median values in the file?
 * Make as many plots as you can from bar plots, box plots, violin plots and density plots using the normalised counts (some starter code is below)
 * Make separate plots coloured by Sample, CellType, Status, where appropriate.
-* Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset).
+* Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset)?
+
+
+#### Exercise
   
 ```{r, eval=FALSE}
 norm_counts <- read_tsv()

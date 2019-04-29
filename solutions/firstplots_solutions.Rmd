@@ -30,9 +30,11 @@ dim(norm_counts)
 
 There are 189,648 rows and 5 columns.
 
+
 ```{r}
 head(norm_counts)
 ```
+The column names are: Sample, CellType, Status, SYMBOL,  Norm_counts.
 
 In the first row, the sample is DG, the gene is Xkr4 and the counts value is 3.932532.
 

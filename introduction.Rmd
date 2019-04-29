@@ -12,7 +12,11 @@ subtitle: R and RStudio
 \  
 
 #### Acknowledgements
-Peter Mac Data Science's remix of material from [CRUK Cambridge](https://github.com/bioinformatics-core-shared-training), [The Carpentries](https://carpentries.org/) and [Monash Bioinformatics Platform](https://monashdatafluency.github.io/r-intro-2/index.html)
+Peter Mac Data Science's remix of material from [CRUK Cambridge](https://github.com/bioinformatics-core-shared-training), [The Carpentries](https://carpentries.org/),  [Monash Bioinformatics Platform](https://monashdatafluency.github.io/r-intro-2/index.html) and [Lucy Liu](https://lucyleeow.github.io/BaseR_Intro).
+
+\  
+\  
+\  
 
 ##Why not just use Excel?
 Spreadsheets are a common entry point for many types of analysis and Excel is used widely but 
@@ -21,6 +25,10 @@ Spreadsheets are a common entry point for many types of analysis and Excel is us
 * error prone (e.g. gene symbols turning into dates)
 * tedious and time consuming to repeatedly process multiple files
 * **how can you, or someone else, repeat what you did several months or years down the line?**
+
+\  
+\  
+\  
 
 ##What is R?
 
@@ -36,12 +44,17 @@ Spreadsheets are a common entry point for many types of analysis and Excel is us
 http://www.r-project.org/
 
 ![](images/R-project.png)
+
+\  
 \  
 \  
 
 ##Who uses R? Not just academics!
+
 \  
 \  
+\  
+
 ![](images/NYTimes_R_Article.png)
 
 http://www.revolutionanalytics.com/companies-using-r
@@ -58,6 +71,8 @@ http://www.revolutionanalytics.com/companies-using-r
     + http://blog.revolutionanalytics.com/2015/12/buzzfeed-uses-r-for-data-journalism.html
 - New Zealand Tourist Board
     + https://mbienz.shinyapps.io/tourism_dashboard_prod/
+
+\  
 \  
 \  
     
@@ -88,12 +103,17 @@ According to recent editorials, the reproducibility crisis is still on-going
 
 [1,500 scientists lift the lid on reproducibility](http://www.nature.com/news/1-500-scientists-lift-the-lid-on-reproducibility-1.19970)
 
+\  
+\  
+\  
+
 ##R plotting capabilities
 
 R enables making **complex, publication-quality, reproducible** plots. An example of one of the plots we will make in this course is shown below.
 
 ![Volcano Plot](images/volcano.png)
 
+\  
 \  
 \  
 
@@ -108,9 +128,11 @@ R enables making **complex, publication-quality, reproducible** plots. An exampl
 - On this course, we use the RStudio GUI (www.rstudio.com)
 
 ![rstudio](http://www.rstudio.com/wp-content/uploads/2014/03/blue-125.png) 
+
 \  
 \  
-    
+\  
+
 ## Introduction to RStudio
 
 Throughout this lesson, we'll be using RStudio: a free, open source R integrated development
@@ -118,14 +140,24 @@ environment. It provides a built in editor, works on all platforms (including
 on servers) and provides many advantages such as integration with version
 control and project management.
 
+You can think of R as the engine in a car and RStudio as the body & controls. R is doing all the calculations/computations but RStudio makes it easier for you to use R.
+
 
 **Basic layout**
 
 When you first open RStudio, you will be greeted by three panels:
 
-  * The interactive R console (entire left)
-  * Environment/History (tabbed in upper right)
-  * Files/Plots/Packages/Help/Viewer (tabbed in lower right)
+* Left panel: this panel features two tabs, ‘Console’, which is where you can type in commands for R to run and ‘Terminal’, which we won’t worry about in this course.
+* Top right panel:
+    * Environment - in this tab you can see all variables you have created.
+    * History - R keeps track of all commands you have run and you can review them in this tab.
+    * Connections - this tab helps you connect to data sources but we will not be using it in this course.
+* Bottom right:
+    * Files - you can explore your file directory here
+    * Plots - plots that you create will either appear here or be saved to a file.
+    * Help - help files for R functions can be viewed in this tab. Help files tell you about what a function does and how to use it.
+    * Packages - basic R includes many useful functions. You can add even more functions by downloading packages. A package is a collection of functions, generally with a certain data analysis theme. For example, the package ‘limma’, which we will use later, includes functions designed for analysing RNA-sequencing data.
+    * Viewer - this tab lets you view local web content but we won’t be using it in this course.
 
 ![RStudio layout](images/rstudio.png)
 
@@ -136,30 +168,40 @@ in the top left.
 
 \  
 \  
+\  
 
 ## Workflow within RStudio
+
+### Console vs Script
+
 There are two main ways one can work within RStudio.
 
-1. Test and play within the interactive R **console** then copy code into
+ 1. Test and play within the interactive R **console** then copy code into
 a .R file to run later.
-   *  This works well when doing small tests and initially starting off.
-   *  It quickly becomes laborious
-2. Start writing in a **script** (a .R file) and use RStudio's short cut keys for the Run command
+    *  This works well when doing small tests and initially starting off.
+    *  It quickly becomes laborious
+ 2. Start writing in a **script** (a .R file) and use RStudio's short cut keys for the Run command
 to push the current line, selected lines or modified lines to the
 interactive R console.
-   * This is a great way to start; all your code is saved for later
-   * You will be able to run the file you create from within RStudio
+    * This is a great way to start; all your code is saved for later
+    * You will be able to run the file you create from within RStudio
    or using R's `source()`  function.
-   
-The console window is the place where R is waiting for you to tell it what to do, and where it will show the results of a command. `>` means that R is ready to take a command. `+` means the command is not complete, such as you are missing a `)`. You can type commands directly into the console, but they will be forgotten when you close the session. The script is a simple text (.R) file that stores your code. The point of a well constructed script is not just to “do stuff” but to do it in a way that maintains a complete record of your work so anyone can easily and exactly replicate your workflow and results.
    
 We will use the second way in this course.
 
-### Tip: Running segments of your code
+Let's open a new R script, go to `File > New File > R Script`.
+In the script you opened type the following.
+
+```{r}
+1 + 1
+```
+
+### Running segments of your code
 
 RStudio offers you great flexibility in running code from within the editor
 window. There are buttons, menu choices, and keyboard shortcuts. To run the
 current line, you can 
+
 1. click on the `Run` button above the editor panel, or 
 2. select "Run Lines" from the "Code" menu, or 
 3. hit <kbd>Ctrl</kbd>+<kbd>Return</kbd> in Windows or Linux 
@@ -167,10 +209,13 @@ or <kbd>&#8984;</kbd>+<kbd>Return</kbd> on OS X.
 (This shortcut can also be seen by hovering
 the mouse over the button). To run a block of code, select it and then `Run`.
 If you have modified a line of code within a block of code you have just run,
-there is no need to reselct the section and `Run`, you can use the next button
+there is no need to reselect the section and `Run`, you can use the next button
 along, `Re-run the previous region`. This will run the previous code block
 including the modifications you have made.
 
+Try running the command you typed above (`1 + 1`) using the `Run` button and also the shortcut keys (Ctrl/Cmd and Return).
+
+Note how the output appears in the console. The console window is the place where R is waiting for you to tell it what to do, and where it will show the results of a command. `>` means that R is ready to take a command. `+` means the command is not complete, such as you are missing a `)`. You can type commands directly into the console, but they will be forgotten when you close the session. The script is a simple text (.R) file that stores your code. The point of a well constructed script is not just to “do stuff” but to do it in a way that maintains a complete record of your work so anyone can easily and exactly replicate your workflow and results.
 
 ### Comments
 
@@ -183,3 +228,10 @@ lines you  want to comment, press at the same time on your keyboard
 out one line, you can put the cursor at any location of that line (i.e. no need 
 to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + 
 <kbd>C</kbd>.
+
+Insert a comment into your script such as below.
+```{r}
+# This is my script
+1 + 1
+```
+
