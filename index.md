@@ -7,13 +7,12 @@ A variety of plots will be taught using RNA-seq data from a published paper.
 After this course you should be able to:
 
 * Import data and plot graphs with ggplot2
-* Install and use R packages
 * Create a documented and reproducible piece of R code
 
 ## Topics Covered
 
 ### Week 1
-- Creating bar plots, density plots, box pots, vioin plots
+- Creating bar plots, density plots, box pots, violin plots
 
 ### Week 2
 - Creating volcano plots
@@ -31,10 +30,10 @@ After this course you should be able to:
 - [First plots](https://pmacdasci.github.io/r-intro-tidyverse/firstplots.html)
 
 ### Week 2
-- [Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
+#- [Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
 
 ### Week 3
-- [Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
+#- [Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
 
 ### Week 4
 
