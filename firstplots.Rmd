@@ -17,7 +17,7 @@ Material created by Peter Mac Data Science with some text remixed from [Data Car
 
 ## Objectives
   
-* Demonstrate how R and ggplot2 can be used to visualise RNA-Seq data
+* Demonstrate how R and ggplot2 can be used to visualise data, using RNA-seq as an example
 * Demonstrate basic R syntax (`<-`, `dim()`, `head()`, `View()`, `str()`, `summary()`)
 * Demonstrate how to use ggplot2 to create bar plots, density plots, box plots and violin plots
 
@@ -41,14 +41,27 @@ We will use the raw counts here. These are the counts of reads for each gene for
 
 ### Tidyverse
 
-![www.tidyverse.org](images/tidyverse.png)
+![www.tidyverse.org](images/tidyverse.png){width=100% }
 
-The **tidyverse** is a collection of packages that includes  **`ggplot2`** and we will introduce you to some of these packages in this course. The tidyverse package is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.  
+The **tidyverse** is a collection of packages that includes  **`ggplot2`** and we will introduce you to some of these packages in this course.
+
+\  
+\  
+\  
+
+![Tidyverse packages](images/tidyverse_packages.jpeg){width=50% }
+
+\  
+\  
+\ 
 
 **The [tidyverse](https://www.tidyverse.org/) makes data science faster, easier and more fun.**
 
-![Tidyverse packages](images/tidyverse_packages.jpeg)
+\  
+\  
+\  
 
+The tidyverse package is already installed for you on the server but if you need to install it on your own computer you can use `install.packages('tidyverse')`.  
 \  
 \  
 \  
@@ -350,7 +363,7 @@ dev.off()
 * What are the column names?
 * In the first row, what is the sample id, the gene symbol and the value for the counts?
 * In the last row, what is the sample id, the gene symbol and the value for the counts?
-* What are the minimum, maximum, mean and median values in the file?
+* What are the minimum, maximum, mean and median values in the Norm_counts column?
 * Make as many plots as you can from bar plots, box plots, violin plots and density plots using the normalised counts (some starter code is below)
 * Make separate plots coloured by Sample, CellType, Status, where appropriate.
 * Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset)?
@@ -398,5 +411,5 @@ ggplot(data= , mapping=aes(x= , colour= )) +
 
 ## Further Reading
 [An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
-[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge
+[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge  
 [An intro to R and tidyverse](https://monashdatafluency.github.io/r-intro-2/) by Monash Bioinformatics Platform

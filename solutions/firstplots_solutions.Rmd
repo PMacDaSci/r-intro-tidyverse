@@ -44,6 +44,11 @@ tail(norm_counts)
 
 In the last row, the sample is LF, the gene is Erdr1 and the counts value is 3.0911666.
 
+```{r}
+summary(norm_counts)
+```
+In the Norm_counts column, the minimum is -5.889, the maximum is 17.752, the mean is 3.118 and the median is 3.660.
+
 ## Bar plots
 
 Bar plot coloured by Sample.
