@@ -2,6 +2,8 @@
 This course provides an introduction to the R programming language through the tidyverse. 
 A variety of plots will be taught using RNA-seq data from a published paper.
 
+![](images/volcano.png)
+
 ## Course Objectives
 
 After this course you should be able to:
@@ -30,9 +32,11 @@ After this course you should be able to:
 - [First plots](https://pmacdasci.github.io/r-intro-tidyverse/firstplots.html)
 
 ### Week 2
+
 #[Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
 
 ### Week 3
+
 #[Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
 
 ### Week 4
