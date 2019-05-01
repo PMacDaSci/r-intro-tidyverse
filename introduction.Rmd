@@ -82,8 +82,7 @@ http://www.revolutionanalytics.com/companies-using-r
 
 
 
-- Statisticians at MD Anderson tried to reproduce results from a Duke paper and unintentionally unravelled a web of incompetence and skullduggery
-    + as reported in the ***New York Times***
+- Statisticians at MD Anderson tried to reproduce results from a Duke paper and unintentionally unravelled a web of incompetence and skullduggery as reported in the ***New York Times***
     
 ![New York Times, July 2011](images/rep-research-nyt.png)
 
@@ -147,6 +146,9 @@ You can think of R as the engine in a car and RStudio as the body & controls. R 
 
 When you first open RStudio, you will be greeted by three panels:
 
+![RStudio layout](images/rstudio.png)
+
+
 * Left panel: this panel features two tabs, ‘Console’, which is where you can type in commands for R to run and ‘Terminal’, which we won’t worry about in this course.
 * Top right panel:
     * Environment - in this tab you can see all variables you have created.
@@ -156,10 +158,9 @@ When you first open RStudio, you will be greeted by three panels:
     * Files - you can explore your file directory here
     * Plots - plots that you create will either appear here or be saved to a file.
     * Help - help files for R functions can be viewed in this tab. Help files tell you about what a function does and how to use it.
-    * Packages - basic R includes many useful functions. You can add even more functions by downloading packages. A package is a collection of functions, generally with a certain data analysis theme. For example, the package ‘limma’, which we will use later, includes functions designed for analysing RNA-sequencing data.
+    * Packages - basic R includes many useful functions. You can add even more functions by downloading packages. A package is a collection of functions, generally with a certain data analysis theme. For example, the package 'tidyverse', which we will use later, includes functions designed for visualising data.
     * Viewer - this tab lets you view local web content but we won’t be using it in this course.
 
-![RStudio layout](images/rstudio.png)
 
 Once you open files, such as R scripts, an editor panel will also open
 in the top left.
@@ -192,7 +193,7 @@ We will use the second way in this course.
 Let's open a new R script, go to `File > New File > R Script`.
 In the script you opened type the following.
 
-```{r}
+```{r, eval=FALSE}
 1 + 1
 ```
 
@@ -230,7 +231,7 @@ to select the whole line), then press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> +
 <kbd>C</kbd>.
 
 Insert a comment into your script such as below.
-```{r}
+```{r, eval=FALSE}
 # This is my script
 1 + 1
 ```
