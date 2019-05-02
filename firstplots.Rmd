@@ -281,6 +281,7 @@ ggplot(data=counts, mapping=aes(x=Sample, weight=Counts, fill=Status)) +
   geom_bar() 
 ```
 
+For more details on bar plots see this [R bloggers post](https://www.r-bloggers.com/detailed-guide-to-the-bar-chart-in-r-with-ggplot/). R bloggers is a useful resource for R news and tutorials, you can subscribe to their mailing list for free.
 
 ## Box plots
 
@@ -371,6 +372,7 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
 >
 > The algorithm used to calculate new values for a graph is called a stat
 
+
 ## Saving plots
 
 We can output plots to pdf using `pdf()` followed by `dev.off()`. We put our plot code after the call to `pdf()` and before closing the plot device with `dev.off()`.
@@ -384,6 +386,9 @@ ggplot(data=counts, mapping=aes(x=log2(Counts+0.25), colour=Sample)) +
 dev.off()
 ```
 
+## One last thing
+It is recommended to use bar plots only for visualising *single values*, for example, the total counts per sample here. Dynamite plots, a type of bar plot commonly used by scientists and in journals, are not recommended, see this post called ["Dynamite plots must die"](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/) for an explanation. Box plots, violin plots and density plots can be a better way to visualise distributions of data.
+
 #### Exercise
 * Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz"). This is the `counts` data after filtering lowly expressed genes and normalising for differences in sequencing depth and composition bias.
 * How many rows and columns are in the file?
@@ -395,8 +400,6 @@ dev.off()
 * Make separate plots coloured by Sample, CellType, Status, where appropriate.
 * Do you notice any differences with the normalised counts versus the unnormalised counts that we used previously (`counts` dataset)?
 
-
-#### Exercise
   
 ```{r, eval=FALSE}
 norm_counts <- read_tsv()
