@@ -12,127 +12,182 @@ subtitle: visualising RNA-seq data with the tidyverse (volcano plot)
 
 ## Objectives
 
-* Demonstrate how R can be used to visualise RNA-Seq data
-* Demonstrate basic R syntax (`<-`, `%in%`,` c()`, `dim()`, `head()`, `View()`)
-* Utilize dplyr for efficient manipulation of tables (`filter` and `mutate` and the incredibly powerful pipe `%>%`).
-* Utilize ggplot2 `geom_point()` and `ggplot_text_repel`()
+* Demonstrate how R can be used to visualise RNA-Seq data with volcano plots
+* Demonstrate basic R syntax (`ifelse()`, `c()`, `%in%`, `$`)
+* Utilize dplyr's `mutate` to add columns to tables.
+* Utilize ggplot2's `geom_point()`
+* Utilize ggrepel's `ggplot_text_repel`()
 
 ## Introduction
 
-In this tutorial, we will learn some R through creating volcano plots to visualise results from an RNA-seq experiment. We will demonstrate use of the **tidyverse** packages, such as **ggplot2** for plotting and **dplyr** for manipulating tables, and go through the code step-by-step.
+In this tutorial, we will learn some R through creating volcano plots to visualise results from an RNA-seq experiment. 
 
-## Analysis
+### RNA-seq dataset
 
-First we will load the tidyverse library. This is already installed for you but if you need to install it on your own computer you can use install.packages('tidyverse'). The tidyverse package contains the dplyr and ggplot2 packages along with other packages we will use such as **readr**. 
+We will again use the published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). 
 
-```{r}
+![](images/mouse_exp.png)
+
+In the previous tutorial we explored the counts for each sample. Today we will work with the differential expression results. We will use the results from comparing the luminal cells from the mammary gland of the pregnant and lactating mice.This is a file that contains the log fold changes and P values for the genes.
+
+\  
+\  
+
+### Packages
+
+We have already seen some **tidyverse** packages: **readr** for reading in files, **ggplot2** for plotting. Today we will use those packages again aswell as another really useful tidyverse package called **dplyr** that can be used to manipulate tables. We will also use a non-tidyverse R package called [**ggrepel**] (https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html).
+
+## Loading the data
+
+First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
+Let's save it as `volcano_plots.R`.
+
+We will begin by loading in the packages that we need. These are already installed for you but if you need to install them on your own computer you can use `install.packages()`.
+
+```{r, message=FALSE}
 library(tidyverse)
 library(ggrepel)
 ```
 
-Next we load in our RNA-seq data. We will use the published data for 12 samples from mouse luminal and basal cells (ref). The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `de_results`.
+Next we load in our RNA-seq data. The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `de_results`.
 
 ```{r}
 de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
 ```
 
-Next we can check the number of rows and columns in our file using R's `dim()`function.
+We can check the number of rows and columns in our file using R's `dim()`function or see it in the Environment tab on the right.
 
+There should be 15,804 rows and 8 columns. 
+
+We can type `de_results` to have a look at the data.
 ```{r}
-dim(de_results)
+de_results
 ```
 
-There are 15,804 rows and 8 columns. 
-
-We will use the R `head()` function  to look at the first few rows, it shows 6 by default.
-```{r}
-head(de_results)
-```
-
-Or look at all the data with `View()`.
+We can't see all the columns here but we can look at all the data with `View()` or use the R function `colnames()` if we just want to see the column names.
 
 ```{r eval=FALSE}
 View(de_results)
 ```
 
-To make our volcano plot we make a scatterplot using `geom_point()`. We plot logFC on the x axis and -log10(P.Value) on the y axis.
+```{r eval=FALSE}
+colnames(de_results)
+```
+
+To make a volcano plot we make a scatterplot using `geom_point()` and plot the log fold change vs the negative log10 P value. We use the columns called logFC and P.Value and plot the logFC on the x axis and -log10(P.Value) on the y axis.
 
 ```{r}
 ggplot(de_results, aes(logFC, -log10(P.Value))) +
     geom_point()
 ```
 
-Let's colour points that are significant at adj.P.Value < 0.05. To do this we use dplyr's `mutate()` to add a column called "sig" and we use `ifelse()` to say if our adj.P.Val is below 0.05 we add "Sig" to the sig column, othewise add "Not sig". 
+### Colouring significant genes
+
+Let's colour genes that are significant. We will call genes significantly differentially expressed if they have an adjusted P Value below 0.05. An adjusted P value means the P value has been adjusted for multiple testing, as we are testing many thousands of genes. This is what we filter on in RNA-Seq.
+
+Remember we saw in the previous tutorial that we can use a column to colour features of our data with `fill=` or `col=`. In this case we are colouring points so we use `col=`. 
+
+We will add a column that says whether genes are significant or not. To add columns we use dplyr's `mutate()`.
+
+Let's have a look at `mutate` first to see how it works. We give mutate our data (`de_results`), then a name for the column we want to create. 
+
+Let's make a column called signif (for significance). Then we put what we want to have in the column in brackets after the column name. For example, if we wanted to label every gene as significant we could write below. We'll try running it and store it in an object called `testing` as we're just seeing how it works.
 
 ```{r}
-de_results <- de_results %>%  
-  mutate(sig=ifelse(adj.P.Val < 0.05, "Sig", "Not sig"))
+testing <- mutate(de_results, signif=("Signif"))
 ```
 
-Let's take a look at the de_results now. We should see we have a new column at the end called "sig".
+We can use View() to have a look at dataset. There should be a new column called signif at the end with "Signif" in every row. mutate always adds the column to the *end* of the table.
 
 ```{r}
-head(de_results)
+View(testing)
 ```
 
-Have a closer look with View() and sort on the sig column to check you see both Sig and Not sig entries.
+#### Exercise
+Add another column called labels to the `testing` object that contains the value "Labels" in every row.
 
-Now we can colour the significant genes using our sig column by adding col=sig.
+But obviously not all genes are significant. We want to only call genes significant if they have a P value below 0.05. We can use an R function called `ifelse()` to say if our adj.P.Val is below 0.05 add "Signif" to the sig column, otherwise add "Not signif".
+
+We can take a look at the ifelse help to see how it works. The help tells us the Usage is `ifelse(test, yes, no)`. Our "test" is whether our gene has an adj.P.Val < 0.05, if the answer is yes, we'll add "Signif" into the column, if the answer is no, then we'll add "Not signif". We'll save the output as `de_results` (this overwrites the original `de_results` object).
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
+de_results <- mutate(de_results, signif=ifelse(adj.P.Val < 0.05, "Signif", "Not signif"))
+```
+
+Let's take a look at `de_results` again now. We should see we have a new column at the end called "signif".
+
+```{r}
+View(de_results)
+```
+
+In View() we can sort on the signif column to check we see both Signif and Not signif entries.
+
+Now that we have a column that flags whether the genes are significant or not we can use that to colour the significant genes by adding `col=signif` to our ggplot.
+
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
     geom_point()
 ```
 
-We might want to change the colours, for example, to make the non-significant grey and the significant red. To do that we add `+ scale_colour_manual`.
+We might want to change the colours, for example, specifying our own colours. We could choose to colour the non-significant genes grey and the significant genes red. To specify our own colours we add `+ scale_colour_manual(values=))` (as we will see, we can keep adding layers to our plot with `+`).
+
+To use two colours we add `+ scale_colour_manual(values=c("red", "grey"))`. Note that here we see the function `c()` for the first time. We use function extremely often in R when we have multiple items that we are *combining*. Here we have two colours we want to use, so we need to use `c()` to combine them to give to `values=`. Thus we need to add `values=c("red", "grey")`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
-    geom_point() +
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+  geom_point() +
   scale_colour_manual(values=c("red", "grey"))
 ```
 
-Hmm this is the wrong way around, our significant points are grey. We'd be better to specify which category in our sig column we want to map to each colour, so let's do that.
+Hmm this is the wrong way around, our significant points are grey. We could change the order of the colours in `values=`. Or we could specify which value in our signif column we want to map to each colour, so let's do that.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
     geom_point() +
-  scale_colour_manual(values=c("Sig"="red", "Not sig"="grey"))
+  scale_colour_manual(values=c("Signif"="red", "Not signif"="grey"))
 ```
+#### Exercise
+Colour the volcanoplot using two different colours of your choice. You can type `colours()` to see what colours are available. Choose two nice colours or two ugly ones.
 
-We could colour our signficant genes that are downregulated and the genes thare are upregulated using separate colours, by changing our sig column. 
-Let's colour significant genes > logFC of 1 red and < logFC -1 blue. To do this we change our sig column by adding another ifelse. If our genes are < 0.05 and also have a logFC > 1 we label then "Up", if they are < 0.05 and have a logFC < -1 we label them "Down", otherwise we label them "Not sig".
+We could colour our significant genes that are downregulated and the genes that are upregulated using separate colours, by changing our signif column. We could have three values instead of two, we could have "Up"", "Down" and "Not signif"
+
+Let's colour significant genes > logFC of 1, red and < logFC -1, blue. To do this we change our signif column by adding another `ifelse()`. We are asking:
+if genes are significantly up, add the value "Up"
+otherwise if the genes are significantly down, add the value "Down"
+otherwise add the value "Not signif".
+
+To ask if are genes have an adj.P.Value < 0.05 and also have a logFC > 1, we use the syntax `adj.P.Val < 0.05 & logFC > 1`, note the `&`. If they are < 0.05 and have a logFC < -1 we use `adj.P.Val < 0.05 & logFC > 1`. We write this criteria as below and save as `de_results` again.
 
 ```{r}
-de_results <- de_results %>%  
-  mutate(sig=ifelse((adj.P.Val < 0.05 & logFC > 1), "Up", ifelse((adj.P.Val < 0.05 & logFC < -1), "Down", "Not sig")))
+de_results <- mutate(de_results, signif=ifelse((adj.P.Val < 0.05 & logFC > 1), "Up", ifelse((adj.P.Val < 0.05 & logFC < -1), "Down", "Not signif")))
 ```
 
 Let's take a look at the output.
 
 ```{r}
-head(de_results)
+View(de_results)
 ```
 
-We can colour the volcano plot points, up - red, not signif - grey, and down - blue.
+Now that we have our signif column with three values, "Up", "Down", "Not signif", we can colour the volcano plot points, up - red, not signif - grey, and down - blue.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
-    geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue"))
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+  geom_point() +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
 ```
 
-We could label the top significant genes with the gene names so we can see what they are. We have gene symbols in our de_results so we could use those. 
+### Labelling significant genes
 
-Let's label the top 10 most significant genes. To do this we first identity the top 10 genes by P.Value.
+We could label the top significant genes with the gene names so we can see what they are. We have gene symbols in our `de_results` so we could use those. 
+
+Let's label the top 10 most significant genes. To do this we first identify the top 10 genes by P.Value. The file is already sorted by P value and remember head() shows us the top 6 lines in a file. If we look at the help for head we see that there is a default argument `n = 6L` we can change this to 10L to get the top 10 lines.
 
 ```{r}
 # create labels for top values
-top_10 <- de_results %>%
-  top_n(10, -P.Value)
+head(de_results, n = 10L)
 ```
 
-Next we add a column to say whether to label the point or not.
+Next we'll add another column to say whether to *label* the point or not using the command below. We'll call the column labels. We are using ifelse again to say if the value in the SYMBOL column is in the top 10 symbols, add the symbol, otherwise leave the column empty (add ""). Here we see `%in%` being used. This is another very commonly used R function. We use `%in%` when we want to ask if a value is in set of values. In R we also use `$` to refer to columns so `top_10$SYMBOL` means the SYMBOL column of the `top_10` object. 
 
 ```{r}
 de_results <- mutate(de_results, labels=ifelse(SYMBOL %in% top_10$SYMBOL, SYMBOL, ""))
@@ -141,56 +196,66 @@ de_results <- mutate(de_results, labels=ifelse(SYMBOL %in% top_10$SYMBOL, SYMBOL
 Take a look.
 
 ```{r}
-head(de_results)
+de_results
 ```
 
-Next we add `+ geom_text()` and add the labels into that.
+Next we add `+ geom_text()` and add the labels into that. Note we are using `+` again and adding another layer to our plot. This time we are adding a layer of text (labels).
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
   geom_text(aes(label=labels))
 ```
 
-That doesn't look great as the labels are overlapping but we fix that. We can replace `+ geom_text()` with `+ geom_text_repel()` from the package ggrepel.
+That doesn't look great as the labels are overlapping but we can fix that. We can replace `+ geom_text()` with `+ geom_text_repel()` from the package **ggrepel**.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
   geom_text_repel(aes(label=labels))
 ```
 
 The legend now has a legend for the labels overlapping but we can remove that by adding `show.legend=FALSE`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=sig)) +
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
   geom_text_repel(aes(label=labels), show.legend = FALSE)
 ```
 
-## Modifications to plot
+## Modifying the plot
 
-If we want, we can just colour the points red and blue, and leave the labels black, by adding the `col=sig` into the `geom_point()` `aes()` instead of in the `ggplot()` `aes()`.
+If we want, we can just colour the points red and blue, and leave the labels black, by adding the `col=signif` into the `geom_point()` `aes()` instead of in the `ggplot()` `aes()`.
 
 ```{r}
 ggplot(de_results, aes(logFC, -log10(P.Value))) +
-  geom_point(aes(col=sig)) +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
+  geom_point(aes(col=signif)) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
   geom_text_repel(aes(label=labels), show.legend = FALSE)
 ```
 
-We can also make the plot look nicer, for example, adding a title and changing the background. First let's store our inital plot in an object called `p`, to make it easier to see what we're changing.
+We can also make the plot look nicer, for example, adding a title and changing the background. 
+
+First let's store our inital plot in an object called `p`, to make it easier to see what we're changing.
 
 ```{r}
 p <- ggplot(de_results, aes(logFC, -log10(P.Value))) +
-  geom_point(aes(col=sig)) +
-  scale_colour_manual(values=c("Up"="red", "Not sig"="grey", "Down"="blue")) +
+  geom_point(aes(col=signif)) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
   geom_text_repel(aes(label=labels), show.legend = FALSE)
 p
 ```
+
+We can adjust the x axis so it's the same limit on the right and left.
+
+```{r}
+p <- p + scale_x_continuous(limits=c(-10, 10))
+p
+```
+
 
 We can add a title.
 
@@ -222,27 +287,14 @@ p <- p + theme(axis.line = element_line(size=0.2, colour = "black"))
 p
 ```
 
-We can adjust the x axis so it's the same limit on the right and left.
-
-```{r}
-p <- p + scale_x_continuous(limits=c(-10, 10))
-p
-```
-
 We can remove the legend completely.
 
 ```{r}
-png("volcano.png")
 p <- p + theme(legend.position = "none")
 p
-dev.off()
 ```
 
 
 #### Exercise
 
-Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". You can choose to colour and modify it whatever way you like.
-
-## Further Reading
-[An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
-[Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge 
+Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". Colour genes with adj.P.value < 0.01 and a logFC of >2 (and < -2). You can choose to use any colours and modify it whatever way you like.

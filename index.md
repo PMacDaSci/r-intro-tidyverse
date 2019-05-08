@@ -32,9 +32,8 @@ After this course you should be able to:
 - [First plots](https://pmacdasci.github.io/r-intro-tidyverse/firstplots.html)
 
 ### Week 2
-<!---
-[Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
---->
+[Volcano plots](https://mblue9.github.io/r-intro-tidyverse/volcanoplot.html)
+
 ### Week 3
 <!---
 [Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
