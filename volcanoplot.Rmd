@@ -6,7 +6,7 @@ output:
   html_notebook:
     toc: yes
     toc_float: yes
-    toc_depth: 3
+    toc_depth: 4
 subtitle: visualising RNA-seq data with the tidyverse (volcano plot)
 ---
 
@@ -23,7 +23,9 @@ Material created by Peter Mac Data Science.
 
 ## Introduction
 
-In this tutorial, we will learn some R through creating volcano plots from an RNA-seq experiment. 
+In this tutorial, we will learn some R through creating volcano plots from an RNA-seq experiment.
+
+Volcano plots are commonly used to display the results of RNA-seq or other omics experiments. A volcano plot is a type of scatterplot that shows statistical significance (P value) versus magnitude of change (fold change). It enables quick visual identification of genes with large fold changes that are also statistically significant. These may be the most biologically significant genes. In a volcano plot, the most upregulated genes are towards the right, the most downregulated genes are towards the left, and the most statistically significant genes are towards the top.
 
 ### RNA-seq dataset
 
@@ -31,7 +33,7 @@ We will again use the published RNA-seq data from the Nature Cell Biology paper 
 
 ![](images/mouse_exp.png)
 
-In the previous tutorial we explored the counts for each sample. Today we will work with the differential expression results. We will use the results from comparing the luminal cells from the mammary gland of the pregnant versus the luminal cells from the lactating mice. This is a file that contains the log fold changes (logFC) and P values for the genes. If a gene has a positive logFC value, it means it is upregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice. If a gene has a negative logFC value, it means it is downregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice.
+To create the volcano plot we will work with the differential expression results. We will use the results from comparing the luminal cells from the mammary gland of the pregnant versus the luminal cells from the lactating mice. This is a file that contains the log fold changes (logFC) and P values for the genes. If a gene has a positive logFC value, it means it is upregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice. If a gene has a negative logFC value, it means it is downregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice.
 
 \  
 \  
