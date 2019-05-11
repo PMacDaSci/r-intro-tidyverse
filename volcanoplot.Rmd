@@ -351,7 +351,7 @@ Let's label the top 10 most significant genes. To do this we first identify the 
 top10 <- head(de_results, n = 10L)
 ```
 
-Thake a look.
+Take a look.
 
 ```{r}
 top10
@@ -392,7 +392,9 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 
 Again we could use `geom_text_repel()` to stop the labels overlapping. But we'll continue now without the gene labels because `geom_text_repel()` can be slow on the server.
 
-## Ordering the legend
+## Modifying the plot
+
+### Legend
 
 What if we want the categories in the legend in a different order, for example, Up, Not signif, Down. We can add` breaks=` with the order we want into `scale_color_manual()`. Note that here we use `c()` again to pass multiple values to breaks.
 
@@ -402,20 +404,17 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"), breaks=c("Up", "Down", "Not signif"))
 ```
 
-
-## Modifying the plot
-
-If we want, we can just colour the points red and blue, and leave the labels black. We do this by adding the `col=signif` into the `geom_point()` `aes()` instead of in the `ggplot()` `aes()`.
+We can change the name of the legend by adding `name=` into `scale_colour_manual`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
-  geom_point(aes(col=signif)) +
-  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
+ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+  geom_point() +
+  scale_colour_manual(name="My new name", values=c("Up"="red", "Not signif"="grey", "Down"="blue"), breaks=c("Up", "Down", "Not signif"))
 ```
 
 We can also make the plot look nicer, for example, adjusting the x axis limits, adding a title and changing the background. 
 
-First let's store our inital plot in an object called `p`, to make it easier to see what we're changing.
+First let's store our current plot in an object called `p`, to make it easier to see what we're changing.
 
 ```{r}
 p <- ggplot(de_results, aes(logFC, -log10(P.Value))) +
