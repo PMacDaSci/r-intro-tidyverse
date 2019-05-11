@@ -16,10 +16,10 @@ Material created by Peter Mac Data Science.
 ## Objectives
 
 * Demonstrate how R can be used to visualise RNA-Seq data with volcano plots
-* Demonstrate basic R syntax (`ifelse()`, `c()`, `%in%`)
+* Demonstrate some base R syntax (`ifelse()`, `c()`, `%in%`)
 * Utilize dplyr's `mutate` to add columns to tables.
-* Utilize ggplot2's `geom_point()`
-* Utilize ggrepel's `ggplot_text_repel`()
+* Utilize ggplot2's `geom_point()` to create a volcano plot
+* Utilize ggrepel's `ggplot_text_repel`() to repel overlapping labels
 
 ## Introduction
 
@@ -96,6 +96,41 @@ Looks better but this still has the most significant genes at the bottom and the
 ggplot(de_results, aes(logFC, -log10(P.Value))) +
     geom_point()
 ```
+
+We could shange the size of the points if we wanted, by adding `size=`. We can add that into the geom_point(). 
+
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value))) +
+    geom_point(size=7)
+```
+
+If we want all the points to be the same size we don't put size= inside `aes()`. However if we wanted to map the size of the points to a column in our dataset then we would put it inside `aes()`. 
+
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value))) +
+    geom_point(aes(size=logFC))
+```
+
+We could change the shape of the points `with shape=`. For a triangle shape we add `shape=2`. See [here](http://www.sthda.com/english/wiki/ggplot2-point-shapes) for the codes for the different possible shapes.
+
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value))) +
+    geom_point(shape=2)
+```
+
+We could change the colour of all the points with `colour=`.
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value))) +
+    geom_point(colour="red")
+```
+
+We could change the size and the shape and colour.
+```{r}
+ggplot(de_results, aes(logFC, -log10(P.Value))) +
+    geom_point(size=7, shape=2, colour="red")
+```
+
+But maybe that doesn't look so good.
 
 ## Highlighting significant genes
 
