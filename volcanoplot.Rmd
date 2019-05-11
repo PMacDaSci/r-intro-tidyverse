@@ -16,7 +16,7 @@ Material created by Peter Mac Data Science.
 ## Objectives
 
 * Demonstrate how R can be used to visualise RNA-Seq data with volcano plots
-* Demonstrate basic R syntax (`ifelse()`, `c()`, `%in%`, `$`)
+* Demonstrate basic R syntax (`ifelse()`, `c()`, `%in%`)
 * Utilize dplyr's `mutate` to add columns to tables.
 * Utilize ggplot2's `geom_point()`
 * Utilize ggrepel's `ggplot_text_repel`()
@@ -124,8 +124,6 @@ View(testing)
 #### Exercise
 Add another column called labels to the `testing` object that contains the value "Labels" in every row.
 
-### Using P value and logFC thresholds
-
 But obviously not all genes are significant. We want to only call genes significant if they have a P value below 0.05. We can use an R function called `ifelse()` to say if our adj.P.Val is below 0.05 add "Signif" to the sig column, otherwise add "Not signif".
 
 We can take a look at the ifelse help to see how it works. The help tells us the Usage is `ifelse(test, yes, no)`. Our "test" is whether our gene has an adj.P.Val < 0.05, if the answer is yes, we'll add "Signif" into the column, if the answer is no, then we'll add "Not signif". We'll save the output as `de_results` (this overwrites the original `de_results` object).
@@ -198,6 +196,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 #### Exercise
 Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones.
 
+### Using P value and logFC thresholds
 
 We could colour our significant genes that are downregulated and the genes that are upregulated using separate colours, by changing our signif column. We could have three values instead of two, we could have "Up"", "Down" and "Not signif"
 
@@ -243,10 +242,22 @@ Let's take a look at what's in `goi`
 goi
 ```
 
+It's gene symbols stored in a column. We need to convert these symbols out of the column format. We can do that with dplyr's `pull()`. We give `pull()` the `goi` object and the name of the column we want to convert.
+
+```{r}
+goi_syms <- pull(goi, GeneID)
+```
+
+Take a look.
+
+```{r}
+goi_syms
+```
+
 We'll add another columns for these labels, let's call it mygenes. We do this similar to what we did for the top 10 genes.
 
 ```{r}
-de_results <- mutate(de_results, mygenes=ifelse(SYMBOL %in% goi$GeneID, SYMBOL, ""))
+de_results <- mutate(de_results, mygenes=ifelse(SYMBOL %in% goi_syms, SYMBOL, ""))
 ```
 
 Let's make the volcano plot and label this custom set of genes. We add `+ geom_text()` and add the labels into that. Note we are using `+` again and adding another layer to our plot. This time we are adding a layer of text (labels).
@@ -282,16 +293,34 @@ ggplot(de_results, aes(logFC, -log10(P.Value))) +
 
 We could also label the top significant genes with the gene names so we can see what they are. We have gene symbols in our `de_results` so we could use those. 
 
-Let's label the top 10 most significant genes. To do this we first identify the top 10 genes by P.Value. The file is already sorted by P value and remember head() shows us the top 6 lines in a file. If we look at the help for `head` we see that there is a default argument `n = 6L` we can change this to 10L to get the top 10 lines. We will store this at an object called `top_10`.
+Let's label the top 10 most significant genes. To do this we first identify the top 10 genes by P.Value. The file is already sorted by P value and remember head() shows us the top 6 lines in a file. If we look at the help for `?head` we see that there is a default argument `n = 6L`, this is why it returns 6 lines. We can change this to 10L to get the top 10 lines. We will store this at an object called `top10`.
 
 ```{r}
-top_10 <- head(de_results, n = 10L)
+top10 <- head(de_results, n = 10L)
 ```
 
-Next we'll add another column to say whether to *label* the point or not using the command below. We'll call the column labels. We are using ifelse again to say if the value in the SYMBOL column is in the top 10 symbols, add the symbol, otherwise leave the column empty (add ""). Here we see `%in%` being used. This is another very commonly used R function. We use `%in%` when we want to ask if a value is in set of values. In R we also use `$` to refer to columns so `top_10$SYMBOL` means the SYMBOL column of the `top_10` object. 
+Thake a look.
 
 ```{r}
-de_results <- mutate(de_results, labels=ifelse(SYMBOL %in% top_10$SYMBOL, SYMBOL, ""))
+top10
+```
+
+We need to extract the gene symbols from the `top_10` info and have them not in a column. We can do that with `pull()`
+
+```{r}
+top10_syms <- pull(top10, SYMBOL)
+```
+
+Take a look.
+
+```{r}
+top10_syms
+```
+
+Next we'll add another column to say whether to *label* the point or not using the command below. We'll call the column labels. We are using `ifelse()` again to say if the value in the SYMBOL column is in the top 10 symbols, add the symbol, otherwise leave the column empty (add ""). Here we see `%in%` being used. This is another very commonly used R function. We use `%in%` when we want to ask if a value is in set of values. 
+
+```{r}
+de_results <- mutate(de_results, labels=ifelse(SYMBOL %in% top10_syms, SYMBOL, ""))
 ```
 
 Take a look.
