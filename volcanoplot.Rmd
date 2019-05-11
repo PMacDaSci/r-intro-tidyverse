@@ -194,7 +194,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   scale_colour_manual(values=c("Signif"="red", "Not signif"="grey"))
 ```
 #### Exercise
-Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones.
+Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones. There is an R colours cheatsheet [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
 
 ### Using P value and logFC thresholds
 
