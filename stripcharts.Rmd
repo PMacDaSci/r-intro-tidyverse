@@ -6,23 +6,33 @@ output:
   html_notebook:
     toc: yes
     toc_float: yes
-    toc_depth: 2
+    toc_depth: 4
 subtitle: visualising RNA-seq data with stripcharts
 ---
 
+#### Acknowledgements
+Material created by Peter Mac Data Science.
+
 ## Objectives
   
-* Demonstrate how R can be used to visualise RNA-Seq data
-* Demonstrate basic R syntax (`<-`, `%in%`,` c()`, `dim()`, `str()`, `head()`, `View()`)
-* Demonstrate how to create stripcharts with ggplot2's `geom_jitter()`, using `dplyr()` and `tidyr()` to format the data.
+* Demonstrate how to create stripcharts with ggplot2's `geom_jitter()`
+* Demonstrate the use of faceting to create multiple plots based on a column
+* Demonstrate using tidyr's `gather()` to convert from wide to long (tidy) format
+* Demonstrate dplyr's `select()` to choose columns and `filter()` to choose rows
+* Demonstrate use of dplyr's `case_when()` instead of multiple `ifelse()`s
+* Demonstrate the powerful pipe `%>%`
+
 
 ## Introduction
 
 In this tutorial, we will learn some R through creating stripcharts to visualise results from an RNA-seq experiment.
 
-## Analysis
+### RNA-seq dataset
 
-We will use published RNA-seq data from the paper (add ref) to create the stripcharts. This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating). There are 2 samples per group. We will use the results from the comparison of luminal cells from pregnant vs lactating mice.
+We will again use the published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating).
+
+Here we will work with the normalised counts for all 12 samples.
+![](images/mouse_exp.png)
 
 First we will load in the libraries we need. These are already installed for you but if you need to install it on your own computer you can use `install.packages('tidyverse')`. 
 
@@ -30,74 +40,41 @@ First we will load in the libraries we need. These are already installed for you
 library(tidyverse)
 ```
 
-We will use `read_tsv()` to read in the RNA-seq files. *Note that in R we use `<-` to assign values to variables and that we need to put quotes around file paths or text strings.*
-
 ```{r results = 'hide'}
-de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
 norm_counts <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_normalised_counts.tsv.gz")
 ```
 
-Let's take a look at the `de_results` data. 
+Let's take a look at the `norm_counts` data.
 
-We can use `dim()` to see the number of rows and columns.
-
-```{r}
-dim(de_results)
-```
-
-There are 15,804 rows and 9 columns.
-
-We can take a look the first few lines with `head()`.
-
-```{r}
-head(de_results)
-```
-
-Or we can see the whole file with `View()`.
-
-```{r eval=FALSE}
-View(de_results)
-```
-
-#### Exercise
-  * How many rows and columns are in the normalised counts file (`norm_counts`)?
-  * Use `head()` and `View()` to view the `norm_counts` data.
+How many rows and columns are in the normalised counts file (`norm_counts`)?
 
 ## Stripcharts of multiple genes
 
 We can make stripcharts to view the expression of multiple genes. This is an example of where ggplot2 and other packages in the tidyverse (dplyr and tidyr) can be very useful.
 
-Let's plot the expression of the top 6 genes.
-
-We first get the names of the genes we want to plot. The `de_results` is sorted by P value. In R we can use `$` to reference a column by name, so we can use `de_results$SYMBOL` to reference the SYMBOL column. We can add [1:6] to extract the first 6 entries from it, which are the names of the top six genes.
+Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will create the object of names manually.
 
 ```{r}
-mygenes <- de_results$SYMBOL[1:6]
+top10_syms <- c("Csn1s2b", "Slc25a1", "Slc34a2", "Atp2b2", "Acacb", "Slc30a2", "Elovl5", "Egf", "Ceacam10", "Pmvk")
 ```
 
-Take a look at this.
+Then we extract the normalised counts information for these genes from the `norm_counts` file. We can use dplyr's `filter()` to filter rows, and `SYMBOL %in% top10_syms` means we want all the rows where the SYMBOL column contains one of the gene symbols in `top10_syms`.
 
 ```{r}
-mygenes
-```
-
-Then we extract the normalised counts information for these genes from the `norm_counts` file. We can use `filter()` to filter rows, and `SYMBOL %in% mygenes` means we want all the rows where the SYMBOL column contains one of the gene symbols in `mygenes`.
-
-```{r}
-mygenes_nc <- filter(norm_counts, SYMBOL %in% mygenes)
+top10_counts <- filter(norm_counts, SYMBOL %in% top10_syms)
 ```
 
 Take a look.
 
 ```{r}
-head(mygenes_nc)
+top10_counts
 ```
 
 We don't need the ENTREZID and GENENAME columns, we are only going to use the SYMBOL column and the counts so we can use `select()` to remove these columns.
 
 ```{r}
-mygenes_nc <- select(mygenes_nc, -ENTREZID, -GENENAME)
-mygenes_nc
+top10_counts <- select(top10_counts, -ENTREZID, -GENENAME)
+top10_counts
 ```
 
 To more easily plot with ggplot2 we need to change the data into ["tidy data"](https://en.wikipedia.org/wiki/Tidy_data). There are 3 rules of tidy data:
@@ -111,24 +88,24 @@ In our expression table there should be just one column for all expression value
 The SYMBOL information is already in a column so we use "-" to say leave that column alone. Then gather will reformat all the other columns (the expression values) into two columns "key" and "value". The "key" column will contain the column names (our sample ids), and the "value" column will contain the values from the columns (our expression values). We will give the key column the name "Sample" and the value column the name "Norm_counts".
 
 ```{r}
-#change to tidy data format (all expression values in one column)
-mygenes_nc <- gather(mygenes_nc, key = Sample, value = Norm_counts, -SYMBOL)
+# change to tidy data format (all expression values in one column)
+top10_counts <- gather(top10_counts, key = Sample, value = Norm_counts, -SYMBOL)
 ```
 
-Take a look with `head()`
+Take a look.
 ```{r}
-head(mygenes_nc)
+top10_counts
 ```
 
 Take a closer look with `View()`
 ```{r eval=FALSE}
-View(mygenes_nc)
+View(top10_counts)
 ```
 
-We want to plot and compare the expression in the groups, so we use `mutate()`to add a column called "Group" to say what group each sample belongs to. In R we use `c()` to combine multiple values.
+We want to plot and compare the expression in the groups, so we use `mutate()`to add a column called "Group" to say what group each sample belongs to.  Here we use dplyr's `case_when()` to say if the same id matches are conditions then add the appropriate group name into the Group column. We could use `ifelse()` as we did in the volcano plot tutorial. However, when there are many conditions to test, as there are here, case_when() is easier to use. Remember, as we saw in the volcano plot tutorial, in R we use `c()` to combine multiple values and %in% to test if a value is in a set of values.
 
 ```{r}
-mygenes_nc <- mutate(mygenes_nc, Group=case_when(
+top10_counts <- mutate(top10_counts, Group=case_when(
         Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
         Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
         Sample %in% c("MCL1.DK", "MCL1.DL")  ~ "basal lactate",
@@ -138,30 +115,37 @@ mygenes_nc <- mutate(mygenes_nc, Group=case_when(
        ))
 ```
 
-Take a look at the data again with `head()`
+Take a look at the data again with `View()`
 ```{r}
-head(mygenes_nc)
+View(top10_counts)
 ```
 
-Now we can make a stripchart. We plot the Group on the X axis and the Norm_counts on the y axis. We give `ggplot()` the `mygenes_nc` data and in `aes()` we say which columns are the x and y axis values. We add `+ geom_jitter()` to say we want a jitter plot. (There are other geoms we can use to make other types of plot e.g. geom_boxplot). A jitter plot adds a small amount of random variation to the location of each point so they don't overlap. 
+Now we can make a stripchart. We plot the Group on the X axis and the Norm_counts on the y axis. We will use `+ geom_jitter()` to create a jitter plot. A jitter plot is similar to a scatter plot but adds a small amount of random variation to the location of each point so they don't overlap. Why do we not just use a scatter plot? Let's take a look. 
 
 ```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts)) +
+ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
+  geom_point()
+```
+
+Some of the points are overlapping so we use `geom_jitter()` to avoid having overlapping points.
+
+```{r}
+ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
   geom_jitter()
 ```
 
-That doesn't look very good as it has plotted all the values for all the genes. We want to see the values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each gene (the SYMBOL column). 
+The points are no longer overlapping, however, this is all the genes in one plot. We would like to see the values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each gene (the SYMBOL column). 
 
 ```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts)) +
+ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
   geom_jitter() +
   facet_wrap(~SYMBOL)
 ```
 
-We can make the plot look better. We can add `col=Group` into the `aes()` to say we want to colour by the groups (the Group column).
+We can add `col=Group` to say we want to colour by the groups (the Group column we added).
 
 ```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL)
 ```
@@ -169,59 +153,60 @@ ggplot(mygenes_nc, aes(x=Group, y=Norm_counts, col=Group)) +
 We can add `+ theme(axis.text.x = element_text(angle = 90)` to make the x axis labels vertical so they don't overlap.
 
 ```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
 
+Notice that the genes have been plotted in alphabetical order. If we wanted to plot these faceted genes in the order of most signficant, we need to make symbol column into an R data type called a `factor`. Factors in R are used to specify categories.
 
-We only have 2 samples/points per group so stripcharts are the most useful here. But if we had many more points we could easily change this to other types of plot e.g. boxplots, violin plots, and even combine with jitter as shown below. 
-
-```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts, col=Group)) +
-  geom_jitter() +
-  geom_boxplot() +
-  facet_wrap(~SYMBOL) +
-  theme(axis.text.x = element_text(angle = 90)) 
-```
-
-Notice that the genes have been plotted in alphabetical order. If we wanted to plot these genes in the order of most signficant we need to make symbol column into an R data type called a `factor`. Factors in R are used to specify categories.
-
-We'll add another column called "SYMBOL_f" and make the SYMBOL into a factor and specify we want the levels in the order of that they are in `mygenes` (our top 6 genes by significance).
+We'll add another column called "SYMBOL_f" and make the SYMBOL into a factor and specify we want the levels (names of the categories) in the order of that they are in `top10_syms` (our top 10 genes by significance).
 
 ```{r}
-mygenes_nc$SYMBOL_f <- factor(mygenes_nc$SYMBOL, levels=mygenes)
+top10_counts <- mutate(top10_counts, SYMBOL_f=factor(SYMBOL, levels=top10_syms))
 ```
 
 Take a look with `View()`.
 ```{r eval=FALSE}
-View(mygenes_nc)
+View(top10_counts)
 ```
 
-The SYMBOL and the SYMBOL_f column look the same but take a look with `str()`
+The SYMBOL and the SYMBOL_f column look the same but take a look by typing `top10_counts`.
 
 ```{r}
-str(mygenes_nc)
+top10_counts
 ```
 
-Notice that the SYMBOL column is a factor with 15641 levels (the number of genes we had in the original data) while the SYMBOL_f column is a factor with 6 levels with Wif1 first as in our top genes (mygenes).
+Notice that the SYMBOL column has <chr> under the heading, it is a character data type, while the SYMBOL_f column has <fct> under the heading, it is a factor data type.
 
-We can then change `facet_wrap()` to use the "SYMBOL_f" column. 
+We can then change `facet_wrap()` to use the "SYMBOL_f" column.
 
 ```{r}
-ggplot(mygenes_nc, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL_f) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
 
+We can change the number of rows (`nrows`) or columns (`ncols`) to balance the plot. Let's try 2 rows (`nrow=2`).
+
+```{r}
+ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
+  geom_jitter() +
+  facet_wrap(~SYMBOL_f, nrow=2) +
+  theme(axis.text.x = element_text(angle = 90)) 
+```
+
 The genes are now in order of significance. These are the top genes in the comparison of luminal cells from pregnant vs lactating mice and this type of plot enables us to see what the expression values look like in all the groups. We can see that some genes, such as Myof, have more similar expression across all the groups than others, such as Wif1.
+
+
+## Creating workflows
 
 #### Exercise
   * Plot the groups on the x axis in order of the stage. Hint: Add a column called Group_f with the levels c("basal virgin", "basal pregnant", "basal lactate", "luminal virgin", "luminal pregnant", "luminal lactate").
 
-  * Make stripcharts of the top 6 genes in the comparison of basal cells from pregnant vs lactating mice using the file ("https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate") and the `norm_counts` file from above.
+  * Make stripcharts of the top 10 genes in the comparison of basal cells from pregnant vs lactating mice using the file ("https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate") and the `norm_counts` file from above.
 
 ## Further Reading
 [An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
