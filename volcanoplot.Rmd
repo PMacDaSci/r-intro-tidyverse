@@ -157,6 +157,7 @@ View(testing)
 ```
 
 #### Exercise
+
 Add another column called labels to the `testing` object that contains the value "Labels" in every row.
 
 But obviously not all genes are significant. We want to only call genes significant if they have a P value below 0.05. We can use an R function called `ifelse()` to say if our adj.P.Val is below 0.05 add "Signif" to the sig column, otherwise add "Not signif".
@@ -184,7 +185,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 
 We might want to change the colours. 
 
-There are built-in colour palettes, that can be handy to use, where the sets of colours are predefined. `scale_colour_brewer()` is a popular one (there is also `scale_fill_brewer()`). Take a look at the help for scale_colour_brewer to see what pallettes are available.
+There are built-in colour palettes, that can be handy to use, where the sets of colours are predefined. `scale_colour_brewer()` is a popular one (there is also `scale_fill_brewer()`). You can take a look at the help for scale_colour_brewer to see what pallettes are available. There is also an R colours cheatsheet that shows the colours of the palettes [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
 
 There's one called "Dark2", let's have a look at that.
 
@@ -228,8 +229,10 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
     geom_point() +
   scale_colour_manual(values=c("Signif"="red", "Not signif"="grey"))
 ```
+
 #### Exercise
-Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones. There is an R colours cheatsheet [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
+
+Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones. The colours can be seen in the R colours cheatsheet [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
 
 ### Using P value and logFC thresholds
 
@@ -304,14 +307,6 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   geom_text(aes(label=mygenes))
 ```
 
-
-```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
-  geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text(aes(label=mygenes), show.legend = FALSE)
-```
-
 The legend now has a legend for the labels (the letter "a") overlapping the original legend but we can remove that by adding `show.legend=FALSE`.
 
 ```{r}
@@ -357,40 +352,10 @@ Take a look.
 top10
 ```
 
-Like before we need to extract the gene symbols from the `top10` info and have them not in a column. We'll store them in an object called `top10_syms`.
+#### Exercise
 
-```{r}
-top10_syms <- pull(top10, SYMBOL)
-```
-
-Take a look.
-
-```{r}
-top10_syms
-```
-
-Next we'll add another column to `de_results` say whether to *label* the point or not using the command below. We'll call the column labels. We are using `ifelse()` again to say if the value in the SYMBOL column is in the top 10 symbols, add the symbol, otherwise leave the column empty (add ""). Here we see `%in%` being used. This is another very commonly used R function. We use `%in%` when we want to ask if a value is in set of values.
-
-```{r}
-de_results <- mutate(de_results, labels=ifelse(SYMBOL %in% top10_syms, SYMBOL, ""))
-```
-
-Take a look.
-
-```{r}
-de_results
-```
-
-Let's label these genes in the volcano plot.
-
-```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
-  geom_point() +
-  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text(aes(label=labels))
-```
-
-Again we could use `geom_text_repel()` to stop the labels overlapping. But we'll continue now without the gene labels because `geom_text_repel()` can be slow on the server.
+Make a volcano plot labelling the top 10 genes.
+This is very similar to what we did for the genes of interest (`goi`) e.g. you will need to extract the gene symbols from the `top10` info and store them in an object called `top10_syms`, then add a column called e.g. top10 to the de_results that says which genes to label.
 
 ## Modifying the plot
 
