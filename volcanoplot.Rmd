@@ -17,7 +17,7 @@ Material created by Peter Mac Data Science.
 
 * Demonstrate how R can be used to visualise RNA-Seq data with volcano plots
 * Demonstrate some base R syntax (`ifelse()`, `c()`, `%in%`)
-* Utilize dplyr's `mutate` to add columns to tables.
+* Utilize dplyr's `mutate()` to add columns to tables.
 * Utilize ggplot2's `geom_point()` to create a volcano plot
 * Utilize ggrepel's `ggplot_text_repel`() to repel overlapping labels
 
@@ -31,7 +31,7 @@ We will again use the published RNA-seq data from the Nature Cell Biology paper 
 
 ![](images/mouse_exp.png)
 
-In the previous tutorial we explored the counts for each sample. Today we will work with the differential expression results. We will use the results from comparing the luminal cells from the mammary gland of the pregnant and lactating mice.This is a file that contains the log fold changes and P values for the genes.
+In the previous tutorial we explored the counts for each sample. Today we will work with the differential expression results. We will use the results from comparing the luminal cells from the mammary gland of the pregnant versus the luminal cells from the lactating mice. This is a file that contains the log fold changes (logFC) and P values for the genes. If a gene has a positive logFC value, it means it is upregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice. If a gene has a negative logFC value, it means it is downregulated in the luminal cells of the pregnant mice compared to the luminal cells from the lactating mice.
 
 \  
 \  
@@ -185,7 +185,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 
 We might want to change the colours. 
 
-There are built-in colour palettes, that can be handy to use, where the sets of colours are predefined. `scale_colour_brewer()` is a popular one (there is also `scale_fill_brewer()`). You can take a look at the help for scale_colour_brewer to see what pallettes are available. There is also an R colours cheatsheet that shows the colours of the palettes [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
+There are built-in colour palettes, that can be handy to use, where the sets of colours are predefined. `scale_colour_brewer()` is a popular one (there is also `scale_fill_brewer()`). You can take a look at the help for `scale_colour_brewer()` to see what pallettes are available. There is also an R colours cheatsheet that shows the colours of the palettes [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
 
 There's one called "Dark2", let's have a look at that.
 
@@ -236,7 +236,7 @@ Colour the volcanoplot using two different colours of your choice. You can use o
 
 ### Using P value and logFC thresholds
 
-We could colour our significant genes that are downregulated and the genes that are upregulated using separate colours, by changing our signif column. We could have three values instead of two, we could have "Up"", "Down" and "Not signif"
+We could colour our significant genes that are downregulated and the genes that are upregulated using separate colours. These are the genes upregulated in the luminal cells from the pregnant mice compared to the luminal cells from the lactating mice. To do this we can change our signif column and have three values instead of two. We could have "Up"", "Down" and "Not signif".
 
 Let's colour significant genes > logFC of 1, red and < logFC -1, blue. To do this we change our signif column by adding another `ifelse()`. We are asking:
 if genes are significantly up, add the value "Up"
@@ -280,7 +280,7 @@ Let's take a look at what's in `goi`
 goi
 ```
 
-It's gene symbols stored in a column. We need to convert these symbols out of the column format. We can do that with dplyr's `pull()`. We give `pull()` the `goi` object and the name of the column we want to convert. We'll store the symbols in an object called `goi_syms`.
+`goi` contains gene symbols stored in a column. We need to get these symbols out of the column format. We can do that with dplyr's `pull()`. We give `pull()` the `goi` object and the name of the column we want to pull the values from. We'll store the symbols in an object called `goi_syms`.
 
 ```{r}
 goi_syms <- pull(goi, GeneID)
@@ -374,7 +374,7 @@ We can change the name of the legend by adding `name=` into `scale_colour_manual
 ```{r}
 ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
   geom_point() +
-  scale_colour_manual(name="My new name", values=c("Up"="red", "Not signif"="grey", "Down"="blue"), breaks=c("Up", "Down", "Not signif"))
+  scale_colour_manual(name="My new name", values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
 ```
 
 We can also make the plot look nicer, for example, adjusting the x axis limits, adding a title and changing the background. 
@@ -460,10 +460,10 @@ Make a volcano plot for the basal cells using the file "https://zenodo.org/recor
 ## Key Points
 - We can make a volcano plot with `geom_point()` by plotting the log fold change (logFC) vs the negative log10 P value
 - We can add columns with dplyr's `mutate()`
-- To highlight or label genes we add a column to specify which genes to colour or label
+- To colour or label specific points we add a column to specify which points to colour or label
 - We can use `ifelse()` to test if values meet specified conditions
 - We use `c()` to combine multiple values
 - We use `%in%` to check if a value is in a set of values
-- We can use dplyr's `pull()` to extract a set of values from a column
+- We can use dplyr's `pull()` to pull a set of values out of a column
 - We can use the ggrepel package to repel overlapping labels
 - We use themes to modify the non-data parts of a ggplot
