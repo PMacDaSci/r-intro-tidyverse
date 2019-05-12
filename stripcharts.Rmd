@@ -46,6 +46,10 @@ norm_counts <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_normalised_
 
 Let's take a look at the `norm_counts` data.
 
+```{r}
+norm_counts
+```
+
 How many rows and columns are in the normalised counts file (`norm_counts`)?
 
 ## Stripcharts of multiple genes
@@ -282,7 +286,32 @@ Notice that the genes have also been plotted in alphabetical order. If we wanted
 Plot the genes in order of the significance. Hint: Use mutate to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remke the plot using SYMBOL_f in facet_wrap instead of SYMBOL.
 
 
-## Creating workflows
+## Creating workflows using `%>%`
+
+One of the most useful and powerful things about the tidyverse is dplyr's pipe operator `%>%`. This enables you to chain commmands together into workflows. For example, we could chain together the commands we ran earlier on our `top10_counts` object. Note that like the `+` we use to add layers to a ggplot, `%>%` goes at the end of the line and this 'pipes' the output into the next command. If we use the `%>%` we also don't need to specify the data inside the individual commands, we only need to specify it at the beginning e.g. instead of `filter(norm_counts, SYMBOL %in% top10_syms)` we use `norm_counts %>% filter(SYMBOL %in% top10_syms)`. We can also pipe outputs directly into `ggplot()`. The pipe is very useful but some advice on when not to use the pipe is provided by the tidyverse creator Hadley Wickham in the excellent [R for Data Science book](https://r4ds.had.co.nz/pipes.html#when-not-to-use-the-pipe).
+
+```{r}
+norm_counts %>%
+  filter(SYMBOL %in% top10_syms) %>%                           # filter rows for 10 genes
+  select(-ENTREZID, -GENENAME) %>%                             # remove ENTREZID and GENENAME columns
+  gather(Sample, Norm_counts, -SYMBOL) %>%                     # convert to tidy format
+  mutate(Group=case_when(                                      # add column for groups
+        Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
+        Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
+        Sample %in% c("MCL1.DK", "MCL1.DL")  ~ "basal lactate",
+        Sample %in% c("MCL1.LA", "MCL1.LB")  ~ "luminal virgin",
+        Sample %in% c("MCL1.LC", "MCL1.LD")  ~ "luminal pregnant",
+        Sample %in% c("MCL1.LE", "MCL1.LF")  ~ "luminal lactate"
+       )) %>%
+  mutate(Group_f=factor(Group, levels=group_order)) %>%        # convert groups to factor for ordering
+  ggplot(aes(x=Group_f, y=Norm_counts, col=Group_f)) +         # make stripcharts faceted by gene
+  geom_jitter() +
+  facet_wrap(~SYMBOL, nrow=2) +
+  theme(axis.text.x = element_text(angle = 90)) 
+```
+
 
 #### Exercise
-Make stripcharts of the top 10 genes in the comparison of basal cells from pregnant vs lactating mice using the file ("https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate") and the `norm_counts` file from above.
+Make stripcharts for the genes Trp53, Brca1, Brca2 using the `norm_counts` file from above.
+
+```
