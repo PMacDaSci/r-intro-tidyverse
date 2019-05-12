@@ -160,7 +160,7 @@ View(testing)
 
 #### Exercise
 
-Add another column called labels to the `testing` object that contains the value "Labels" in every row.
+* Add another column called labels to the `testing` object that contains the value "Labels" in every row.
 
 But obviously not all genes are significant. We want to only call genes significant if they have a P value below 0.05. We can use an R function called `ifelse()` to say if our adj.P.Val is below 0.05 add "Signif" to the sig column, otherwise add "Not signif".
 
@@ -234,7 +234,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 
 #### Exercise
 
-Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones. The colours can be seen in the R colours cheatsheet [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
+* Colour the volcanoplot using two different colours of your choice. You can use one of the palettes or type `colours()` to see what colours are available. Choose two nice colours or two ugly ones. The colours can be seen in the R colours cheatsheet [here](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf).
 
 ### Using P value and logFC thresholds
 
@@ -356,8 +356,7 @@ top10
 
 #### Exercise
 
-Make a volcano plot labelling the top 10 genes.
-This is very similar to what we did for the genes of interest (`goi`) e.g. you will need to extract the gene symbols from the `top10` info and store them in an object called `top10_syms`, then add a column called e.g. top10 to the de_results that says which genes to label.
+* Make a volcano plot labelling the top 10 genes. This is very similar to what we did for the genes of interest (`goi`) e.g. you will need to extract the gene symbols from the `top10` info and store them in an object called `top10_syms`, then add a column called e.g. top10 to the de_results that says which genes to label.
 
 ## Modifying the plot
 
@@ -392,7 +391,7 @@ p
 
 ### Axis limits
 
-We can adjust the x axis so it's the same limit on the right and left.
+We can adjust the x axis so it's the same limit on the right and left with `scale_x_continuous()`. If we had categories (discrete values) on the x axis we would use `scale_x_discrete()` instead. There are also equivalents for the y axis (`scale_y_continuous()` and `scale_y_discrete()`).
 
 ```{r}
 p <- p + scale_x_continuous(limits=c(-10, 10))
@@ -413,7 +412,7 @@ p
 
 We can remove the grey background and grid lines. To do this we modify the ggplot theme. Themes are the non-data parts of the plot. 
 
-There are also a lot of built-in themes. Let's have a look at a couple of the more widely used themes. We won't save these (we won't use p <-) we'll just print them to have a look.
+There are also a lot of built-in themes. Let's have a look at a couple of the more widely used themes. We won't save these (we won't use `p <-`) we'll just print them to have a look. The default ggplot theme is `theme_grey().`
 
 ```{r}
 p + theme_bw()
@@ -456,7 +455,7 @@ p
 
 #### Exercise
 
-Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". Colour genes with adj.P.value < 0.01 and a logFC of >2 (and < -2). You can choose to use any colours and modify it whatever way you like.
+* Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". Colour genes with adj.P.value < 0.01 and a logFC of >2 (and < -2). You can choose to use any colours and modify it whatever way you like.
 
 
 ## Key Points

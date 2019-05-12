@@ -27,6 +27,8 @@ Material created by Peter Mac Data Science.
 
 In this tutorial, we will learn some R through creating stripcharts to visualise results from an RNA-seq experiment.
 
+Stripcharts can be used to visualise the expression of samples by groups. They are used in RNA-seq analyses to check the top differentially expressed genes (or favourite genes). They enable us to see if the replicates within groups have similar expression values and to compare expression values between groups. In RNA-seq we plot the normalised count values.
+
 ### RNA-seq dataset
 
 We will again use the published RNA-seq data from the Nature Cell Biology paper by [Fu et al. 2015](https://www.ncbi.nlm.nih.gov/pubmed/25730472). This study examined expression in basal and luminal cells from mice at different stages (virgin, pregnant and lactating).
@@ -124,11 +126,17 @@ If we wanted the SYMBOL column and the MCL1.DG sample column we would write belo
 select(top10_counts, SYMBOL, MCL1.DG)
 ```
 
-See the select help (?select) as there are also useful helper functions you can use inside `select()`, such as `contains()`, `starts_with()` and `ends_with()`.
+We can select column ranges with `:`.
+
+```{r}
+select(top10_counts, ENTREZID:GENENAME)
+```
+
+There are also useful helper functions you can use inside `select()`, such as `contains()`, `starts_with()` and `ends_with()`.
 
 #### Exercise
 
-* Try to select all (and only) the counts columns. Hint: They all start with MCL.
+* Try to select all (and only) the counts columns. Hint: There is more than one way to do it.
 
 We can also use `select()` to remove columns by specifying a "-"" before the column name(s).
 
@@ -138,6 +146,18 @@ Let's remove the ENTREZID and GENENAME columns so we only keep the SYMBOL column
 top10_counts <- select(top10_counts, -ENTREZID, -GENENAME)
 top10_counts
 ```
+
+> The base R way of selecting columns 
+> 
+> As mentioned in the tidyverse tutorial 
+> [here](https://rawgit.com/bioinformatics-core-shared-training/r-intermediate/master/2.dplyr-intro-live-coding-script.html), 
+> in base R we can select columns using `$` or `[]`, for example, to select the SYMBOL column we could use 
+> `top10_counts$SYMBOL` or `top10_counts[, "SYMBOL"]`. The `$` operator works well for single columns, but for multiple columns
+> it quickly starts to get cumbersome as we need to use the `[]` operator and `c()` for combining the required columns. The column 
+> names also need quotation marks. For example, to access both the SYMBOL and GENENAME 
+> columns we would use `top10_counts[, c("SYMBOL", "GENENAME")]` whereas with tidyverse's dplyr it is a lot more intuitive 
+> `select(top10_counts, SYMBOL, GENENAME)`.
+
 
 ## Converting wide into tidy format with `gather()`
 
@@ -168,7 +188,8 @@ View(top10_counts)
 
 #### Exercise
 
- * Try running `gather()` on the `norm_counts` object and save it as an object called `testing`. What do you think of the output? Can you improve it?
+ * Try running `gather()` on the `norm_counts` object and save it as an object called `testing` (i.e. run `testing <- gather(norm_counts)`. What do you think of the output? Can you improve it so that there is a column with sample ids and a column with counts.
+ * `spread()` is the opposite of `gather()`. Try running `spread()` on the `top10_counts` object and see if you can regenerate the table with samples in columns.
 
 ## Testing multiple conditions with `case_when()`
 
@@ -214,7 +235,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
 
 ## Creating stripcharts for each gene with `facet_wrap()`
 
-The points are no longer overlapping, however, this is all the genes in one plot. We would like to see the values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each gene (the SYMBOL column). 
+The points are no longer overlapping, however, this is all the genes in one plot. ggplot2 has a really useful feature called faceting that we can use. `facet_wrap()` will create plots for every value in a column in our data. We would like a stripchart of expression values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each value in the SYMBOL column. There is also `facet_grid()` which is most useful when you have two discrete variables, and all combinations of the variables exist in the data.
 
 ```{r}
 ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
@@ -269,7 +290,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
 
 That reordered the legend but notice that it didn't reorder the groups on the x axis. If we want to reorder groups along an axis with ggplot we need to make the column with the groups into an R data type called a `factor`. Factors in R are used to specify categories.
 
-We'll add another column called "Group_f" and make the Group into a factor and specify want order we want the levels (names of the categories).
+We'll add another column called "Group_f" and make the Group into a factor and specify what order we want the levels (names of the categories).
 
 ```{r}
 top10_counts <- mutate(top10_counts, Group_f=factor(Group, levels=group_order))
@@ -297,7 +318,11 @@ ggplot(top10_counts, aes(x=Group_f, y=Norm_counts, col=Group_f)) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
 
-Notice that the genes have also been plotted in alphabetical order. If we wanted to plot these faceted genes in the order of most signficant, then we need to make symbol column into a factor as we did for the groups.
+Now both the legend and the x axis have the groups in the order that we wanted.
+
+These are the top genes in the comparison of luminal cells from pregnant vs lactating mice and this type of plot enables us to see what the expression values look like in all the groups. We can see that some genes, such as Pmvk, have more similar expression across all the groups than others, such as Csn1s2b.
+
+Notice that the genes have also been plotted in alphabetical order in the facets. If we wanted to plot these genes in the order of most signficant, then we need to make symbol column into a factor as we did for the groups.
 
 
 #### Exercise
@@ -313,7 +338,7 @@ One of the most useful and powerful things about the tidyverse is dplyr's pipe o
 norm_counts %>%
   filter(SYMBOL %in% top10_syms) %>%                           # filter rows for 10 genes
   select(-ENTREZID, -GENENAME) %>%                             # remove ENTREZID and GENENAME columns
-  gather(Sample, Norm_counts, -SYMBOL) %>%                     # convert to tidy format
+  gather(Sample, Norm_counts, -SYMBOL) %>%                     # convert from wide to long (tidy) format
   mutate(Group=case_when(                                      # add column for groups
         Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
         Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
@@ -328,7 +353,7 @@ norm_counts %>%
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
-
+We only have two points per group here but if there were more points you could overlay an error bar with `geom_errorbar()` or combine a `geom_boxplot()` with the `geom_jitter()`, as shown for the stripcharts in the tutorial [here](https://www.bioinformatics.babraham.ac.uk/training/ggplot_course/Introduction%20to%20ggplot.pdf).
 
 #### Exercise
 
