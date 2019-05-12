@@ -16,7 +16,7 @@ Material created by Peter Mac Data Science.
 ## Objectives
   
 * Demonstrate how to create stripcharts with ggplot2's `geom_jitter()`
-* Demonstrate the use of faceting to create multiple plots based on a column
+* Demonstrate the use of faceting
 * Demonstrate using tidyr's `gather()` to convert from wide to long (tidy) format
 * Demonstrate dplyr's `select()` to choose columns and `filter()` to choose rows
 * Demonstrate use of dplyr's `case_when()` instead of multiple `ifelse()`s
@@ -50,7 +50,7 @@ Let's take a look at the `norm_counts` data.
 norm_counts
 ```
 
-How many rows and columns are in the normalised counts file (`norm_counts`)?
+How many rows and columns are in `norm_counts`?
 
 ## Stripcharts of multiple genes
 
@@ -89,6 +89,10 @@ If we wanted to filter for 2 genes we could write that as below. Here we use "|"
 filter(norm_counts, SYMBOL == "Csn1s2b" | SYMBOL == "Slc25a1")
 ```
 
+#### Exercise
+
+* Try to filter for all rows containing casein in the GENENAME column. Hint: Take a look at the help for `str_detect()` a function from the tidyverse **stringr** package.
+
 If we want to filter the rows for our top 10 genes. We use `SYMBOL %in% top10_syms` which means we want all the rows where the SYMBOL column contains one of the gene symbols in `top10_syms`. Remember, in R we use `%in%` to test if a value is in a set of values.
 
 ```{r}
@@ -100,6 +104,7 @@ Take a look.
 ```{r}
 top10_counts
 ```
+
 
 ## Selecting columns with `select()`
 
@@ -121,7 +126,11 @@ select(top10_counts, SYMBOL, MCL1.DG)
 
 See the select help (?select) as there are also useful helper functions you can use inside `select()`, such as `contains()`, `starts_with()` and `ends_with()`.
 
-We can also `select()` to remove columns by specifying a "-"" before the column name(s).
+#### Exercise
+
+* Try to select all (and only) the counts columns. Hint: They all start with MCL.
+
+We can also use `select()` to remove columns by specifying a "-"" before the column name(s).
 
 Let's remove the ENTREZID and GENENAME columns so we only keep the SYMBOL column and the sample expression values.
 
@@ -140,7 +149,7 @@ To more easily plot with ggplot2 we need to change the data into ["tidy data"](h
   
 In our expression table there should be just one column for all expression values instead of multiple columns. We can use tidyr's `gather()` to easily change the format.
 
-The SYMBOL information is already in a column so we use "-" to say leave that column alone. Then gather will reformat *all the other columns* (the expression values) into two columns "key" and "value". The "key" column will contain the column names (our sample ids), and the "value" column will contain the values from the columns (our expression values). We will give the key column the name "Sample" and the value column the name "Norm_counts".
+The SYMBOL information is already in a column so we use "-" to say leave that column alone. Then `gather()` will reformat *all the other columns* (the expression values) into two columns "key" and "value". The "key" column will contain the column names (our sample ids), and the "value" column will contain the values from the columns (our expression values). We will give the key column the name "Sample" and the value column the name "Norm_counts".
 
 ```{r}
 # change to tidy data format (all expression values in one column)
@@ -156,6 +165,10 @@ Take a closer look with `View()`
 ```{r eval=FALSE}
 View(top10_counts)
 ```
+
+#### Exercise
+
+ * Try running `gather()` on the `norm_counts` object and save it as an object called `testing`. What do you think of the output? Can you improve it?
 
 ## Testing multiple conditions with `case_when()`
 
@@ -176,6 +189,12 @@ Take a look at the data again with `View()`
 ```{r}
 View(top10_counts)
 ```
+
+
+#### Exercise
+
+* Try to use `case_when()` to add a column called CellType. This column should contain the value basal if the Group column contains the word basal, or luminal if the Group contains luminal. Save it as an object called `testing`. Hint: Use `str_detect()` inside `case_when()`.
+
 
 ## Creating stripcharts with `geom_jitter()`
 
@@ -283,7 +302,7 @@ Notice that the genes have also been plotted in alphabetical order. If we wanted
 
 #### Exercise
 
-Plot the genes in order of the significance. Hint: Use mutate to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remke the plot using SYMBOL_f in facet_wrap instead of SYMBOL.
+* Plot the genes in order of the significance. Hint: Use mutate to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remke the plot using SYMBOL_f in facet_wrap instead of SYMBOL.
 
 
 ## Creating workflows using `%>%`
@@ -312,6 +331,6 @@ norm_counts %>%
 
 
 #### Exercise
-Make stripcharts for the genes Trp53, Brca1, Brca2 using the `norm_counts` file from above.
 
-```
+* Starting from `norm_counts` make a workflow using `%>%` that creates stripcharts for the genes Trp53, Brca1, Brca2.
+
