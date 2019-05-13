@@ -222,14 +222,14 @@ View(top10_counts)
 Now we can make a stripchart. We plot the Group on the X axis and the Norm_counts on the y axis. We will use `+ geom_jitter()` to create a jitter plot. A jitter plot is similar to a scatter plot but adds a small amount of random variation to the location of each point so they don't overlap. Why do we not just use a scatter plot? Let's take a look. 
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_point()
 ```
 
 Some of the points are overlapping so we use `geom_jitter()` to avoid having overlapping points.
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_jitter()
 ```
 
@@ -238,7 +238,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
 The points are no longer overlapping, however, this is all the genes in one plot. ggplot2 has a really useful feature called faceting that we can use. `facet_wrap()` will create plots for every value in a column in our data. We would like a stripchart of expression values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each value in the SYMBOL column. There is also `facet_grid()` which is most useful when you have two discrete variables, and all combinations of the variables exist in the data.
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_jitter() +
   facet_wrap(~SYMBOL)
 ```
@@ -246,7 +246,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
 We can change the number of rows (`nrows`) or columns (`ncols`) to balance the plot. Let's try 2 rows (`nrow=2`).
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2)
 ```
@@ -255,7 +255,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts)) +
 We can add `col=Group` to say we want to colour by the groups (the Group column we added).
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2)
 ```
@@ -263,7 +263,7 @@ ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
 We can add `+ theme(axis.text.x = element_text(angle = 90)` to make the x axis labels vertical so they don't overlap.
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
@@ -281,7 +281,7 @@ group_order <- c("basal virgin", "basal pregnant", "basal lactate", "luminal vir
 Then let's add this `group_order` into `breaks=`.
 
 ```{r}
-ggplot(top10_counts, aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) +
@@ -307,18 +307,35 @@ The Group and the Group_f column look the same but take a look by typing `top10_
 top10_counts
 ```
 
-Notice that the Group column has <chr> under the heading, it is a character data type, while the Group_f column has <fct> under the heading, it is a factor data type.
+Notice that the Group column has <chr> under the heading, it is a character data type, while the Group_f column has <fct> under the heading, it is a factor data type. The `str()` command is useful to check the data types in objects.
+
+```{r}
+str(top10_counts)
+```
+
+`str()` shows us Group_f column is a Factor with 6 levels. To see the levels we can use `levels()`. To check the levels of the Group_f columns we could use `select()` to select the Group_f column followed by `pull()` to pull the values out of column format.
+
+```{r}
+levels(pull(select(top10_counts, Group_f)))
+```
+
+However, in this case it's simpler to use the base R method, as we can use `top10_counts$Group_f` to access the values in the Group_f column directly.
+
+```{r}
+levels(top10_counts$Group_f)
+```
+
 
 We can then change our plot to use the "Group_f" column instead of Group (change `x=` and `col=`).
 
 ```{r}
-ggplot(top10_counts, aes(x=Group_f, y=Norm_counts, col=Group_f)) +
+ggplot(data=top10_counts, mapping=aes(x=Group_f, y=Norm_counts, col=Group_f)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
 
-Now both the legend and the x axis have the groups in the order that we wanted.
+Now both the legend and the x axis have the groups in the order that we want.
 
 These are the top genes in the comparison of luminal cells from pregnant vs lactating mice and this type of plot enables us to see what the expression values look like in all the groups. We can see that some genes, such as Pmvk, have more similar expression across all the groups than others, such as Csn1s2b.
 
@@ -336,10 +353,10 @@ One of the most useful and powerful things about the tidyverse is dplyr's pipe o
 
 ```{r}
 norm_counts %>%
-  filter(SYMBOL %in% top10_syms) %>%                           # filter rows for 10 genes
-  select(-ENTREZID, -GENENAME) %>%                             # remove ENTREZID and GENENAME columns
-  gather(Sample, Norm_counts, -SYMBOL) %>%                     # convert from wide to long (tidy) format
-  mutate(Group=case_when(                                      # add column for groups
+  filter(SYMBOL %in% top10_syms) %>%                             # filter rows for the top 10 genes
+  select(-ENTREZID, -GENENAME) %>%                               # remove ENTREZID and GENENAME columns
+  gather(Sample, Norm_counts, -SYMBOL) %>%                       # convert from wide to long (tidy) format
+  mutate(Group=case_when(                                        # add a column to specify groups
         Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
         Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
         Sample %in% c("MCL1.DK", "MCL1.DL")  ~ "basal lactate",
@@ -347,8 +364,8 @@ norm_counts %>%
         Sample %in% c("MCL1.LC", "MCL1.LD")  ~ "luminal pregnant",
         Sample %in% c("MCL1.LE", "MCL1.LF")  ~ "luminal lactate"
        )) %>%
-  mutate(Group_f=factor(Group, levels=group_order)) %>%        # convert groups to factor for ordering
-  ggplot(aes(x=Group_f, y=Norm_counts, col=Group_f)) +         # make stripcharts faceted by gene
+  mutate(Group_f=factor(Group, levels=group_order)) %>%           # convert groups column to factor data type to specify ordering
+  ggplot(mapping=aes(x=Group_f, y=Norm_counts, col=Group_f)) +    # make stripcharts faceted by gene
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 

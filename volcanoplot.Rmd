@@ -82,53 +82,53 @@ colnames(de_results)
 To make a volcano plot we make a scatterplot using `geom_point()` and plot the log fold change (logFC) vs the negative log10 P value. Why do we use the negative log 10 P value and not just the P value? Let's have a look at what happens if we plot the P value as is versus the logFC. We use the columns called logFC and P.Value. 
 
 ```{r}
-ggplot(de_results, aes(logFC, P.Value)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=P.Value)) +
     geom_point()
 ```
-Genes with small P values are the most significant and in this plot they are all squashed at the bottom of the plot, not very easy to see. Let's see what happens when we use log10.
+Genes with small P values are the most significant and in this plot they are all squashed at the bottom of the plot, not very easy to see. Let's see what happens when we use `log10()`.
 
 ```{r}
-ggplot(de_results, aes(logFC, log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=log10(P.Value))) +
     geom_point()
 ```
 
 Looks better but this still has the most significant genes at the bottom and the usual way is to plot the most significant at the top so we use the negative log10 (-log10). Let's try that.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
     geom_point()
 ```
 
 We could shange the size of the points if we wanted, by adding `size=`. We can add that into the geom_point(). 
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
     geom_point(size=7)
 ```
 
-If we want all the points to be the same size we don't put size= inside `aes()`. However if we wanted to map the size of the points to a column in our dataset then we would put it inside `aes()`. 
+If we want all the points to be the same size we don't put size= inside `aes()`. However if we wanted to map the size of the points to a column in our dataset then we would put it inside `aes()` as shown below. 
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
-    geom_point(aes(size=logFC))
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
+    geom_point(mapping=aes(size=logFC))
 ```
 
 We could change the shape of the points `with shape=`. For a triangle shape we add `shape=2`. See [here](http://www.sthda.com/english/wiki/ggplot2-point-shapes) for the codes for the different possible shapes.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
     geom_point(shape=2)
 ```
 
 We could change the colour of all the points with `colour=`.
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(logFC, -log10(P.Value))) +
     geom_point(colour="red")
 ```
 
 We could change the size and the shape and colour.
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(logFC, -log10(P.Value))) +
     geom_point(size=7, shape=2, colour="red")
 ```
 
@@ -181,7 +181,7 @@ In View() we can sort on the signif column to check we see both Signif and Not s
 Now that we have a column that flags whether the genes are significant or not we can use that to colour the significant genes by adding `col=signif` to our ggplot.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
     geom_point()
 ```
 
@@ -192,7 +192,7 @@ There are built-in colour palettes, that can be handy to use, where the sets of 
 There's one called "Dark2", let's have a look at that.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_brewer(palette = "Dark2")
 ```
@@ -200,7 +200,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 There's one called "Set1", let's have a look at that.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_brewer(palette = "Set1")
 ```
@@ -210,7 +210,7 @@ Or we could choose to set the colours manually. We could decide to colour the no
 To use two colours we add `+ scale_colour_manual(values=c("red", "grey"))`. Note that here we see the function `c()` for the first time. We use function extremely often in R when we have multiple items that we are *combining*. Here we have two colours we want to use, so we need to use `c()` to combine them to give to `values=`. Thus we need to add `values=c("red", "grey")`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("red", "grey"))
 ```
@@ -218,7 +218,7 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 Hmm this is the wrong way around, our significant points are grey. We could change the order of the colours in `values=`. 
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("grey", "red"))
 ```
@@ -227,8 +227,8 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 Or we could specify which value in our signif column we want to map to each colour.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
-    geom_point() +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
+  geom_point() +
   scale_colour_manual(values=c("Signif"="red", "Not signif"="grey"))
 ```
 
@@ -260,7 +260,7 @@ View(de_results)
 Now that we have our signif column with three values, "Up", "Down", "Not signif", we can colour the volcano plot points, up - red, not signif - grey, and down - blue.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
 ```
@@ -300,22 +300,22 @@ We'll add another columns for these labels, let's call it mygenes. We do this si
 de_results <- mutate(de_results, mygenes=ifelse(SYMBOL %in% goi_syms, SYMBOL, ""))
 ```
 
-Let's make the volcano plot and label this custom set of genes. We add `+ geom_text()` and add the labels into that. Note we are using `+` again and adding another layer to our plot. This time we are adding a layer of text (labels).
+Let's make the volcano plot and label this custom set of genes. We add `+ geom_text()` and add the labels into that. Note we are using `+` again and adding another layer to our plot. This time we are adding a layer of text (labels). We put `labels=mygenes` inside `aes()` in `geom_text()` as we are mapping to a column in our data.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text(aes(label=mygenes))
+  geom_text(mapping=aes(label=mygenes))
 ```
 
 The legend now has a legend for the labels (the letter "a") overlapping the original legend but we can remove that by adding `show.legend=FALSE`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text(aes(label=mygenes), show.legend = FALSE)
+  geom_text(mapping=aes(label=mygenes), show.legend = FALSE)
 ```
 
 The labels also don't look great as the labels are overlapping but we can fix that. We can replace `+ geom_text()` with `+ geom_text_repel()` from the package **ggrepel**.
@@ -323,19 +323,19 @@ The labels also don't look great as the labels are overlapping but we can fix th
 *Note that running `geom_text_repel()` on the server can be very slow (take minutes), think it may be the same issue reported in Stack Overflow [here](https://stackoverflow.com/questions/55942498/plot-with-ggrepel-labels-renders-very-slowly), but it should run a lot quicker on your laptop/desktop.*
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text_repel(aes(label=mygenes))
+  geom_text_repel(mapping=aes(label=mygenes))
 ```
 
 If we want, we can colour just the points red and blue, and leave the labels black. We do this by adding the `col=signif` into the `geom_point()` `aes()` instead of in the `ggplot()` `aes()`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value))) +
+ggplot(data=de_results, mapping=aes(logFC, -log10(P.Value))) +
   geom_point(aes(col=signif)) +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue")) +
-  geom_text_repel(aes(label=mygenes), show.legend = FALSE)
+  geom_text_repel(mapping=aes(label=mygenes), show.legend = FALSE)
 ```
 
 ### Labelling top significant genes
@@ -365,7 +365,7 @@ top10
 What if we want the categories in the legend in a different order, for example, Up, Not signif, Down. We can add` breaks=` with the order we want into `scale_color_manual()`. Note that here we use `c()` again to pass multiple values to breaks.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"), breaks=c("Up", "Down", "Not signif"))
 ```
@@ -373,19 +373,24 @@ ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
 We can change the name of the legend by adding `name=` into `scale_colour_manual`.
 
 ```{r}
-ggplot(de_results, aes(logFC, -log10(P.Value), col=signif)) +
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
   geom_point() +
   scale_colour_manual(name="My new name", values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
 ```
 
-We can also make the plot look nicer, for example, adjusting the x axis limits, adding a title and changing the background. 
+We can also make the plot look nicer, for example, adjusting the x axis limits and label, adding a title and changing the background. 
 
 First let's store our current plot in an object called `p`, to make it easier to see what we're changing.
 
 ```{r}
-p <- ggplot(de_results, aes(logFC, -log10(P.Value))) +
-  geom_point(aes(col=signif)) +
+p <- ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
+  geom_point(mapping=aes(col=signif)) +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
+```
+
+Note that when we store the plot in an object it doesn't print out the plot. If we want to see the plot we type the name of the object `p`.
+
+```{r}
 p
 ```
 
@@ -398,9 +403,19 @@ p <- p + scale_x_continuous(limits=c(-10, 10))
 p
 ```
 
+### Axis labels
+
+We can change the axis labels with `labs()`. To change the x axis label we use `labs(x="New name")`. To change the y axis label we use `labs(y="New name")`.
+
+```{r}
+p <- p + labs(x="Log2 fold change")
+p
+```
+
+
 ### Title
 
-We can add a title.
+We can add a title with `labs()`.
 
 ```{r}
 p <- p + labs(title="Luminal pregnant vs lactating")
