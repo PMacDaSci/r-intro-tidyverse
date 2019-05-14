@@ -1,0 +1,114 @@
+---
+title: "Introduction to R cheatsheet"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 4
+subtitle: glossary of terms used in the course
+---
+
+## Functions
+
+**assignment operator** `<-` assigns values to objects, assigns a value on the right to an object on the left (from base R)  
+
+**`c()`** function to combine values (from base R)  
+
+**`case_when()`**  function to test multiple conditions. Can use instead of multiple `ifelse()` 
+
+**`colnames()`** function to access column names (from base R)
+
+**`colours()`** function to see the built-in R colours (from base R)
+
+**console** a window where you can interactively type in commands and the output is returned
+
+**`dev.off()`** function to turn off the R graphics device (from base R). Used after e.g. `pdf()`, `png()`.
+
+**`dim()`** function to retrieve the dimensions of an object, for example the number of rows and columns (from base R)
+
+**dplyr** tidyverse package for manipulating data, contains the `mutate()`, `filter()`, `select()` functions and the `%>%` operator
+
+**`factor()`** function to convert values to factor data type (from base R)
+
+**`filter()`** function for choosing rows (from dplyr)
+
+**function**  pre-defined commands, can be loaded in from packages or user-created
+
+**`gather()`** function that enables converting from wide to long (tidy) format (from dplyr)
+
+**geoms** type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()
+
+**`geom_text_repel()`** geom to add add text non-overlapping labels (from ggrepel)
+
+**ggplot2** a tidyverse package for data visualisation 
+
+**`ggplot()`** function used to create a ggplot (from ggplot2)
+
+**ggrepel** package to position non-overlapping text labels on a ggplot
+
+**`head()`** function for selecting the first part of an object (from base R). Default is to show the first 6 items.
+
+**`ifelse()`** function to test if a condition is true or not and return a value `ifelse(test, yes, no)` (from base R)
+
+**`labs()`** function that can modify title, axis and legend labels on a ggplot (from ggplot2)
+
+**`levels()`** function to retrieve the levels (category names) of a factor (from base R)
+
+**`library()`** function to load packages (from base R)
+
+**`log2()`** function to compute the log2 (base 2) logarithms (from base R)
+
+**`log10()`** function to compute the log10 (base 10) logarithms (from base R)
+
+**`mutate()`** function to add columns (from dplyr)
+
+**object** everything in R is an object. The assignment operator `<-` can be used to create objects
+
+**`pdf()`** function to create a pdf, used with `dev.off()` (from base R)
+
+**pipe** `%>%` operator chains together tidyverse commands
+
+**`pull()`** function to extract values (from dplyr)
+
+**`read_tsv()`** function to read a tab-separated file into R (from readr)
+
+**readr** a tidyverse pacakge for reading data into R, contains the `read_tsv()` function
+
+**scales** scale_colour_brewer(), scale_colour_manual(), scale_x_continuous()
+
+**script** a text file containing commands, in R a script filename ends with .R
+
+**`select()`** function for choosing columns (from dplyr)
+
+**`str()`** function for showing the structure of an object (from base R). Useful for checking data types.
+
+**`summary()`** function for producing a summary of an object (from base R). Useful for getting summary statistics of numeric columns (min, max, mean, median)
+
+**`tail()`** function for selecting the last part of an object (from base R). Default is to show the last 6 items.
+
+**themes** the non-data components of a ggplot e.g. background, grid lines, font size and font type
+
+**tidyverse** a collection of packages that work together for data reading, tidying, manipulating and visualising
+
+**tidyr** a tidyverse package for data tidying, contains the `gather()` and `spread()` functions
+
+**vector** a data structure in R, contains a collection of items of the same data type e.g c("TP53", "BRCA1")
+
+**`View()`** function to invoke a spreadsheet-like viewer on an R object
+
+## Packages
+
+
+## Terms
+
+
+##Symbols##
+
+**`$`** access columns e.g. norm_counts$GENENAME  
+**`%in%`** function used to test if a value is in a set of values  
+**`&`** and  
+**`|`** or  
+**`==`** test if a value is the same as another value  
+**`!=`** test if a value is not the same as another value  
