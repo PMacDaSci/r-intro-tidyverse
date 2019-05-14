@@ -40,7 +40,7 @@ After this course you should be able to:
 ### Week 4
 
 ### Course Cheatsheet
-- [Cheatsheet](https://mblue9.github.io/r-intro-tidyverse/cheatsheet.html
+- [Cheatsheet](https://mblue9.github.io/r-intro-tidyverse/cheatsheet.html)
 
 ## Acknowledgements
 This course is run by the Peter Mac Data Science Training team.
