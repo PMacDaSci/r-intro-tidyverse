@@ -56,7 +56,7 @@ How many rows and columns are in `norm_counts`?
 
 ## Stripcharts of multiple genes
 
-We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values. This type of object is called a **vector** in R.
+We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values.
 
 ```{r}
 top10_syms <- c("Csn1s2b", "Slc25a1", "Slc34a2", "Atp2b2", "Acacb", "Slc30a2", "Elovl5", "Egf", "Ceacam10", "Pmvk")
@@ -191,7 +191,7 @@ View(top10_counts)
  * Try running `gather()` on the `norm_counts` object and save it as an object called `testing` (i.e. run `testing <- gather(norm_counts)`. What do you think of the output? Can you improve it so that there is a column with sample ids and a column with counts.
  * `spread()` is the opposite of `gather()`. Try running `spread()` on the `top10_counts` object and see if you can regenerate the table with samples in columns.
 
-## Testing multiple conditions with `case_when()`
+## Adding column with `mutate()` and `case_when()`
 
 We want to plot and compare the expression in the groups, so we use `mutate()`to add a column called "Group" to say what group each sample belongs to.  Here we use dplyr's `case_when()` to say if the same id matches are conditions then add the appropriate group name into the Group column. We could use `ifelse()` as we did in the volcano plot tutorial. However, when there are many conditions to test, as there are here, `case_when()` is easier to use.
 
@@ -214,7 +214,7 @@ View(top10_counts)
 
 #### Exercise
 
-* Try to use `case_when()` to add a column called CellType. This column should contain the value basal if the Group column contains the word basal, or luminal if the Group contains luminal. Save it as an object called `testing`. Hint: Use `str_detect()` inside `case_when()`.
+* Try to use `mutate()` and `case_when()` to add a column called CellType. This column should contain the value basal if the Group column contains the word basal, or luminal if the Group contains luminal. Save it as an object called `testing`. Hint: Use `str_detect()` inside `case_when()`.
 
 
 ## Creating stripcharts with `geom_jitter()`
