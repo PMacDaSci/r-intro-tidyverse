@@ -481,5 +481,6 @@ p
 - We use `c()` to combine multiple values
 - We use `%in%` to check if a value is in a set of values
 - We can use dplyr's `pull()` to pull a set of values out of a column
+- We can use `geom_text()` to add text to a plot
 - We can use the ggrepel package to repel overlapping labels
 - We use themes to modify the non-data parts of a ggplot

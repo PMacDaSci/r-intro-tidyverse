@@ -16,7 +16,7 @@ Material created by Peter Mac Data Science.
 ## Objectives
   
 * Demonstrate how to create stripcharts with ggplot2's `geom_jitter()`
-* Demonstrate the use of faceting
+* Demonstrate the use of faceting to easily create multiple plots
 * Demonstrate using tidyr's `gather()` to convert from wide to long (tidy) format
 * Demonstrate dplyr's `select()` to choose columns and `filter()` to choose rows
 * Demonstrate use of dplyr's `case_when()` instead of multiple `ifelse()`s
@@ -27,7 +27,7 @@ Material created by Peter Mac Data Science.
 
 In this tutorial, we will learn some R through creating stripcharts to visualise results from an RNA-seq experiment.
 
-Stripcharts can be used to visualise the expression of samples by groups. They are used in RNA-seq analyses to check the top differentially expressed genes (or favourite genes). They enable us to see if the replicates within groups have similar expression values and to compare expression values between groups. In RNA-seq we plot the normalised count values.
+Stripcharts can be used to visualise the expression of samples by groups. They are used in RNA-seq analyses, for example, to check the expression of the top differentially expressed genes (or favourite genes). They enable us to see if the replicates within groups have similar expression values and to compare expression values between groups. In RNA-seq we plot the normalised count values.
 
 ### RNA-seq dataset
 
@@ -56,7 +56,7 @@ How many rows and columns are in `norm_counts`?
 
 ## Stripcharts of multiple genes
 
-We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values.
+We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values. This type of object is called a **vector** in R.
 
 ```{r}
 top10_syms <- c("Csn1s2b", "Slc25a1", "Slc34a2", "Atp2b2", "Acacb", "Slc30a2", "Elovl5", "Egf", "Ceacam10", "Pmvk")
@@ -233,7 +233,7 @@ ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_jitter()
 ```
 
-## Creating stripcharts for each gene with `facet_wrap()`
+## Creating multiple plots with `facet_wrap()`
 
 The points are no longer overlapping, however, this is all the genes in one plot. ggplot2 has a really useful feature called faceting that we can use. `facet_wrap()` will create plots for every value in a column in our data. We would like a stripchart of expression values for each gene so we add ` + facet_wrap(~SYMBOL)` to say we want to a plot for each value in the SYMBOL column. There is also `facet_grid()` which is most useful when you have two discrete variables, and all combinations of the variables exist in the data.
 
@@ -288,9 +288,9 @@ ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
   scale_colour_discrete(breaks=group_order)
 ```
 
-That reordered the legend but notice that it didn't reorder the groups on the x axis. If we want to reorder groups along an axis with ggplot we need to make the column with the groups into an R data type called a `factor`. Factors in R are used to specify categories.
+That reordered the legend but notice that it didn't reorder the groups on the x axis. If we want to reorder groups along an axis with ggplot we need to make the column with the groups into an R data type called a **factor**. Factors in R are used to specify categories. For information on R data types see [here](https://lucyleeow.github.io/BaseR_Intro/session-1.html#data-types)
 
-We'll add another column called "Group_f" and make the Group into a factor and specify what order we want the levels (names of the categories).
+We'll add another column called "Group_f" and make the Group into a factor and specify what order we want the **levels** of the factor. Levels are the names of the categories.
 
 ```{r}
 top10_counts <- mutate(top10_counts, Group_f=factor(Group, levels=group_order))
@@ -313,18 +313,32 @@ Notice that the Group column has <chr> under the heading, it is a character data
 str(top10_counts)
 ```
 
-`str()` shows us Group_f column is a Factor with 6 levels. To see the levels we can use `levels()`. To check the levels of the Group_f columns we could use `select()` to select the Group_f column followed by `pull()` to pull the values out of column format.
+`str()` shows us Group_f column is a Factor with 6 levels (categories). 
+
+To see the levels we can use `levels()`. To check the levels of the Group_f column we could use `select()` to select the Group_f column, followed by `pull()` to pull the values out of column format. We'll demonstrate this, saving the outputs in an object called `testing` so we can take a look at what's happening.
 
 ```{r}
-levels(pull(select(top10_counts, Group_f)))
+# Extract the Group_f column
+testing <- select(top10_counts, Group_f)
+testing
 ```
 
-However, in this case it's simpler to use the base R method, as we can use `top10_counts$Group_f` to access the values in the Group_f column directly.
+```{r}
+# Pull the values out of the Group_f column
+testing <- pull(top10_counts, Group_f)
+testing
+```
+
+```{r}
+# Check the factor levels
+levels(testing)
+```
+
+However, in this case it would be simpler to use the base R method to check the levels, as we can use `top10_counts$Group_f` to access the values in the Group_f column directly.
 
 ```{r}
 levels(top10_counts$Group_f)
 ```
-
 
 We can then change our plot to use the "Group_f" column instead of Group (change `x=` and `col=`).
 
@@ -376,3 +390,12 @@ We only have two points per group here but if there were more points you could o
 
 * Starting from `norm_counts` make a workflow using `%>%` that creates stripcharts for the genes Trp53, Brca1, Brca2.
 
+
+## Key Points
+- We can choose rows with dplyr's `filter()`
+- We can choose columns with dplyr's `select()`
+- We can test for multiple conditions with dplyr's `case_when()`
+- We can convert from wide to long (tidy) format with tidyr's `gather()`
+- We can use `geom_jitter()` to make stripcharts
+- We can make multiple plots based on values in a column with `facet_wrap()`
+- We can create workflows with dplyr's pipe `%>%`
