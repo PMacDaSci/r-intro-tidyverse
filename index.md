@@ -35,17 +35,18 @@ After this course you should be able to:
 - [Volcano plots](https://pmacdasci.github.io/r-intro-tidyverse/volcanoplot.html)
 
 ### Week 3
-<!---
-[Stripcharts](https://pmacdasci.github.io/r-intro-tidyverse/stripcharts.html)
---->
+- [Stripcharts](https://mblue9.github.io/r-intro-tidyverse/stripcharts.html)
+
 ### Week 4
 
+### Course Cheatsheet
+- [Cheatsheet](https://mblue9.github.io/r-intro-tidyverse/cheatsheet.html
 
 ## Acknowledgements
 This course is run by the Peter Mac Data Science Training team.
 
 ## Useful Resources
-[ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)  
+[The ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)  
 [Data Manipulation and Visualisation](http://bioinformatics-core-shared-training.github.io/r-intermediate/) by University of Cambridge  
 [An Introduction to ggplot](https://www.bioinformatics.babraham.ac.uk/training.html#ggplot) by Babraham Bioinformatics  
 [An intro to R and tidyverse](https://monashdatafluency.github.io/r-intro-2/) by Monash Bioinformatics Platform
