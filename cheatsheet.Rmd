@@ -31,6 +31,9 @@ tidyverse package for data tidying, contains the `gather()` and `spread()` funct
 a collection of packages that work together for data reading, tidying, manipulating and visualising
 
 
+\ 
+
+
 ## Functions
 
 **`c()`**  
@@ -49,19 +52,16 @@ see the built-in R colours (from base R)
 turn off the R graphics device (from base R). Used after e.g. `pdf()`, `png()`.
   
 **`dim()`**  
-retrieve the dimensions of an object, for example the number of rows and columns (from base R)
+retrieve the dimensions of an object, for example, the number of rows and columns (from base R)
   
 **`factor()`**  
 convert values to factor data type (from base R)
 
 **`filter()`**  
-choosing rows (from dplyr)
+choose rows (from dplyr)
 
 **`gather()`**  
 function that enables converting from wide to long (tidy) format (from dplyr)
-
-**`geom_text_repel()`**  
-geom to add add text non-overlapping labels (from ggrepel)
 
 **`ggplot()`**  
 function used to create a ggplot (from ggplot2)
@@ -94,13 +94,13 @@ add columns (from dplyr)
 create a pdf, used with `dev.off()` (from base R)
 
 **`pull()`**  
-extract values (from dplyr)
+extract values e.g. out of a column (from dplyr)
 
 **`read_tsv()`**  
 read a tab-separated file into R (from readr)
 
 **`select()`**  
-choosing columns (from dplyr)
+choose columns (from dplyr)
 
 **`str()`**  
 showing the structure of an object (from base R). Useful for checking data types.
@@ -114,6 +114,8 @@ selecting the last part of an object (from base R). Default is to show the last 
 **`View()`**  
 invoke a spreadsheet-like viewer on an R object (from base R)
 
+
+\ 
 
 ## Terms
 
@@ -133,10 +135,10 @@ a data structure in R containing multiple columns and/or rows, can contain diffe
 a data type in R, used to represent numbers containing a decimal point (integer is the data type for numbers without decimal point)
 
 **function**   
-pre-defined commands, can be loaded in from packages or user-created
+a pre-defined set of commands used to perform a task, can be loaded in from packages or user-created
 
 **geom**  
-type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()
+type of ggplot e.g. `geom_bar()`, `geom_density()`, `geom_boxplot()`, `geom_violin()`, `geom_point()`, `geom_jitter()`, `geom_text()`
 
 **matrix**  
 a data structure in R containing multiple columns and/or rows, all values are the same data type
@@ -160,34 +162,34 @@ the non-data components of a ggplot e.g. background, grid lines, font size and f
 a tidyverse modern version of a data frame, has nicer printing and subsetting
 
 **vector**  
-a data structure in R containing a collection of items of the same data type e.g c("TP53", "BRCA1")
+a data structure in R containing a one-dimensional collection of items of the same data type e.g c("TP53", "BRCA1")
 
-  
+\ 
 
 ##Symbols##
 
 **`>`**  
 prompt in console, means R is ready to take a command
+   
+\    
+**`+`**  
+used to add layers to a ggplot. Also the prompt symbol R uses when the command is not complete, such as missing a `)`
   
 \    
 **`<-`**  
 assignment operator, see Terms above  
+
+\    
+**`#`**  
+comment, to add notes to a script  
   
 \   
 **`$`**  
-access columns e.g. `counts$GENENAME`  
+way to access a single column with base R e.g. `counts$GENENAME`  
   
 \   
 **`%in%`**  
-function used to test if a value is in a set of values  
-  
-\   
-**`&`**  
-and  
-  
-\   
-**`|`**  
-or
+operator used to test if a value is in a set of values  
   
 \   
 **`==`**  
@@ -198,13 +200,17 @@ test if a value is the same as another value
 test if a value is not the same as another value  
   
 \   
+**`&`**  
+and    
+  
+\   
+**`|`**  
+or
+  
+\   
 **`%>%`**  
 dplyr pipe operator, see Terms above  
-   
-\    
-**`#`**  
-comment, to add notes to a script  
-   
-\    
-**`+`**  
-used to add layers to a ggplot. Also the prompt symbol R uses when the command is not complete, such as missing a `)`
+  
+\   
+**`~`**  
+symbol to use when faceting in ggplot2, used to indicate the column to use to facet

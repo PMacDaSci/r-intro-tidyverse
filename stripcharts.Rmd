@@ -16,8 +16,8 @@ Material created by Peter Mac Data Science.
 ## Objectives
   
 * Demonstrate how to create stripcharts with ggplot2's `geom_jitter()`
-* Demonstrate the use of faceting to easily create multiple plots
-* Demonstrate using tidyr's `gather()` to convert from wide to long (tidy) format
+* Demonstrate how faceting can be used to easily create multiple plots with `facet_wrap()` 
+* Demonstrate how tidyr's `gather()` can be used to convert from wide to long (tidy) format
 * Demonstrate dplyr's `select()` to choose columns and `filter()` to choose rows
 * Demonstrate use of dplyr's `case_when()` instead of multiple `ifelse()`s
 * Demonstrate the powerful pipe `%>%`
@@ -27,7 +27,7 @@ Material created by Peter Mac Data Science.
 
 In this tutorial, we will learn some R through creating stripcharts to visualise results from an RNA-seq experiment.
 
-Stripcharts can be used to visualise the expression of samples by groups. They are used in RNA-seq analyses, for example, to check the expression of the top differentially expressed genes (or favourite genes). They enable us to see if the replicates within groups have similar expression values and to compare expression values between groups. In RNA-seq we plot the normalised count values.
+Stripcharts can be used to visualise the expression of genes by groups. They are used in RNA-seq analyses, for example, to check the expression of the top differentially expressed genes (or favourite genes). They enable us to see if the replicate samples within groups have similar expression values for genes and to compare expression values between groups. In RNA-seq we plot the normalised count values.
 
 ### RNA-seq dataset
 
@@ -56,7 +56,7 @@ How many rows and columns are in `norm_counts`?
 
 ## Stripcharts of multiple genes
 
-We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. In the volcano plot tutorial we showed how to get these top 10 gene symbols. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values.
+We can make stripcharts to view the expression of multiple genes. Let's plot the expression of the top 10 most significantly differentially expressed genes in luminal cells from the pregnant mice versus the luminal cells from the lactating mice. These are the genes with the smallest adjusted P values (adj.P.value). In the volcano plot tutorial we showed how to get the symbols for these top 10 genes. Here we will show how to create an object with the symbols manually. Remember, in R we use `c()` to combine multiple values. This `top10_syms` is an R data structure called a **vector**.
 
 ```{r}
 top10_syms <- c("Csn1s2b", "Slc25a1", "Slc34a2", "Atp2b2", "Acacb", "Slc30a2", "Elovl5", "Egf", "Ceacam10", "Pmvk")
@@ -75,7 +75,7 @@ If we wanted to filter for rows (genes) in the MCL1.DG sample that have expressi
 filter(norm_counts, MCL1.DG > 5)
 ```
 
-If we wanted to filter for genes that have an expression value above 5 in both the basal virgin samples (MCL1.DG and MCL1.DH) we specify both columns and the criteria. Note that we need to specify the threshold for each column e.g `MCL1.DG > 5 & MCL1.DH > 5` and not `MCL1.DG & MCL1.DH > 5`.
+If we wanted to filter for genes that have an expression value above 5 in *both* the basal virgin samples (MCL1.DG and MCL1.DH) we specify both columns and the criteria. Note that we need to specify the threshold for *each* column e.g `MCL1.DG > 5 & MCL1.DH > 5` and not `MCL1.DG & MCL1.DH > 5`.
 ```{r}
 filter(norm_counts, MCL1.DG > 5 & MCL1.DH > 5)
 ```
@@ -167,7 +167,7 @@ To more easily plot with ggplot2 we need to change the data into ["tidy data"](h
   2. Each observation must have its own row.
   3. Each value must have its own cell. 
   
-In our expression table there should be just one column for all expression values instead of multiple columns. We can use tidyr's `gather()` to easily change the format.
+In our expression table there should be just *one column containing all expression values* instead of multiple columns with counts for each sample. We can use tidyr's `gather()` to easily change the format.
 
 The SYMBOL information is already in a column so we use "-" to say leave that column alone. Then `gather()` will reformat *all the other columns* (the expression values) into two columns "key" and "value". The "key" column will contain the column names (our sample ids), and the "value" column will contain the values from the columns (our expression values). We will give the key column the name "Sample" and the value column the name "Norm_counts".
 
@@ -207,7 +207,7 @@ top10_counts <- mutate(top10_counts, Group=case_when(
 ```
 
 Take a look at the data again with `View()`
-```{r}
+```{r eval=FALSE}
 View(top10_counts)
 ```
 
@@ -252,10 +252,10 @@ ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
 ```
 
 
-We can add `col=Group` to say we want to colour by the groups (the Group column we added).
+We can add `colour=Group` to say we want to colour by the groups (the Group column we added).
 
 ```{r}
-ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, colour=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2)
 ```
@@ -263,7 +263,7 @@ ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
 We can add `+ theme(axis.text.x = element_text(angle = 90)` to make the x axis labels vertical so they don't overlap.
 
 ```{r}
-ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, colour=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
@@ -281,16 +281,16 @@ group_order <- c("basal virgin", "basal pregnant", "basal lactate", "luminal vir
 Then let's add this `group_order` into `breaks=`.
 
 ```{r}
-ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, col=Group)) +
+ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts, colour=Group)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) +
   scale_colour_discrete(breaks=group_order)
 ```
 
-That reordered the legend but notice that it didn't reorder the groups on the x axis. If we want to reorder groups along an axis with ggplot we need to make the column with the groups into an R data type called a **factor**. Factors in R are used to specify categories. For information on R data types see [here](https://lucyleeow.github.io/BaseR_Intro/session-1.html#data-types)
+That reordered the legend but notice that it didn't reorder the groups on the x axis. If we want to reorder groups along an axis with ggplot we need to make the column with the groups into an R data type called a **factor**. Factors in R are a special data type used to specify categories. The names of the categories are called the factor **levels**. Factors are the only R data type with levels, other data types, such as character and numeric, do not. For information on R data types see [here](https://lucyleeow.github.io/BaseR_Intro/session-1.html#data-types)
 
-We'll add another column called "Group_f" and make the Group into a factor and specify what order we want the **levels** of the factor. Levels are the names of the categories.
+We'll add another column called "Group_f" where we'll make the Group column into a factor and specify what order we want the levels of the factor.
 
 ```{r}
 top10_counts <- mutate(top10_counts, Group_f=factor(Group, levels=group_order))
@@ -307,7 +307,7 @@ The Group and the Group_f column look the same but take a look by typing `top10_
 top10_counts
 ```
 
-Notice that the Group column has <chr> under the heading, it is a character data type, while the Group_f column has <fct> under the heading, it is a factor data type. The `str()` command is useful to check the data types in objects.
+Notice that the Group column has <chr> under the heading, that indicates is a character data type, while the Group_f column has <fct> under the heading, indicating it is a factor data type. The `str()` command that we saw in first plots tutorial is useful to check the data types in objects.
 
 ```{r}
 str(top10_counts)
@@ -315,13 +315,29 @@ str(top10_counts)
 
 `str()` shows us Group_f column is a Factor with 6 levels (categories). 
 
-To see the levels we can use `levels()`. To check the levels of the Group_f column we could use `select()` to select the Group_f column, followed by `pull()` to pull the values out of column format. We'll demonstrate this, saving the outputs in an object called `testing` so we can take a look at what's happening.
+How can we see what these levels are and what order they're in? Are they in the order that we want? 
+
+To see the levels and their order we can use `levels()`. But we can't use `levels()` on our `top10_counts` object as if we do we get "NULL".
+```{r}
+levels(top10_counts)
+```
+
+We need to give `levels()` just the values in the Group_f column.
+
+Maybe we might think we could use `select()` to select the Group_f column and then check the levels. We'll save the output in an object called `testing` so we can test what happens.
 
 ```{r}
 # Extract the Group_f column
 testing <- select(top10_counts, Group_f)
 testing
 ```
+
+
+```{r}
+levels(testing)
+```
+
+We still get "NULL" with `levels()`. Instead of extracting the column, we need to extract the values out of column format and give just the values to `levels()`. We can do that with dplyr's `pull()`.
 
 ```{r}
 # Pull the values out of the Group_f column
@@ -334,22 +350,30 @@ testing
 levels(testing)
 ```
 
-However, in this case it would be simpler to use the base R method to check the levels, as we can use `top10_counts$Group_f` to access the values in the Group_f column directly.
+Now we can see what the factor levels are and their order.
+
+However, in this case, to check the factor levels, it might be simpler to use the base R method, as we can use `$` to accessing the values in a column. This takes the format `object$columnname` e.g. `top10_counts$Group_f`
+
+```{r}
+top10_counts$Group_f
+```
+
+So `levels(top10_counts$Group_f)` will access the values in the Group_f column directly, giving us the same output as we would get with `levels(pull(top10_counts, Group_f))`, but it is easier to read.
 
 ```{r}
 levels(top10_counts$Group_f)
 ```
 
-We can then change our plot to use the "Group_f" column instead of Group (change `x=` and `col=`).
+The levels are in the order that we want, so we can now change our plot to use the "Group_f" column instead of Group column (change `x=` and `colour=`).
 
 ```{r}
-ggplot(data=top10_counts, mapping=aes(x=Group_f, y=Norm_counts, col=Group_f)) +
+ggplot(data=top10_counts, mapping=aes(x=Group_f, y=Norm_counts, colour=Group_f)) +
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
 ```
 
-Now both the legend and the x axis have the groups in the order that we want.
+Note that both the legend and the x axis now have the groups in the order that we want.
 
 These are the top genes in the comparison of luminal cells from pregnant vs lactating mice and this type of plot enables us to see what the expression values look like in all the groups. We can see that some genes, such as Pmvk, have more similar expression across all the groups than others, such as Csn1s2b.
 
@@ -358,7 +382,7 @@ Notice that the genes have also been plotted in alphabetical order in the facets
 
 #### Exercise
 
-* Plot the genes in order of the significance. Hint: Use mutate to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remke the plot using SYMBOL_f in facet_wrap instead of SYMBOL.
+* Plot the genes in order of the significance. Hint: Use `mutate()` to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remake the plot using the new SYMBOL_f column in `facet_wrap()` instead of SYMBOL.
 
 
 ## Creating workflows using `%>%`
@@ -378,8 +402,8 @@ norm_counts %>%
         Sample %in% c("MCL1.LC", "MCL1.LD")  ~ "luminal pregnant",
         Sample %in% c("MCL1.LE", "MCL1.LF")  ~ "luminal lactate"
        )) %>%
-  mutate(Group_f=factor(Group, levels=group_order)) %>%           # convert groups column to factor data type to specify ordering
-  ggplot(mapping=aes(x=Group_f, y=Norm_counts, col=Group_f)) +    # make stripcharts faceted by gene
+  mutate(Group_f=factor(Group, levels=group_order)) %>%           # convert Group column to factor data type to specify ordering
+  ggplot(mapping=aes(x=Group_f, y=Norm_counts, colour=Group_f)) + # make stripcharts faceted by gene
   geom_jitter() +
   facet_wrap(~SYMBOL, nrow=2) +
   theme(axis.text.x = element_text(angle = 90)) 
