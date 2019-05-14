@@ -271,7 +271,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Introduction to R cheatsheet</h1>
-<h3 class="subtitle"><em>glossary of terms used in the course</em></h3>
+<h3 class="subtitle"><em>glossary of vocabulary used in the course</em></h3>
 <h4 class="author"><em>Maria Doyle</em></h4>
 <h4 class="date"><em>14 May 2019</em></h4>
 
@@ -279,70 +279,149 @@ div.tocify {
 
 
 <!-- rnb-text-begin -->
-<div id="functions" class="section level2">
-<h2>Functions</h2>
-<p><strong><code>c()</code></strong> function to combine values (from base R)</p>
-<p><strong><code>case_when()</code></strong> function to test multiple conditions. Can use instead of multiple <code>ifelse()</code></p>
-<p><strong><code>colnames()</code></strong> function to access column names (from base R)</p>
-<p><strong><code>colours()</code></strong> function to see the built-in R colours (from base R)</p>
-<p><strong><code>dev.off()</code></strong> function to turn off the R graphics device (from base R). Used after e.g. <code>pdf()</code>, <code>png()</code>.</p>
-<p><strong><code>dim()</code></strong> function to retrieve the dimensions of an object, for example the number of rows and columns (from base R)</p>
-<p><strong><code>factor()</code></strong> function to convert values to factor data type (from base R)</p>
-<p><strong><code>filter()</code></strong> function for choosing rows (from dplyr)</p>
-<p><strong><code>gather()</code></strong> function that enables converting from wide to long (tidy) format (from dplyr)</p>
-<p><strong><code>geom_text_repel()</code></strong> geom to add add text non-overlapping labels (from ggrepel)</p>
-<p><strong><code>ggplot()</code></strong> function used to create a ggplot (from ggplot2)</p>
-<p><strong><code>head()</code></strong> function for selecting the first part of an object (from base R). Default is to show the first 6 items.</p>
-<p><strong><code>ifelse()</code></strong> function to test if a condition is true or not and return a value <code>ifelse(test, yes, no)</code> (from base R)</p>
-<p><strong><code>labs()</code></strong> function that can modify title, axis and legend labels on a ggplot (from ggplot2)</p>
-<p><strong><code>levels()</code></strong> function to retrieve the levels (category names) of a factor (from base R)</p>
-<p><strong><code>library()</code></strong> function to load packages (from base R)</p>
-<p><strong><code>log2()</code></strong> function to compute the log2 (base 2) logarithms (from base R)</p>
-<p><strong><code>log10()</code></strong> function to compute the log10 (base 10) logarithms (from base R)</p>
-<p><strong><code>mutate()</code></strong> function to add columns (from dplyr)</p>
-<p><strong><code>pdf()</code></strong> function to create a pdf, used with <code>dev.off()</code> (from base R)</p>
-<p><strong><code>pull()</code></strong> function to extract values (from dplyr)</p>
-<p><strong><code>read_tsv()</code></strong> function to read a tab-separated file into R (from readr)</p>
-<p><strong><code>select()</code></strong> function for choosing columns (from dplyr)</p>
-<p><strong><code>str()</code></strong> function for showing the structure of an object (from base R). Useful for checking data types.</p>
-<p><strong><code>summary()</code></strong> function for producing a summary of an object (from base R). Useful for getting summary statistics of numeric columns (min, max, mean, median)</p>
-<p><strong><code>tail()</code></strong> function for selecting the last part of an object (from base R). Default is to show the last 6 items.</p>
-<p><strong><code>View()</code></strong> function to invoke a spreadsheet-like viewer on an R object</p>
-</div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
-<p><strong>dplyr</strong> tidyverse package for manipulating data, contains the <code>mutate()</code>, <code>filter()</code>, <code>select()</code> functions and the <code>%&gt;%</code> operator</p>
-<p><strong>geoms</strong> type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()</p>
-<p><strong>ggplot2</strong> a tidyverse package for data visualisation</p>
-<p><strong>ggrepel</strong> package to position non-overlapping text labels on a ggplot</p>
-<p><strong>readr</strong> a tidyverse pacakge for reading data into R, contains the <code>read_tsv()</code> function</p>
-<p><strong>tidyr</strong> a tidyverse package for data tidying, contains the <code>gather()</code> and <code>spread()</code> functions</p>
+<p><strong>dplyr</strong><br />
+tidyverse package for manipulating data, contains the <code>mutate()</code>, <code>filter()</code>, <code>select()</code> functions and the <code>%&gt;%</code> operator</p>
+<p><strong>ggplot2</strong><br />
+tidyverse package for data visualisation</p>
+<p><strong>ggrepel</strong><br />
+package to position non-overlapping text labels on a ggplot</p>
+<p><strong>readr</strong><br />
+tidyverse pacakge for reading data into R, contains the <code>read_tsv()</code> function</p>
+<p><strong>tidyr</strong><br />
+tidyverse package for data tidying, contains the <code>gather()</code> and <code>spread()</code> functions</p>
+<p><strong>tidyverse</strong><br />
+a collection of packages that work together for data reading, tidying, manipulating and visualising</p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p><strong><code>c()</code></strong><br />
+combine values (from base R)</p>
+<p><strong><code>case_when()</code></strong><br />
+test multiple conditions (from dplyr). Can use instead of multiple <code>ifelse()</code>, useful inside <code>mutate()</code> when creating columns</p>
+<p><strong><code>colnames()</code></strong><br />
+access column names (from base R)</p>
+<p><strong><code>colours()</code></strong><br />
+see the built-in R colours (from base R)</p>
+<p><strong><code>dev.off()</code></strong><br />
+turn off the R graphics device (from base R). Used after e.g. <code>pdf()</code>, <code>png()</code>.</p>
+<p><strong><code>dim()</code></strong><br />
+retrieve the dimensions of an object, for example the number of rows and columns (from base R)</p>
+<p><strong><code>factor()</code></strong><br />
+convert values to factor data type (from base R)</p>
+<p><strong><code>filter()</code></strong><br />
+choosing rows (from dplyr)</p>
+<p><strong><code>gather()</code></strong><br />
+function that enables converting from wide to long (tidy) format (from dplyr)</p>
+<p><strong><code>geom_text_repel()</code></strong><br />
+geom to add add text non-overlapping labels (from ggrepel)</p>
+<p><strong><code>ggplot()</code></strong><br />
+function used to create a ggplot (from ggplot2)</p>
+<p><strong><code>head()</code></strong><br />
+selecting the first part of an object (from base R). Default is to show the first 6 items.</p>
+<p><strong><code>ifelse()</code></strong><br />
+test if a condition is true or not and return a value <code>ifelse(test, yes, no)</code> (from base R)</p>
+<p><strong><code>labs()</code></strong><br />
+modify title, axis and legend labels on a ggplot (from ggplot2)</p>
+<p><strong><code>levels()</code></strong><br />
+retrieve the levels (category names) of a factor (from base R)</p>
+<p><strong><code>library()</code></strong><br />
+load packages (from base R)</p>
+<p><strong><code>log2()</code></strong><br />
+compute the log2 (base 2) logarithms (from base R)</p>
+<p><strong><code>log10()</code></strong><br />
+compute the log10 (base 10) logarithms (from base R)</p>
+<p><strong><code>mutate()</code></strong><br />
+add columns (from dplyr)</p>
+<p><strong><code>pdf()</code></strong><br />
+create a pdf, used with <code>dev.off()</code> (from base R)</p>
+<p><strong><code>pull()</code></strong><br />
+extract values (from dplyr)</p>
+<p><strong><code>read_tsv()</code></strong><br />
+read a tab-separated file into R (from readr)</p>
+<p><strong><code>select()</code></strong><br />
+choosing columns (from dplyr)</p>
+<p><strong><code>str()</code></strong><br />
+showing the structure of an object (from base R). Useful for checking data types.</p>
+<p><strong><code>summary()</code></strong><br />
+producing a summary of an object (from base R). Useful for getting summary statistics of numeric columns (min, max, mean, median)</p>
+<p><strong><code>tail()</code></strong><br />
+selecting the last part of an object (from base R). Default is to show the last 6 items.</p>
+<p><strong><code>View()</code></strong><br />
+invoke a spreadsheet-like viewer on an R object (from base R)</p>
 </div>
 <div id="terms" class="section level2">
 <h2>Terms</h2>
-<p><strong>assignment operator</strong> <code>&lt;-</code> assigns values to objects, assigns a value on the right to an object on the left (from base R)</p>
-<p><strong>console</strong> a window where you can interactively type in commands and the output is returned</p>
-<p><strong>function</strong> pre-defined commands, can be loaded in from packages or user-created</p>
-<p><strong>object</strong> everything in R is an object. The assignment operator <code>&lt;-</code> can be used to create objects</p>
-<p><strong>pipe</strong> <code>%&gt;%</code> operator chains together tidyverse commands</p>
-<p><strong>scales</strong> scale_colour_brewer(), scale_colour_manual(), scale_x_continuous()</p>
-<p><strong>script</strong> a text file containing commands, in R a script filename ends with .R</p>
-<p><strong>themes</strong> the non-data components of a ggplot e.g. background, grid lines, font size and font type</p>
-<p><strong>tidyverse</strong> a collection of packages that work together for data reading, tidying, manipulating and visualising</p>
-<p><strong>vector</strong> a data structure in R, contains a collection of items of the same data type e.g c(“TP53”, “BRCA1”)</p>
+<p><strong>assignment operator</strong><br />
+<code>&lt;-</code> assigns values to objects, assigns a value on the right to an object on the left (from base R)</p>
+<p><strong>character</strong><br />
+a data type in R, used to represent character strings, quotes indicate the data type is character</p>
+<p><strong>console</strong><br />
+a window where you can interactively type in commands and the output is returned</p>
+<p><strong>data frame</strong><br />
+a data structure in R containing multiple columns and/or rows, can contain different data types</p>
+<p><strong>double</strong><br />
+a data type in R, used to represent numbers containing a decimal point (integer is the data type for numbers without decimal point)</p>
+<p><strong>function</strong><br />
+pre-defined commands, can be loaded in from packages or user-created</p>
+<p><strong>geom</strong><br />
+type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()</p>
+<p><strong>matrix</strong><br />
+a data structure in R containing multiple columns and/or rows, all values are the same data type</p>
+<p><strong>object</strong><br />
+everything in R is an object. The assignment operator <code>&lt;-</code> can be used to create objects</p>
+<p><strong>pipe</strong><br />
+<code>%&gt;%</code> operator chains together tidyverse commands (from dplyr)</p>
+<p><strong>scales</strong><br />
+scale_colour_brewer(), scale_colour_manual(), scale_x_continuous()</p>
+<p><strong>script</strong><br />
+a text file containing commands, in R a script filename ends with .R</p>
+<p><strong>themes</strong><br />
+the non-data components of a ggplot e.g. background, grid lines, font size and font type</p>
+<p><strong>tibble</strong><br />
+a tidyverse modern version of a data frame, has nicer printing and subsetting</p>
+<p><strong>vector</strong><br />
+a data structure in R containing a collection of items of the same data type e.g c(“TP53”, “BRCA1”)</p>
 </div>
 <div id="symbols" class="section level2">
 <h2>Symbols</h2>
-<p><strong><code>$</code></strong> access columns e.g. norm_counts$GENENAME<br />
-<strong><code>%in%</code></strong> function used to test if a value is in a set of values<br />
-<strong><code>&amp;</code></strong> and<br />
-<strong><code>|</code></strong> or<br />
-<strong><code>==</code></strong> test if a value is the same as another value<br />
-<strong><code>!=</code></strong> test if a value is not the same as another value</p>
+<p><strong><code>&gt;</code></strong><br />
+prompt in console, means R is ready to take a command</p>
+<p> <br />
+<strong><code>&lt;-</code></strong><br />
+assignment operator, see Terms above</p>
+<p> <br />
+<strong><code>$</code></strong><br />
+access columns e.g. <code>counts$GENENAME</code></p>
+<p> <br />
+<strong><code>%in%</code></strong><br />
+function used to test if a value is in a set of values</p>
+<p> <br />
+<strong><code>&amp;</code></strong><br />
+and</p>
+<p> <br />
+<strong><code>|</code></strong><br />
+or</p>
+<p> <br />
+<strong><code>==</code></strong><br />
+test if a value is the same as another value</p>
+<p> <br />
+<strong><code>!=</code></strong><br />
+test if a value is not the same as another value</p>
+<p> <br />
+<strong><code>%&gt;%</code></strong><br />
+dplyr pipe operator, see Terms above</p>
+<p> <br />
+<strong><code>#</code></strong><br />
+comment, to add notes to a script</p>
+<p> <br />
+<strong><code>+</code></strong><br />
+used to add layers to a ggplot. Also the prompt symbol R uses when the command is not complete, such as missing a <code>)</code></p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIFIgY2hlYXRzaGVldCIKYXV0aG9yOiAiTWFyaWEgRG95bGUiCmRhdGU6ICJgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCICVZJylgIgpvdXRwdXQ6IAogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IHllcwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIHRvY19kZXB0aDogNApzdWJ0aXRsZTogZ2xvc3Nhcnkgb2YgdGVybXMgdXNlZCBpbiB0aGUgY291cnNlCi0tLQoKIyMgRnVuY3Rpb25zCgoqKmBjKClgKiogZnVuY3Rpb24gdG8gY29tYmluZSB2YWx1ZXMgKGZyb20gYmFzZSBSKSAgCgoqKmBjYXNlX3doZW4oKWAqKiAgZnVuY3Rpb24gdG8gdGVzdCBtdWx0aXBsZSBjb25kaXRpb25zLiBDYW4gdXNlIGluc3RlYWQgb2YgbXVsdGlwbGUgYGlmZWxzZSgpYCAKCioqYGNvbG5hbWVzKClgKiogZnVuY3Rpb24gdG8gYWNjZXNzIGNvbHVtbiBuYW1lcyAoZnJvbSBiYXNlIFIpCgoqKmBjb2xvdXJzKClgKiogZnVuY3Rpb24gdG8gc2VlIHRoZSBidWlsdC1pbiBSIGNvbG91cnMgKGZyb20gYmFzZSBSKQoKKipgZGV2Lm9mZigpYCoqIGZ1bmN0aW9uIHRvIHR1cm4gb2ZmIHRoZSBSIGdyYXBoaWNzIGRldmljZSAoZnJvbSBiYXNlIFIpLiBVc2VkIGFmdGVyIGUuZy4gYHBkZigpYCwgYHBuZygpYC4KCioqYGRpbSgpYCoqIGZ1bmN0aW9uIHRvIHJldHJpZXZlIHRoZSBkaW1lbnNpb25zIG9mIGFuIG9iamVjdCwgZm9yIGV4YW1wbGUgdGhlIG51bWJlciBvZiByb3dzIGFuZCBjb2x1bW5zIChmcm9tIGJhc2UgUikKCioqYGZhY3RvcigpYCoqIGZ1bmN0aW9uIHRvIGNvbnZlcnQgdmFsdWVzIHRvIGZhY3RvciBkYXRhIHR5cGUgKGZyb20gYmFzZSBSKQoKKipgZmlsdGVyKClgKiogZnVuY3Rpb24gZm9yIGNob29zaW5nIHJvd3MgKGZyb20gZHBseXIpCgoqKmBnYXRoZXIoKWAqKiBmdW5jdGlvbiB0aGF0IGVuYWJsZXMgY29udmVydGluZyBmcm9tIHdpZGUgdG8gbG9uZyAodGlkeSkgZm9ybWF0IChmcm9tIGRwbHlyKQoKKipgZ2VvbV90ZXh0X3JlcGVsKClgKiogZ2VvbSB0byBhZGQgYWRkIHRleHQgbm9uLW92ZXJsYXBwaW5nIGxhYmVscyAoZnJvbSBnZ3JlcGVsKQoKKipgZ2dwbG90KClgKiogZnVuY3Rpb24gdXNlZCB0byBjcmVhdGUgYSBnZ3Bsb3QgKGZyb20gZ2dwbG90MikKCioqYGhlYWQoKWAqKiBmdW5jdGlvbiBmb3Igc2VsZWN0aW5nIHRoZSBmaXJzdCBwYXJ0IG9mIGFuIG9iamVjdCAoZnJvbSBiYXNlIFIpLiBEZWZhdWx0IGlzIHRvIHNob3cgdGhlIGZpcnN0IDYgaXRlbXMuCgoqKmBpZmVsc2UoKWAqKiBmdW5jdGlvbiB0byB0ZXN0IGlmIGEgY29uZGl0aW9uIGlzIHRydWUgb3Igbm90IGFuZCByZXR1cm4gYSB2YWx1ZSBgaWZlbHNlKHRlc3QsIHllcywgbm8pYCAoZnJvbSBiYXNlIFIpCgoqKmBsYWJzKClgKiogZnVuY3Rpb24gdGhhdCBjYW4gbW9kaWZ5IHRpdGxlLCBheGlzIGFuZCBsZWdlbmQgbGFiZWxzIG9uIGEgZ2dwbG90IChmcm9tIGdncGxvdDIpCgoqKmBsZXZlbHMoKWAqKiBmdW5jdGlvbiB0byByZXRyaWV2ZSB0aGUgbGV2ZWxzIChjYXRlZ29yeSBuYW1lcykgb2YgYSBmYWN0b3IgKGZyb20gYmFzZSBSKQoKKipgbGlicmFyeSgpYCoqIGZ1bmN0aW9uIHRvIGxvYWQgcGFja2FnZXMgKGZyb20gYmFzZSBSKQoKKipgbG9nMigpYCoqIGZ1bmN0aW9uIHRvIGNvbXB1dGUgdGhlIGxvZzIgKGJhc2UgMikgbG9nYXJpdGhtcyAoZnJvbSBiYXNlIFIpCgoqKmBsb2cxMCgpYCoqIGZ1bmN0aW9uIHRvIGNvbXB1dGUgdGhlIGxvZzEwIChiYXNlIDEwKSBsb2dhcml0aG1zIChmcm9tIGJhc2UgUikKCioqYG11dGF0ZSgpYCoqIGZ1bmN0aW9uIHRvIGFkZCBjb2x1bW5zIChmcm9tIGRwbHlyKQoKKipgcGRmKClgKiogZnVuY3Rpb24gdG8gY3JlYXRlIGEgcGRmLCB1c2VkIHdpdGggYGRldi5vZmYoKWAgKGZyb20gYmFzZSBSKQoKKipgcHVsbCgpYCoqIGZ1bmN0aW9uIHRvIGV4dHJhY3QgdmFsdWVzIChmcm9tIGRwbHlyKQoKKipgcmVhZF90c3YoKWAqKiBmdW5jdGlvbiB0byByZWFkIGEgdGFiLXNlcGFyYXRlZCBmaWxlIGludG8gUiAoZnJvbSByZWFkcikKCioqYHNlbGVjdCgpYCoqIGZ1bmN0aW9uIGZvciBjaG9vc2luZyBjb2x1bW5zIChmcm9tIGRwbHlyKQoKKipgc3RyKClgKiogZnVuY3Rpb24gZm9yIHNob3dpbmcgdGhlIHN0cnVjdHVyZSBvZiBhbiBvYmplY3QgKGZyb20gYmFzZSBSKS4gVXNlZnVsIGZvciBjaGVja2luZyBkYXRhIHR5cGVzLgoKKipgc3VtbWFyeSgpYCoqIGZ1bmN0aW9uIGZvciBwcm9kdWNpbmcgYSBzdW1tYXJ5IG9mIGFuIG9iamVjdCAoZnJvbSBiYXNlIFIpLiBVc2VmdWwgZm9yIGdldHRpbmcgc3VtbWFyeSBzdGF0aXN0aWNzIG9mIG51bWVyaWMgY29sdW1ucyAobWluLCBtYXgsIG1lYW4sIG1lZGlhbikKCioqYHRhaWwoKWAqKiBmdW5jdGlvbiBmb3Igc2VsZWN0aW5nIHRoZSBsYXN0IHBhcnQgb2YgYW4gb2JqZWN0IChmcm9tIGJhc2UgUikuIERlZmF1bHQgaXMgdG8gc2hvdyB0aGUgbGFzdCA2IGl0ZW1zLgoKKipgVmlldygpYCoqIGZ1bmN0aW9uIHRvIGludm9rZSBhIHNwcmVhZHNoZWV0LWxpa2Ugdmlld2VyIG9uIGFuIFIgb2JqZWN0CgoKCiMjIFBhY2thZ2VzCgoqKmRwbHlyKiogdGlkeXZlcnNlIHBhY2thZ2UgZm9yIG1hbmlwdWxhdGluZyBkYXRhLCBjb250YWlucyB0aGUgYG11dGF0ZSgpYCwgYGZpbHRlcigpYCwgYHNlbGVjdCgpYCBmdW5jdGlvbnMgYW5kIHRoZSBgJT4lYCBvcGVyYXRvcgoKKipnZW9tcyoqIHR5cGUgb2YgZ2dwbG90IGUuZy4gZ2VvbV9iYXIoKSwgZ2VvbV9kZW5zaXR5KCksIGdlb21fYm94cGxvdCgpLCBnZW9tX3Zpb2xpbigpLCBnZW9tX3BvaW50KCksIGdlb21faml0dGVyKCksIGdlb21fdGV4dCgpCgoqKmdncGxvdDIqKiBhIHRpZHl2ZXJzZSBwYWNrYWdlIGZvciBkYXRhIHZpc3VhbGlzYXRpb24gCgoqKmdncmVwZWwqKiBwYWNrYWdlIHRvIHBvc2l0aW9uIG5vbi1vdmVybGFwcGluZyB0ZXh0IGxhYmVscyBvbiBhIGdncGxvdAoKKipyZWFkcioqIGEgdGlkeXZlcnNlIHBhY2FrZ2UgZm9yIHJlYWRpbmcgZGF0YSBpbnRvIFIsIGNvbnRhaW5zIHRoZSBgcmVhZF90c3YoKWAgZnVuY3Rpb24KCioqdGlkeXIqKiBhIHRpZHl2ZXJzZSBwYWNrYWdlIGZvciBkYXRhIHRpZHlpbmcsIGNvbnRhaW5zIHRoZSBgZ2F0aGVyKClgIGFuZCBgc3ByZWFkKClgIGZ1bmN0aW9ucwoKCgojIyBUZXJtcwoKKiphc3NpZ25tZW50IG9wZXJhdG9yKiogYDwtYCBhc3NpZ25zIHZhbHVlcyB0byBvYmplY3RzLCBhc3NpZ25zIGEgdmFsdWUgb24gdGhlIHJpZ2h0IHRvIGFuIG9iamVjdCBvbiB0aGUgbGVmdCAoZnJvbSBiYXNlIFIpIAoKKipjb25zb2xlKiogYSB3aW5kb3cgd2hlcmUgeW91IGNhbiBpbnRlcmFjdGl2ZWx5IHR5cGUgaW4gY29tbWFuZHMgYW5kIHRoZSBvdXRwdXQgaXMgcmV0dXJuZWQKCioqZnVuY3Rpb24qKiAgcHJlLWRlZmluZWQgY29tbWFuZHMsIGNhbiBiZSBsb2FkZWQgaW4gZnJvbSBwYWNrYWdlcyBvciB1c2VyLWNyZWF0ZWQKCioqb2JqZWN0KiogZXZlcnl0aGluZyBpbiBSIGlzIGFuIG9iamVjdC4gVGhlIGFzc2lnbm1lbnQgb3BlcmF0b3IgYDwtYCBjYW4gYmUgdXNlZCB0byBjcmVhdGUgb2JqZWN0cwoKKipwaXBlKiogYCU+JWAgb3BlcmF0b3IgY2hhaW5zIHRvZ2V0aGVyIHRpZHl2ZXJzZSBjb21tYW5kcwoKKipzY2FsZXMqKiBzY2FsZV9jb2xvdXJfYnJld2VyKCksIHNjYWxlX2NvbG91cl9tYW51YWwoKSwgc2NhbGVfeF9jb250aW51b3VzKCkKCioqc2NyaXB0KiogYSB0ZXh0IGZpbGUgY29udGFpbmluZyBjb21tYW5kcywgaW4gUiBhIHNjcmlwdCBmaWxlbmFtZSBlbmRzIHdpdGggLlIKCioqdGhlbWVzKiogdGhlIG5vbi1kYXRhIGNvbXBvbmVudHMgb2YgYSBnZ3Bsb3QgZS5nLiBiYWNrZ3JvdW5kLCBncmlkIGxpbmVzLCBmb250IHNpemUgYW5kIGZvbnQgdHlwZQoKKip0aWR5dmVyc2UqKiBhIGNvbGxlY3Rpb24gb2YgcGFja2FnZXMgdGhhdCB3b3JrIHRvZ2V0aGVyIGZvciBkYXRhIHJlYWRpbmcsIHRpZHlpbmcsIG1hbmlwdWxhdGluZyBhbmQgdmlzdWFsaXNpbmcKCioqdmVjdG9yKiogYSBkYXRhIHN0cnVjdHVyZSBpbiBSLCBjb250YWlucyBhIGNvbGxlY3Rpb24gb2YgaXRlbXMgb2YgdGhlIHNhbWUgZGF0YSB0eXBlIGUuZyBjKCJUUDUzIiwgIkJSQ0ExIikKCgojI1N5bWJvbHMjIwoKCioqYCRgKiogYWNjZXNzIGNvbHVtbnMgZS5nLiBub3JtX2NvdW50cyRHRU5FTkFNRSAgCioqYCVpbiVgKiogZnVuY3Rpb24gdXNlZCB0byB0ZXN0IGlmIGEgdmFsdWUgaXMgaW4gYSBzZXQgb2YgdmFsdWVzICAKKipgJmAqKiBhbmQgIAoqKmB8YCoqIG9yICAKKipgPT1gKiogdGVzdCBpZiBhIHZhbHVlIGlzIHRoZSBzYW1lIGFzIGFub3RoZXIgdmFsdWUgIAoqKmAhPWAqKiB0ZXN0IGlmIGEgdmFsdWUgaXMgbm90IHRoZSBzYW1lIGFzIGFub3RoZXIgdmFsdWUgIA==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm9kdWN0aW9uIHRvIFIgY2hlYXRzaGVldCIKYXV0aG9yOiAiTWFyaWEgRG95bGUiCmRhdGU6ICJgciBmb3JtYXQoU3lzLnRpbWUoKSwgJyVkICVCICVZJylgIgpvdXRwdXQ6IAogIGh0bWxfbm90ZWJvb2s6CiAgICB0b2M6IHllcwogICAgdG9jX2Zsb2F0OiB5ZXMKICAgIHRvY19kZXB0aDogNApzdWJ0aXRsZTogZ2xvc3Nhcnkgb2Ygdm9jYWJ1bGFyeSB1c2VkIGluIHRoZSBjb3Vyc2UKLS0tCgojIyBQYWNrYWdlcwoKKipkcGx5cioqICAKdGlkeXZlcnNlIHBhY2thZ2UgZm9yIG1hbmlwdWxhdGluZyBkYXRhLCBjb250YWlucyB0aGUgYG11dGF0ZSgpYCwgYGZpbHRlcigpYCwgYHNlbGVjdCgpYCBmdW5jdGlvbnMgYW5kIHRoZSBgJT4lYCBvcGVyYXRvcgoKKipnZ3Bsb3QyKiogIAp0aWR5dmVyc2UgcGFja2FnZSBmb3IgZGF0YSB2aXN1YWxpc2F0aW9uIAoKKipnZ3JlcGVsKiogIApwYWNrYWdlIHRvIHBvc2l0aW9uIG5vbi1vdmVybGFwcGluZyB0ZXh0IGxhYmVscyBvbiBhIGdncGxvdAoKKipyZWFkcioqICAKdGlkeXZlcnNlIHBhY2FrZ2UgZm9yIHJlYWRpbmcgZGF0YSBpbnRvIFIsIGNvbnRhaW5zIHRoZSBgcmVhZF90c3YoKWAgZnVuY3Rpb24KCioqdGlkeXIqKiAgCnRpZHl2ZXJzZSBwYWNrYWdlIGZvciBkYXRhIHRpZHlpbmcsIGNvbnRhaW5zIHRoZSBgZ2F0aGVyKClgIGFuZCBgc3ByZWFkKClgIGZ1bmN0aW9ucwoKKip0aWR5dmVyc2UqKiAgCmEgY29sbGVjdGlvbiBvZiBwYWNrYWdlcyB0aGF0IHdvcmsgdG9nZXRoZXIgZm9yIGRhdGEgcmVhZGluZywgdGlkeWluZywgbWFuaXB1bGF0aW5nIGFuZCB2aXN1YWxpc2luZwoKCiMjIEZ1bmN0aW9ucwoKKipgYygpYCoqICAKY29tYmluZSB2YWx1ZXMgKGZyb20gYmFzZSBSKSAgCiAgCioqYGNhc2Vfd2hlbigpYCoqICAKdGVzdCBtdWx0aXBsZSBjb25kaXRpb25zIChmcm9tIGRwbHlyKS4gQ2FuIHVzZSBpbnN0ZWFkIG9mIG11bHRpcGxlIGBpZmVsc2UoKWAsIHVzZWZ1bCBpbnNpZGUgYG11dGF0ZSgpYCB3aGVuIGNyZWF0aW5nIGNvbHVtbnMKICAKKipgY29sbmFtZXMoKWAqKiAgCmFjY2VzcyBjb2x1bW4gbmFtZXMgKGZyb20gYmFzZSBSKQogIAoqKmBjb2xvdXJzKClgKiogIApzZWUgdGhlIGJ1aWx0LWluIFIgY29sb3VycyAoZnJvbSBiYXNlIFIpCiAgCioqYGRldi5vZmYoKWAqKiAgCnR1cm4gb2ZmIHRoZSBSIGdyYXBoaWNzIGRldmljZSAoZnJvbSBiYXNlIFIpLiBVc2VkIGFmdGVyIGUuZy4gYHBkZigpYCwgYHBuZygpYC4KICAKKipgZGltKClgKiogIApyZXRyaWV2ZSB0aGUgZGltZW5zaW9ucyBvZiBhbiBvYmplY3QsIGZvciBleGFtcGxlIHRoZSBudW1iZXIgb2Ygcm93cyBhbmQgY29sdW1ucyAoZnJvbSBiYXNlIFIpCiAgCioqYGZhY3RvcigpYCoqICAKY29udmVydCB2YWx1ZXMgdG8gZmFjdG9yIGRhdGEgdHlwZSAoZnJvbSBiYXNlIFIpCgoqKmBmaWx0ZXIoKWAqKiAgCmNob29zaW5nIHJvd3MgKGZyb20gZHBseXIpCgoqKmBnYXRoZXIoKWAqKiAgCmZ1bmN0aW9uIHRoYXQgZW5hYmxlcyBjb252ZXJ0aW5nIGZyb20gd2lkZSB0byBsb25nICh0aWR5KSBmb3JtYXQgKGZyb20gZHBseXIpCgoqKmBnZW9tX3RleHRfcmVwZWwoKWAqKiAgCmdlb20gdG8gYWRkIGFkZCB0ZXh0IG5vbi1vdmVybGFwcGluZyBsYWJlbHMgKGZyb20gZ2dyZXBlbCkKCioqYGdncGxvdCgpYCoqICAKZnVuY3Rpb24gdXNlZCB0byBjcmVhdGUgYSBnZ3Bsb3QgKGZyb20gZ2dwbG90MikKCioqYGhlYWQoKWAqKiAgCnNlbGVjdGluZyB0aGUgZmlyc3QgcGFydCBvZiBhbiBvYmplY3QgKGZyb20gYmFzZSBSKS4gRGVmYXVsdCBpcyB0byBzaG93IHRoZSBmaXJzdCA2IGl0ZW1zLgoKKipgaWZlbHNlKClgKiogIAp0ZXN0IGlmIGEgY29uZGl0aW9uIGlzIHRydWUgb3Igbm90IGFuZCByZXR1cm4gYSB2YWx1ZSBgaWZlbHNlKHRlc3QsIHllcywgbm8pYCAoZnJvbSBiYXNlIFIpCgoqKmBsYWJzKClgKiogIAptb2RpZnkgdGl0bGUsIGF4aXMgYW5kIGxlZ2VuZCBsYWJlbHMgb24gYSBnZ3Bsb3QgKGZyb20gZ2dwbG90MikKCioqYGxldmVscygpYCoqICAKcmV0cmlldmUgdGhlIGxldmVscyAoY2F0ZWdvcnkgbmFtZXMpIG9mIGEgZmFjdG9yIChmcm9tIGJhc2UgUikKCioqYGxpYnJhcnkoKWAqKiAgCmxvYWQgcGFja2FnZXMgKGZyb20gYmFzZSBSKQoKKipgbG9nMigpYCoqICAKY29tcHV0ZSB0aGUgbG9nMiAoYmFzZSAyKSBsb2dhcml0aG1zIChmcm9tIGJhc2UgUikKCioqYGxvZzEwKClgKiogIApjb21wdXRlIHRoZSBsb2cxMCAoYmFzZSAxMCkgbG9nYXJpdGhtcyAoZnJvbSBiYXNlIFIpCgoqKmBtdXRhdGUoKWAqKiAgCmFkZCBjb2x1bW5zIChmcm9tIGRwbHlyKQoKKipgcGRmKClgKiogIApjcmVhdGUgYSBwZGYsIHVzZWQgd2l0aCBgZGV2Lm9mZigpYCAoZnJvbSBiYXNlIFIpCgoqKmBwdWxsKClgKiogIApleHRyYWN0IHZhbHVlcyAoZnJvbSBkcGx5cikKCioqYHJlYWRfdHN2KClgKiogIApyZWFkIGEgdGFiLXNlcGFyYXRlZCBmaWxlIGludG8gUiAoZnJvbSByZWFkcikKCioqYHNlbGVjdCgpYCoqICAKY2hvb3NpbmcgY29sdW1ucyAoZnJvbSBkcGx5cikKCioqYHN0cigpYCoqICAKc2hvd2luZyB0aGUgc3RydWN0dXJlIG9mIGFuIG9iamVjdCAoZnJvbSBiYXNlIFIpLiBVc2VmdWwgZm9yIGNoZWNraW5nIGRhdGEgdHlwZXMuCgoqKmBzdW1tYXJ5KClgKiogIApwcm9kdWNpbmcgYSBzdW1tYXJ5IG9mIGFuIG9iamVjdCAoZnJvbSBiYXNlIFIpLiBVc2VmdWwgZm9yIGdldHRpbmcgc3VtbWFyeSBzdGF0aXN0aWNzIG9mIG51bWVyaWMgY29sdW1ucyAobWluLCBtYXgsIG1lYW4sIG1lZGlhbikKCioqYHRhaWwoKWAqKiAgCnNlbGVjdGluZyB0aGUgbGFzdCBwYXJ0IG9mIGFuIG9iamVjdCAoZnJvbSBiYXNlIFIpLiBEZWZhdWx0IGlzIHRvIHNob3cgdGhlIGxhc3QgNiBpdGVtcy4KCioqYFZpZXcoKWAqKiAgCmludm9rZSBhIHNwcmVhZHNoZWV0LWxpa2Ugdmlld2VyIG9uIGFuIFIgb2JqZWN0IChmcm9tIGJhc2UgUikKCgojIyBUZXJtcwoKKiphc3NpZ25tZW50IG9wZXJhdG9yKiogIApgPC1gIGFzc2lnbnMgdmFsdWVzIHRvIG9iamVjdHMsIGFzc2lnbnMgYSB2YWx1ZSBvbiB0aGUgcmlnaHQgdG8gYW4gb2JqZWN0IG9uIHRoZSBsZWZ0IChmcm9tIGJhc2UgUikgCgoqKmNoYXJhY3RlcioqICAKYSBkYXRhIHR5cGUgaW4gUiwgdXNlZCB0byByZXByZXNlbnQgY2hhcmFjdGVyIHN0cmluZ3MsIHF1b3RlcyBpbmRpY2F0ZSB0aGUgZGF0YSB0eXBlIGlzIGNoYXJhY3RlcgoKKipjb25zb2xlKiogIAphIHdpbmRvdyB3aGVyZSB5b3UgY2FuIGludGVyYWN0aXZlbHkgdHlwZSBpbiBjb21tYW5kcyBhbmQgdGhlIG91dHB1dCBpcyByZXR1cm5lZAoKKipkYXRhIGZyYW1lKiogIAphIGRhdGEgc3RydWN0dXJlIGluIFIgY29udGFpbmluZyBtdWx0aXBsZSBjb2x1bW5zIGFuZC9vciByb3dzLCBjYW4gY29udGFpbiBkaWZmZXJlbnQgZGF0YSB0eXBlcwoKKipkb3VibGUqKiAgCmEgZGF0YSB0eXBlIGluIFIsIHVzZWQgdG8gcmVwcmVzZW50IG51bWJlcnMgY29udGFpbmluZyBhIGRlY2ltYWwgcG9pbnQgKGludGVnZXIgaXMgdGhlIGRhdGEgdHlwZSBmb3IgbnVtYmVycyB3aXRob3V0IGRlY2ltYWwgcG9pbnQpCgoqKmZ1bmN0aW9uKiogICAKcHJlLWRlZmluZWQgY29tbWFuZHMsIGNhbiBiZSBsb2FkZWQgaW4gZnJvbSBwYWNrYWdlcyBvciB1c2VyLWNyZWF0ZWQKCioqZ2VvbSoqICAKdHlwZSBvZiBnZ3Bsb3QgZS5nLiBnZW9tX2JhcigpLCBnZW9tX2RlbnNpdHkoKSwgZ2VvbV9ib3hwbG90KCksIGdlb21fdmlvbGluKCksIGdlb21fcG9pbnQoKSwgZ2VvbV9qaXR0ZXIoKSwgZ2VvbV90ZXh0KCkKCioqbWF0cml4KiogIAphIGRhdGEgc3RydWN0dXJlIGluIFIgY29udGFpbmluZyBtdWx0aXBsZSBjb2x1bW5zIGFuZC9vciByb3dzLCBhbGwgdmFsdWVzIGFyZSB0aGUgc2FtZSBkYXRhIHR5cGUKCioqb2JqZWN0KiogIApldmVyeXRoaW5nIGluIFIgaXMgYW4gb2JqZWN0LiBUaGUgYXNzaWdubWVudCBvcGVyYXRvciBgPC1gIGNhbiBiZSB1c2VkIHRvIGNyZWF0ZSBvYmplY3RzCgoqKnBpcGUqKiAgCmAlPiVgIG9wZXJhdG9yIGNoYWlucyB0b2dldGhlciB0aWR5dmVyc2UgY29tbWFuZHMgKGZyb20gZHBseXIpCgoqKnNjYWxlcyoqICAKc2NhbGVfY29sb3VyX2JyZXdlcigpLCBzY2FsZV9jb2xvdXJfbWFudWFsKCksIHNjYWxlX3hfY29udGludW91cygpCgoqKnNjcmlwdCoqICAKYSB0ZXh0IGZpbGUgY29udGFpbmluZyBjb21tYW5kcywgaW4gUiBhIHNjcmlwdCBmaWxlbmFtZSBlbmRzIHdpdGggLlIKCioqdGhlbWVzKiogIAp0aGUgbm9uLWRhdGEgY29tcG9uZW50cyBvZiBhIGdncGxvdCBlLmcuIGJhY2tncm91bmQsIGdyaWQgbGluZXMsIGZvbnQgc2l6ZSBhbmQgZm9udCB0eXBlCgoqKnRpYmJsZSoqICAKYSB0aWR5dmVyc2UgbW9kZXJuIHZlcnNpb24gb2YgYSBkYXRhIGZyYW1lLCBoYXMgbmljZXIgcHJpbnRpbmcgYW5kIHN1YnNldHRpbmcKCioqdmVjdG9yKiogIAphIGRhdGEgc3RydWN0dXJlIGluIFIgY29udGFpbmluZyBhIGNvbGxlY3Rpb24gb2YgaXRlbXMgb2YgdGhlIHNhbWUgZGF0YSB0eXBlIGUuZyBjKCJUUDUzIiwgIkJSQ0ExIikKCiAgCgojI1N5bWJvbHMjIwoKKipgPmAqKiAgCnByb21wdCBpbiBjb25zb2xlLCBtZWFucyBSIGlzIHJlYWR5IHRvIHRha2UgYSBjb21tYW5kCiAgClwgICAgCioqYDwtYCoqICAKYXNzaWdubWVudCBvcGVyYXRvciwgc2VlIFRlcm1zIGFib3ZlICAKICAKXCAgIAoqKmAkYCoqICAKYWNjZXNzIGNvbHVtbnMgZS5nLiBgY291bnRzJEdFTkVOQU1FYCAgCiAgClwgICAKKipgJWluJWAqKiAgCmZ1bmN0aW9uIHVzZWQgdG8gdGVzdCBpZiBhIHZhbHVlIGlzIGluIGEgc2V0IG9mIHZhbHVlcyAgCiAgClwgICAKKipgJmAqKiAgCmFuZCAgCiAgClwgICAKKipgfGAqKiAgCm9yCiAgClwgICAKKipgPT1gKiogIAp0ZXN0IGlmIGEgdmFsdWUgaXMgdGhlIHNhbWUgYXMgYW5vdGhlciB2YWx1ZSAgCiAgClwgICAKKipgIT1gKiogIAp0ZXN0IGlmIGEgdmFsdWUgaXMgbm90IHRoZSBzYW1lIGFzIGFub3RoZXIgdmFsdWUgIAogIApcICAgCioqYCU+JWAqKiAgCmRwbHlyIHBpcGUgb3BlcmF0b3IsIHNlZSBUZXJtcyBhYm92ZSAgCiAgIApcICAgIAoqKmAjYCoqICAKY29tbWVudCwgdG8gYWRkIG5vdGVzIHRvIGEgc2NyaXB0ICAKICAgClwgICAgCioqYCtgKiogIAp1c2VkIHRvIGFkZCBsYXllcnMgdG8gYSBnZ3Bsb3QuIEFsc28gdGhlIHByb21wdCBzeW1ib2wgUiB1c2VzIHdoZW4gdGhlIGNvbW1hbmQgaXMgbm90IGNvbXBsZXRlLCBzdWNoIGFzIG1pc3NpbmcgYSBgKWA=</div>
 
 
 </div>

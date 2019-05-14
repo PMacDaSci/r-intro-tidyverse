@@ -7,112 +7,204 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 4
-subtitle: glossary of terms used in the course
+subtitle: glossary of vocabulary used in the course
 ---
-
-## Functions
-
-**`c()`** function to combine values (from base R)  
-
-**`case_when()`**  function to test multiple conditions. Can use instead of multiple `ifelse()` 
-
-**`colnames()`** function to access column names (from base R)
-
-**`colours()`** function to see the built-in R colours (from base R)
-
-**`dev.off()`** function to turn off the R graphics device (from base R). Used after e.g. `pdf()`, `png()`.
-
-**`dim()`** function to retrieve the dimensions of an object, for example the number of rows and columns (from base R)
-
-**`factor()`** function to convert values to factor data type (from base R)
-
-**`filter()`** function for choosing rows (from dplyr)
-
-**`gather()`** function that enables converting from wide to long (tidy) format (from dplyr)
-
-**`geom_text_repel()`** geom to add add text non-overlapping labels (from ggrepel)
-
-**`ggplot()`** function used to create a ggplot (from ggplot2)
-
-**`head()`** function for selecting the first part of an object (from base R). Default is to show the first 6 items.
-
-**`ifelse()`** function to test if a condition is true or not and return a value `ifelse(test, yes, no)` (from base R)
-
-**`labs()`** function that can modify title, axis and legend labels on a ggplot (from ggplot2)
-
-**`levels()`** function to retrieve the levels (category names) of a factor (from base R)
-
-**`library()`** function to load packages (from base R)
-
-**`log2()`** function to compute the log2 (base 2) logarithms (from base R)
-
-**`log10()`** function to compute the log10 (base 10) logarithms (from base R)
-
-**`mutate()`** function to add columns (from dplyr)
-
-**`pdf()`** function to create a pdf, used with `dev.off()` (from base R)
-
-**`pull()`** function to extract values (from dplyr)
-
-**`read_tsv()`** function to read a tab-separated file into R (from readr)
-
-**`select()`** function for choosing columns (from dplyr)
-
-**`str()`** function for showing the structure of an object (from base R). Useful for checking data types.
-
-**`summary()`** function for producing a summary of an object (from base R). Useful for getting summary statistics of numeric columns (min, max, mean, median)
-
-**`tail()`** function for selecting the last part of an object (from base R). Default is to show the last 6 items.
-
-**`View()`** function to invoke a spreadsheet-like viewer on an R object
-
-
 
 ## Packages
 
-**dplyr** tidyverse package for manipulating data, contains the `mutate()`, `filter()`, `select()` functions and the `%>%` operator
+**dplyr**  
+tidyverse package for manipulating data, contains the `mutate()`, `filter()`, `select()` functions and the `%>%` operator
 
-**geoms** type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()
+**ggplot2**  
+tidyverse package for data visualisation 
 
-**ggplot2** a tidyverse package for data visualisation 
+**ggrepel**  
+package to position non-overlapping text labels on a ggplot
 
-**ggrepel** package to position non-overlapping text labels on a ggplot
+**readr**  
+tidyverse pacakge for reading data into R, contains the `read_tsv()` function
 
-**readr** a tidyverse pacakge for reading data into R, contains the `read_tsv()` function
+**tidyr**  
+tidyverse package for data tidying, contains the `gather()` and `spread()` functions
 
-**tidyr** a tidyverse package for data tidying, contains the `gather()` and `spread()` functions
+**tidyverse**  
+a collection of packages that work together for data reading, tidying, manipulating and visualising
 
+
+## Functions
+
+**`c()`**  
+combine values (from base R)  
+  
+**`case_when()`**  
+test multiple conditions (from dplyr). Can use instead of multiple `ifelse()`, useful inside `mutate()` when creating columns
+  
+**`colnames()`**  
+access column names (from base R)
+  
+**`colours()`**  
+see the built-in R colours (from base R)
+  
+**`dev.off()`**  
+turn off the R graphics device (from base R). Used after e.g. `pdf()`, `png()`.
+  
+**`dim()`**  
+retrieve the dimensions of an object, for example the number of rows and columns (from base R)
+  
+**`factor()`**  
+convert values to factor data type (from base R)
+
+**`filter()`**  
+choosing rows (from dplyr)
+
+**`gather()`**  
+function that enables converting from wide to long (tidy) format (from dplyr)
+
+**`geom_text_repel()`**  
+geom to add add text non-overlapping labels (from ggrepel)
+
+**`ggplot()`**  
+function used to create a ggplot (from ggplot2)
+
+**`head()`**  
+selecting the first part of an object (from base R). Default is to show the first 6 items.
+
+**`ifelse()`**  
+test if a condition is true or not and return a value `ifelse(test, yes, no)` (from base R)
+
+**`labs()`**  
+modify title, axis and legend labels on a ggplot (from ggplot2)
+
+**`levels()`**  
+retrieve the levels (category names) of a factor (from base R)
+
+**`library()`**  
+load packages (from base R)
+
+**`log2()`**  
+compute the log2 (base 2) logarithms (from base R)
+
+**`log10()`**  
+compute the log10 (base 10) logarithms (from base R)
+
+**`mutate()`**  
+add columns (from dplyr)
+
+**`pdf()`**  
+create a pdf, used with `dev.off()` (from base R)
+
+**`pull()`**  
+extract values (from dplyr)
+
+**`read_tsv()`**  
+read a tab-separated file into R (from readr)
+
+**`select()`**  
+choosing columns (from dplyr)
+
+**`str()`**  
+showing the structure of an object (from base R). Useful for checking data types.
+
+**`summary()`**  
+producing a summary of an object (from base R). Useful for getting summary statistics of numeric columns (min, max, mean, median)
+
+**`tail()`**  
+selecting the last part of an object (from base R). Default is to show the last 6 items.
+
+**`View()`**  
+invoke a spreadsheet-like viewer on an R object (from base R)
 
 
 ## Terms
 
-**assignment operator** `<-` assigns values to objects, assigns a value on the right to an object on the left (from base R) 
+**assignment operator**  
+`<-` assigns values to objects, assigns a value on the right to an object on the left (from base R) 
 
-**console** a window where you can interactively type in commands and the output is returned
+**character**  
+a data type in R, used to represent character strings, quotes indicate the data type is character
 
-**function**  pre-defined commands, can be loaded in from packages or user-created
+**console**  
+a window where you can interactively type in commands and the output is returned
 
-**object** everything in R is an object. The assignment operator `<-` can be used to create objects
+**data frame**  
+a data structure in R containing multiple columns and/or rows, can contain different data types
 
-**pipe** `%>%` operator chains together tidyverse commands
+**double**  
+a data type in R, used to represent numbers containing a decimal point (integer is the data type for numbers without decimal point)
 
-**scales** scale_colour_brewer(), scale_colour_manual(), scale_x_continuous()
+**function**   
+pre-defined commands, can be loaded in from packages or user-created
 
-**script** a text file containing commands, in R a script filename ends with .R
+**geom**  
+type of ggplot e.g. geom_bar(), geom_density(), geom_boxplot(), geom_violin(), geom_point(), geom_jitter(), geom_text()
 
-**themes** the non-data components of a ggplot e.g. background, grid lines, font size and font type
+**matrix**  
+a data structure in R containing multiple columns and/or rows, all values are the same data type
 
-**tidyverse** a collection of packages that work together for data reading, tidying, manipulating and visualising
+**object**  
+everything in R is an object. The assignment operator `<-` can be used to create objects
 
-**vector** a data structure in R, contains a collection of items of the same data type e.g c("TP53", "BRCA1")
+**pipe**  
+`%>%` operator chains together tidyverse commands (from dplyr)
 
+**scales**  
+scale_colour_brewer(), scale_colour_manual(), scale_x_continuous()
+
+**script**  
+a text file containing commands, in R a script filename ends with .R
+
+**themes**  
+the non-data components of a ggplot e.g. background, grid lines, font size and font type
+
+**tibble**  
+a tidyverse modern version of a data frame, has nicer printing and subsetting
+
+**vector**  
+a data structure in R containing a collection of items of the same data type e.g c("TP53", "BRCA1")
+
+  
 
 ##Symbols##
 
-
-**`$`** access columns e.g. norm_counts$GENENAME  
-**`%in%`** function used to test if a value is in a set of values  
-**`&`** and  
-**`|`** or  
-**`==`** test if a value is the same as another value  
-**`!=`** test if a value is not the same as another value  
+**`>`**  
+prompt in console, means R is ready to take a command
+  
+\    
+**`<-`**  
+assignment operator, see Terms above  
+  
+\   
+**`$`**  
+access columns e.g. `counts$GENENAME`  
+  
+\   
+**`%in%`**  
+function used to test if a value is in a set of values  
+  
+\   
+**`&`**  
+and  
+  
+\   
+**`|`**  
+or
+  
+\   
+**`==`**  
+test if a value is the same as another value  
+  
+\   
+**`!=`**  
+test if a value is not the same as another value  
+  
+\   
+**`%>%`**  
+dplyr pipe operator, see Terms above  
+   
+\    
+**`#`**  
+comment, to add notes to a script  
+   
+\    
+**`+`**  
+used to add layers to a ggplot. Also the prompt symbol R uses when the command is not complete, such as missing a `)`
