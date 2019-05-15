@@ -36,11 +36,21 @@ We will again use the published RNA-seq data from the Nature Cell Biology paper 
 Here we will work with the normalised counts for all 12 samples.
 ![](images/mouse_exp.png)
 
-First we will load in the libraries we need. These are already installed for you but if you need to install it on your own computer you can use `install.packages('tidyverse')`. 
+### Packages
 
-```{r}
+We have already seen some **tidyverse** packages: **readr** for reading in files, **ggplot2** for plotting and **dplyr** for manipulating tables. Today we will use those packages again, aswell as another really useful tidyverse package called **tidyr** that can be used to tidy data, such as convert from wide format into long (tidy) format.
+
+
+## Loading the data
+
+First let's open a new R script. From the top menu in RStudio: `File > New File > R Script`.
+Let's save it as `stripcharts.R`.
+
+```{r, message=FALSE}
 library(tidyverse)
 ```
+
+Next we load in our data, the RNA-seq normalised counts. The file we will use is tab-separated, so again we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `norm_counts`.
 
 ```{r results = 'hide'}
 norm_counts <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_normalised_counts.tsv.gz")
@@ -167,13 +177,13 @@ To more easily plot with ggplot2 we need to change the data into ["tidy data"](h
   2. Each observation must have its own row.
   3. Each value must have its own cell. 
   
-In our expression table there should be just *one column containing all expression values* instead of multiple columns with counts for each sample. We can use tidyr's `gather()` to easily change the format.
+In our expression table there should be just *one column containing all expression values* instead of multiple columns with counts for each sample. We can use tidyr's `gather()` to easily change the format into long format.
 
-The SYMBOL information is already in a column so we use "-" to say leave that column alone. Then `gather()` will reformat *all the other columns* (the expression values) into two columns "key" and "value". The "key" column will contain the column names (our sample ids), and the "value" column will contain the values from the columns (our expression values). We will give the key column the name "Sample" and the value column the name "Norm_counts".
+`gather()` will reformat specified columns into two new columns, "key" and "value". The "key" column will contain the *specified column names*, and the "value" column will contain the *specified column values*. For our data, our sample ids are the column names we will use and the expression values are the values in these columns. We tell gather what we want the new key and value columns to be called. We will give the key column the name "Sample" and the value column the name "Norm_counts" (as they are our normalised count values). `gather()` uses the same methods as `select()` to choose the columns so to say we want to reformat all the sample columns we could write below.
 
 ```{r}
 # change to tidy data format (all expression values in one column)
-top10_counts <- gather(top10_counts, key = Sample, value = Norm_counts, -SYMBOL)
+top10_counts <- gather(top10_counts, key=Sample, value=Norm_counts, starts_with("MCL"))
 ```
 
 Take a look.
@@ -393,7 +403,7 @@ One of the most useful and powerful things about the tidyverse is dplyr's pipe o
 norm_counts %>%
   filter(SYMBOL %in% top10_syms) %>%                             # filter rows for the top 10 genes
   select(-ENTREZID, -GENENAME) %>%                               # remove ENTREZID and GENENAME columns
-  gather(Sample, Norm_counts, -SYMBOL) %>%                       # convert from wide to long (tidy) format
+  gather(key=Sample, value=Norm_counts, starts_with("MCL"))  %>%                    # convert from wide to long (tidy) format
   mutate(Group=case_when(                                        # add a column to specify groups
         Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
         Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",

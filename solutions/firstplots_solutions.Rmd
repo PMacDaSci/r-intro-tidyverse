@@ -150,7 +150,7 @@ ggplot(data=norm_counts, mapping=aes(x=Norm_counts, colour=Status)) +
 ```
 
 
-Differences versus the unnormalised counts
-* The normalised counts density plots don't have the large peak on left that's present in the unnormalised counts (the normalised counts have been filtered to remove lowly expressed genes)
-* The normalised counts box plots and violin plots, don't give the warning about non-infinite values (the normalised counts have been filtered to remove lowly expressed genes)
+Differences versus the unnormalised counts  
+* The normalised counts density plots don't have the large peak on left that's present in the unnormalised counts (the normalised counts have been filtered to remove lowly expressed genes)  
+* The normalised counts box plots and violin plots, don't give the warning about non-infinite values (the normalised counts have been filtered to remove lowly expressed genes)  
 * In the box plots of normalised data, the median line is more similar in the samples compared to the unnormalised data.  

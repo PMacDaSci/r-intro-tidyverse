@@ -1,0 +1,34 @@
+---
+title: "Introduction to R: Week 2 Solutions"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: visualising RNA-seq data with the tidyverse (volcano plot)
+---
+
+
+#### Exercise
+
+* Make a volcano plot for the basal cells using the file "https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate". Colour genes with adj.P.value < 0.01 and a logFC of >2 (and < -2). You can choose to use any colours and modify it whatever way you like
+
+```{r}
+de_results <- read_tsv("https://zenodo.org/record/2596382/files/limma-voom_basalpregnant-basallactate")
+```
+# Add a column identifying how we want to group points
+
+```{r}
+de_results <- mutate(de_results, signif=ifelse((adj.P.Val < 0.01 & logFC > 2), "Up", ifelse((adj.P.Val < 0.01 & logFC < -2), "Down", "Not signif")))
+```
+
+# Make a volcano plot
+
+```{r}
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
+  geom_point(mapping=aes(col=signif)) +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
+```
+

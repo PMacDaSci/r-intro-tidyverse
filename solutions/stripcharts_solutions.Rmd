@@ -1,0 +1,131 @@
+---
+title: "Introduction to R: Week 3 Solutions"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: visualising RNA-seq data with stripcharts
+---
+# Run the commands to set up the data
+
+```{r}
+top10_syms <- c("Csn1s2b", "Slc25a1", "Slc34a2", "Atp2b2", "Acacb", "Slc30a2", "Elovl5", "Egf", "Ceacam10", "Pmvk")
+norm_counts <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_normalised_counts.tsv.gz")
+top10_counts <- filter(norm_counts, SYMBOL %in% top10_syms)
+top10_counts <- select(top10_counts, -ENTREZID, -GENENAME)
+top10_counts <- gather(top10_counts, key = Sample, value = Norm_counts, -SYMBOL)
+top10_counts <- mutate(top10_counts, Group=case_when(
+        Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
+        Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
+        Sample %in% c("MCL1.DK", "MCL1.DL")  ~ "basal lactate",
+        Sample %in% c("MCL1.LA", "MCL1.LB")  ~ "luminal virgin",
+        Sample %in% c("MCL1.LC", "MCL1.LD")  ~ "luminal pregnant",
+        Sample %in% c("MCL1.LE", "MCL1.LF")  ~ "luminal lactate"
+       ))
+```
+
+#### Exercise
+
+* Try to filter for all rows containing casein in the GENENAME column. Hint: Take a look at the help for `str_detect()` a function from the tidyverse **stringr** package.
+
+```{r}
+filter(norm_counts, str_detect(GENENAME, "casein"))
+```
+
+
+
+#### Exercise
+
+* Try to select all (and only) the counts columns. Hint: There is more than one way to do it.
+
+# using starts_with()
+```{r}
+select(norm_counts, starts_with("MCL"))
+```
+
+# using contains()
+
+```{r}
+select(norm_counts, contains("MCL"))
+```
+# using range (:)
+
+```{r}
+select(norm_counts, MCL1.DG:MCL1.LF)
+```
+
+#### Exercise
+
+ * Try running `gather()` on the `norm_counts` object and save it as an object called `testing` (i.e. run `testing <- gather(norm_counts)`. What do you think of the output? Can you improve it so that there is a column with sample ids and a column with counts.
+
+```{r}
+testing <- gather(norm_counts)
+```
+ 
+```{r}
+testing <- gather(norm_counts, key=Sample, value=Norm_counts, starts_with("MCL"))
+testing
+```
+ * `spread()` is the opposite of `gather()`. Try running `spread()` on the `top10_counts` object and see if you can regenerate the table with samples in columns.
+ 
+```{r}
+top10_counts
+spread(top10_counts, Sample, Norm_counts)
+```
+
+#### Exercise
+
+* Try to use `mutate()` and `case_when()` to add a column called CellType. This column should contain the value basal if the Group column contains the word basal, or luminal if the Group contains luminal. Save it as an object called `testing`. Hint: Use `str_detect()` inside `case_when()`.
+
+```{r}
+testing <- mutate(top10_counts, CellType=case_when(
+  str_detect(Group, "basal") ~ "basal",
+  str_detect(Group, "luminal") ~ "luminal"
+))
+```
+
+#### Exercise
+
+* Plot the genes in order of the significance. Hint: Use `mutate()` to add a column called SYMBOL_f containing SYMBOL as a factor with the levels in the order in `top10_syms`. Then remake the plot using the new SYMBOL_f column in `facet_wrap()` instead of SYMBOL.
+
+```{r}
+group_order <- c("basal virgin", "basal pregnant", "basal lactate", "luminal virgin", "luminal pregnant", "luminal lactate")
+top10_counts <- mutate(top10_counts, Group_f=factor(Group, levels=group_order))
+top10_counts <- mutate(top10_counts, SYMBOL_f=factor(SYMBOL, levels=top10_syms))
+ggplot(data=top10_counts, mapping=aes(x=Group_f, y=Norm_counts, colour=Group_f)) +
+  geom_jitter() +
+  facet_wrap(~SYMBOL_f, nrow=2) +
+  theme(axis.text.x = element_text(angle = 90)) +
+  scale_colour_discrete(breaks=group_order)
+```
+
+
+#### Exercise
+
+* Starting from `norm_counts` make a workflow using `%>%` that creates stripcharts for the genes Trp53, Brca1, Brca2.
+
+```{r}
+mygenes <- c("Trp53", "Brca1", "Brca2")
+norm_counts %>%
+  filter(SYMBOL %in% mygenes) %>%                             # filter rows for the genes
+  select(-ENTREZID, -GENENAME) %>%                               # remove ENTREZID and GENENAME columns
+  gather(Sample, Norm_counts, -SYMBOL) %>%                       # convert from wide to long (tidy) format
+  mutate(Group=case_when(                                        # add a column to specify groups
+        Sample %in% c("MCL1.DG", "MCL1.DH")  ~ "basal virgin",
+        Sample %in% c("MCL1.DI", "MCL1.DJ")  ~ "basal pregnant",
+        Sample %in% c("MCL1.DK", "MCL1.DL")  ~ "basal lactate",
+        Sample %in% c("MCL1.LA", "MCL1.LB")  ~ "luminal virgin",
+        Sample %in% c("MCL1.LC", "MCL1.LD")  ~ "luminal pregnant",
+        Sample %in% c("MCL1.LE", "MCL1.LF")  ~ "luminal lactate"
+       )) %>%
+  mutate(Group_f=factor(Group, levels=group_order)) %>%           # convert Group column to factor data type to specify ordering
+  ggplot(mapping=aes(x=Group_f, y=Norm_counts, colour=Group_f)) + # make stripcharts faceted by gene
+  geom_jitter() +
+  facet_wrap(~SYMBOL, nrow=2) +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
