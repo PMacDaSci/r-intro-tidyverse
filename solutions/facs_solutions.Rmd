@@ -10,11 +10,13 @@ output:
 subtitle: FACS example
 ---
 
+## Challenge
+
 You've run a FACS experiment and you need to calculate percentages of the cell types you've measured and visualise the data. You can do it in Excel but it's becoming very tedious and error-prone because you have several experiments you need to analyse.
 
 Let's try to use what we've learnt about R and the tidyverse to analyse and visualise the data.
 
-* Read in the Excel file called facs_example_data.xlsx, save it as an object called facs. Hint: use library(readxl) and Google to find the function
+* Read in the Excel file called facs_example_data.xlsx, save it as an object called facs. Hint: use library(readxl) and Google to find the function to read in an excel file.
 
 ```{r}
 library(tidyverse)
@@ -32,31 +34,6 @@ There should be 21 rows and 9 columns
 facs <- filter(facs, !str_detect(Sample, "Test"))
 ```
 
-* Add a column called CD4T_percent that contains the CD4T column value as a percent of the T_Cells column for each sample
-
-```{r}
-facs <- mutate(facs, CD4T_percent = CD4T / T_Cells * 100)
-```
- 
-* Add more columns with the Column Name below containing values that are calculations of cell percentages from the named columns e.g. CD8T_percent is the CD8T column as a percent of the T_Cells column.
-
-Column Name          Value
-CD8T_percent  CD8T as percent of T_Cells
-Treg_percent  Treg as percent of CD4T
-Th_percent    Th as percent of CD4T
-B_percent     B as percent of CD45.1
-NK_percent    NK as percent of CD45.1
-
-```{r}
-facs <- mutate(facs,
-                   CD8T_percent = CD8T / T_Cells * 100,
-                   Treg_percent = Treg / CD4T * 100,
-                   Th_percent = Th / CD4T * 100,
-                   B_percent = B / CD45.1 * 100,
-                   NK_percent = NK / CD45.1 * 100)
-```
-  
-
 * Add a column called Group containing a value for whether the Sample is Isotype, PBS or Treatment. Hint: use case_when and str_detect
 
 ```{r}
@@ -68,19 +45,51 @@ facs <- mutate(facs, Group=case_when(
 ```
 
 
+* Add a column called "%CD4+ T" that contains the CD4T column value as a percent of the T_Cells column for each sample.Note you will need to quote the name of the column as it contains a symbol (%) and a space.
+
+```{r}
+facs <- mutate(facs, "%CD4+ T" = CD4T / T_Cells * 100)
+```
+ 
+* Add more columns with the Column Name below, containing values that are calculations of cell percentages from the named columns e.g. "%CD8+ T" is the CD8T column as a percent of the T_Cells column.
+
+Column Name    Value
+"%CD8+ T"      CD8T as percent of T_Cells
+"%Treg"        Treg as percent of CD4T
+"%Th"          Th as percent of CD4T
+"%B"           B as percent of CD45.1
+"%NK"          NK as percent of CD45.1
+
+
+```{r}
+facs <- mutate(facs,
+               "%CD8+ T" = CD8T / T_Cells * 100,
+               "%Treg" = Treg / CD4T * 100,
+               "%Th" = Th / CD4T * 100,
+               "%B" = B / CD45.1 * 100,
+               "%NK" = NK / CD45.1 * 100)
+``` 
+
 * Make jitter plots of the values for the groups. Hints: 
   1. First convert values to long format with gather, call the key column Cell and the value column Value. 
   2. Then make jitter plots with Group on the x axis and Value on the y axis. 
   3. Facet by the Cell column to get plots for each cell percentage
+  
+  These steps are shown below.
+ 
+  1. First convert values to long format with gather, call the key column Cell and the value column Value. 
  
 ```{r}
-facs <- gather(facs, key=Cell, value=Value, ends_with("_percent")) 
+facs <- gather(facs, key=Cell, value=Value, starts_with("%"))
 ```
+
+  2. Then make jitter plots with Group on the x axis and Value on the y axis. 
 
 ```{r}
 ggplot(facs, aes(x=Group, y=Value)) +
   geom_jitter()
 ```
+  3. Facet by the Cell column to get plots for each cell percentage
 
 ```{r}
 ggplot(facs, aes(x=Group, y=Value)) +
@@ -110,10 +119,10 @@ group_order <-  c("PBS", "Isotype", "Treatment")
 facs <- mutate(facs, Group_f=factor(Group, levels=group_order))
 ```
 
-* Order the jitter plots as CD4T_percent, CD8T_percent, Treg_percent, Th_percent, NK_percent, B_percent. Hint: use factor and levels
+* Order the jitter plots as "%CD4+ T", "%CD8+ T", "%Treg", "%Th", "%NK", "%B". Hint: use factor and levels
 
 ```{r}
-cell_order <-  c("CD4T_percent", "CD8T_percent", "Treg_percent", "Th_percent", "NK_percent", "B_percent")
+cell_order <-  c("%CD4+ T", "%CD8+ T", "%Treg", "%Th", "%NK", "%B")
 facs <- mutate(facs, Cell_f=factor(Cell, levels=cell_order))
 ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
   geom_jitter() +
@@ -125,7 +134,7 @@ ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
 ```{r}
 p <- ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
   geom_jitter() +
-  facet_wrap(~Cell)
+  facet_wrap(~Cell_f)
 p
 ```
 
@@ -164,16 +173,10 @@ p <- p + theme(legend.title=element_blank())
 p
 ```
 
-```{r}
-p <- p + theme(legend.title=element_blank())
-p
-```
-
-
 * Add a title called "My FACS plots"
 
 ```{r}
-p <- p + labs(title="My FACS plot")
+p <- p + labs(title="My FACS plots")
 p
 ```
 
@@ -184,10 +187,10 @@ p <- p + theme(plot.title = element_text(hjust = 0.5))
 p
 ```
 
-* Save the plot as a PDF called facs_plot.pdf
+* Save the plot as a PDF called my_facs_plots.pdf
 
 ```{r}
-pdf("facs_plot.pdf")
+pdf("my_facs_plots.pdf")
 p
 dev.off()
 ```
@@ -197,31 +200,45 @@ dev.off()
 write_tsv(facs, "facs_analysis.tsv")
 ```
 
-* Read in the FACS file from an second experiment that uses the same markers and number of samples. Make a pdf of plots similer to the first experiment. Save it as facs_plot_expt2.pdf.
+* Read in the FACS file from a second experiment that uses the same markers and number of samples. Make a pdf of plots similer to the first experiment. Save it as my_facs_plot_expt2.pdf.
 
-They should be able to run the code they've already written with minimal changes, just change the name of the file they've read in and the output pdf name. This is to show how easy it can be to reuse code once it's been written. The entire code for this is below.
+They should be able to run the code they've already written with minimal changes, just change the name of the file they've read in and the output pdf name. This is to show how they can reuse their code. The entire code for this is below.
 ```{r}
+# read in the data
 facs <- read_excel("/training/r-intro-tidyverse/data/facs_example_data2.xlsx")
+
+# remove the test samples
 facs <- filter(facs, !str_detect(Sample, "Test"))
-facs <- mutate(facs, CD4T_percent = CD4T / T_Cells * 100)
-facs <- mutate(facs,
-                   CD8T_percent = CD8T / T_Cells * 100,
-                   Treg_percent = Treg / CD4T * 100,
-                   Th_percent = Th / CD4T * 100,
-                   B_percent = B / CD45.1 * 100,
-                   NK_percent = NK / CD45.1 * 100)
+
+# add a column for the groups
 facs <- mutate(facs, Group=case_when(
   str_detect(Sample, "PBS")  ~ "PBS",
   str_detect(Sample, "Isotype")  ~ "Isotype",
   str_detect(Sample, "Treatment")  ~ "Treatment"
 ))
-facs <- gather(facs, key=Cell, value=Value, ends_with("_percent"))
+
+# add columns for the cell percentages
+facs <- mutate(facs, 
+               "%CD4+ T" = CD4T / T_Cells * 100,
+               "%CD8+ T" = CD8T / T_Cells * 100,
+               "%Treg" = Treg / CD4T * 100,
+               "%Th" = Th / CD4T * 100,
+               "%B" = B / CD45.1 * 100,
+               "%NK" = NK / CD45.1 * 100)
+
+# convert from wide to long format
+facs <- gather(facs, key=Cell, value=Value, starts_with("%"))
+
+# order the groups
 group_order <-  c("PBS", "Isotype", "Treatment")
 facs <- mutate(facs, Group_f=factor(Group, levels=group_order))
-cell_order <-  c("CD4T_percent", "CD8T_percent", "Treg_percent", "Th_percent", "NK_percent", "B_percent")
+
+# order the markers
+cell_order <-  c("%CD4+ T", "%CD8+ T", "%Treg", "%Th", "%NK", "%B")
 facs <- mutate(facs, Cell_f=factor(Cell, levels=cell_order))
 
-pdf("facs_plot_expt2.pdf")
+# make a pdf of the plots
+pdf("my_facs_plot_expt2.pdf")
 ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
   geom_jitter() +
   facet_wrap(~Cell_f) + 
@@ -230,7 +247,7 @@ ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.title=element_blank()) +
-  labs(title="My FACS plot") +
+  labs(title="My FACS plots") +
   theme(plot.title = element_text(hjust = 0.5))
 dev.off()
 ```
