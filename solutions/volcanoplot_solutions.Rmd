@@ -31,4 +31,3 @@ ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value))) +
   geom_point(mapping=aes(col=signif)) +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
 ```
-
