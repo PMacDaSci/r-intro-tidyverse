@@ -24,11 +24,6 @@ library(readxl)
 facs <- read_excel("/training/r-intro-tidyverse/data/facs_example_data.xlsx")
 ```
 
-
-* How many rows and columns are in the file?
-
-There should be 21 rows and 9 columns
-
 * Remove the rows containing the test Samples (Test-1, Test-2 and Test-3). Hint: use filter and !str_detect (! means not)
 ```{r}
 facs <- filter(facs, !str_detect(Sample, "Test"))
@@ -247,7 +242,7 @@ ggplot(facs, aes(x=Group_f, y=Value, colour=Group_f)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90)) +
   theme(legend.title=element_blank()) +
-  labs(title="My FACS plots") +
+  labs(title="My FACS plots2") +
   theme(plot.title = element_text(hjust = 0.5))
 dev.off()
 ```
