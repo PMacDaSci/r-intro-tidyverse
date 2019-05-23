@@ -7,8 +7,11 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 2
-subtitle: FACS example
+subtitle: FACS challenge
 ---
+
+#### Acknowledgements
+Thanks to Mick Taylor, Peter Mac Honours Student and R course attendee (May 2019) for the idea.
 
 ## Challenge
 
