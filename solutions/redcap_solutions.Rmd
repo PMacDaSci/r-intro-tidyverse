@@ -1,0 +1,67 @@
+---
+title: "Introduction to R: Week 4 Practice"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: REDCap challenge
+---
+
+#### Acknowledgements
+Thanks to Dorothea Lesche, Peter Mac postdoc and R course attendee (May 2019) for the idea.
+
+## Challenge
+
+You've collected some information on patients for your research study using [REDCap](https://www.project-redcap.org/) and now you want to do some analysis of the data. You need to separate the patient information using the information collected. You need one file containing the information for all patients who had a single tumour occurance and one file containing the information for all patients who had tumour recurrances. You also need a file containing the information for recurrance patients who had a tumour recur in the same location.
+
+The aim of this challenge is to separate the REDCap patient information into files based on the information collected.
+
+```{r}
+library(tidyverse)
+patients <- read_csv("/training/r-intro-tidyverse/data/redcap_patients.csv")
+```
+
+This code was supplied.
+
+```{r}
+# copy DOB and last_coms down by one row
+patients <- fill(patients, DOB, last_coms, .direction = c("down"))
+
+# delete rows where the rep_inst column is NA
+patients <- drop_na(patients, rep_inst)
+```
+
+
+```{r}
+# count how many times each patient appears (no. of occurances)
+patients_counts <- count(patients, StudyID)
+
+# identify the patients that appear once
+patients_uniq <- filter(patients_counts, n == 1)
+
+# extract the ids for these patients
+patients_uniq_ids <- pull(patients_uniq, StudyID)
+
+# make a file of the patients that have only single occurances
+patients_single <- filter(patients, StudyID %in% patients_uniq_ids)
+
+# make a file of the patients that have only single occurances
+patients_recur <- filter(patients, !(StudyID %in% patients_uniq_ids))
+
+# write out the single occurance patients
+write_csv(patients_single, "redcap_single.csv")
+
+# write out the reccurance patients
+write_csv(patients_recur, "redcap_recur.csv")
+```
+
+Extra task, identify patients with recurrances in the same location.
+
+```{r}
+recur_loc_counts <-  group_by(patients_recur, StudyID, breast_side)
+recur_loc_same <-  filter(recur_loc_counts, n() > 1)
+```
+

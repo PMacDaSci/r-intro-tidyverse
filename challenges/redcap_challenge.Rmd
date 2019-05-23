@@ -1,0 +1,49 @@
+---
+title: "Introduction to R: Week 4 Practice"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: REDCap challenge
+---
+
+#### Acknowledgements
+Thanks to Dorothea Lesche, Peter Mac postdoc and R course attendee (May 2019) for the idea.
+
+## Challenge
+
+You've collected some information on patients for your research study using [REDCap](https://www.project-redcap.org/) and now you want to do some analysis of the data. You need to separate the patient information using the information collected. You need one file containing the information for all patients who had a single tumour occurance and one file containing the information for all patients who had tumour recurrances. You also need a file containing the information for recurrance patients who had a tumour recur in the same location.
+
+The aim of this challenge is to separate the REDCap patient information into files based on the information collected.
+
+
+### Steps
+
+* Read in the csv file called `redcap_patients.csv`, save it as an object called `patients`.
+```{r}
+library(tidyverse)
+patients <- read_csv("/training/r-intro-tidyverse/data/redcap_patients.csv")
+patients
+```
+
+* The data extracted from REDCap is a bit messy (see above). For example, information for the date of birth (DOB) and last communication date (last_coms) is on a separate row to the tumour information for each patient. However, you have figured out how to format it better with tidyverse (nice work!). You've used tidyr's fill function to fill the DOB and last_coms columns down and tidyr's drop_na to remove rows that are NA for the rep_inst column (run the two commands below to clean the data).
+
+```{r eval=FALSE}
+# copy DOB and last_coms down by one row
+patients <- fill(patients, DOB, last_coms, .direction = c("down"))
+
+# delete rows where the rep_inst column is NA
+patients <- drop_na(patients, rep_inst)
+```
+* Now you need to create the separate files for the patients with a single tumour occurance and those with tumour recurrances. The StudyID column contains the patient id. StudyIDs that appear more than once are the patients with recurrances. First get the ids of the patients that appear only once.
+    1. Count how many times each patient appears.  Hint: use dplyr's count function.
+    2. From the count result extract the patient ids that appear once. Hint: use filter.
+    3. Make a vector of these single occurance patients ids. Hint: you can use dplyr's pull function as we did in the volcano plot tutorial
+* Use the vector of patients ids to extract the information for single occurance patients from the `patients` object. Write out the file as `redcap_single.csv`. Hint: use filter and %in%
+* Use the vector of patients ids to extract the information for multiple occurance patients from the `patients` object. Write out the file as `redcap_recur.csv`. Hint: use filter, %in% and ! (! means not).
+* Email the instructor your code and the csv files.
+* Extra task is to identify the recurrance patients where the recurrance is in the same location. The location is given in the column called breast_side. Hint: use dplyr's group_by function followed by filter. Write out the file as `redcap_recur_same_loc.csv`
+

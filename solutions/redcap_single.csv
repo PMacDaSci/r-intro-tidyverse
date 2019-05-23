@@ -1,0 +1,88 @@
+StudyID,rep_instrument,rep_inst,DOB,last_coms,TumourID,prim_recur,age_diag,tumour_type,detection,breast_side,vertical,horizontal,biopsy,biopsy_lab,menopause,dcis_grade,size_dcis,BRCA1,BRCA2
+PMCC001,Pathology report,1,1/01/1972,2/03/2018,PMCC001-P,P,59,DCIS,Mammography,Right,NA,NA,Yes,Australian Clinical Labs,premenopausal,intermediate-high,20,Test not performed,Test not performed
+PMCC002,Pathology report,1,1/01/1955,12/05/2018,PMCC002-P,P,57,DCIS,Mammography,Right,Upper,Inner,Yes,Melbourne Health (incl. RMH),postmenopausal,high,20,Test not performed,Test not performed
+PMCC003,Pathology report,1,1/01/1968,27/12/2017,PMCC003-P,P,58,DCIS,Self-detected by patient,Right,Upper,Outer,Yes,PMCC,postmenopausal,high,30,No information given,No information given
+PMCC004,Pathology report,1,1/01/1972,2/03/2018,PMCC004-P,P,47,DCIS,Mammography,Left,Upper,Outer,Yes,Melbourne Health (incl. RMH),premenopausal,intermediate-high,23,No information given,No information given
+PMCC005,Pathology report,1,1/01/1955,12/05/2018,PMCC005-P,P,47,DCIS,Self-detected by patient,Left,Upper,Outer,Yes,Melbourne Health (incl. RMH),premenopausal,intermediate-high,66,No information given,No information given
+PMCC006,Pathology report,1,1/01/1968,27/12/2017,PMCC006-P,P,51,DCIS,Mammography,Right,Upper,Outer,Yes,St Vincent's Path,NA,high,20,No information given,No information given
+PMCC007,Pathology report,1,1/01/1972,2/03/2018,PMCC007-P,P,44,DCIS,Mammography,Right,Upper,Central (incl. nipple),Yes,Melbourne Pathology,premenopausal,high,30,No information given,No information given
+PMCC008,Pathology report,1,1/01/1955,12/05/2018,PMCC008-P,P,66,DCIS,Mammography,Left,Upper,Outer,Yes,PMCC,postmenopausal,intermediate-high,8,No information given,No information given
+PMCC009,Pathology report,1,1/01/1968,27/12/2017,PMCC009-P,P,53,DCIS,Mammography,Left,Upper,Outer,Yes,Dorevitch,postmenopausal,intermediate-high,8,No information given,No information given
+PMCC010,Pathology report,1,1/01/1972,2/03/2018,PMCC010-P,P,51,DCIS,Mammography,Right,Lower,Inner,Yes,Austin Pathology,premenopausal,high,70,No information given,No information given
+PMCC011,Pathology report,1,1/01/1955,12/05/2018,PMCC011-P,P,40,Only benign lesion,Mammography,Left,Lower,Inner,Yes,St Vincent's Path,premenopausal,NA,NA,Test not performed,Test not performed
+PMCC012,Pathology report,1,1/01/1968,27/12/2017,PMCC012-P,P,53,DCIS,Self-detected by patient,Left,Upper,Outer,Yes,Brighton Specialist Centre,NA,low,12,No information given,No information given
+PMCC013,Pathology report,1,1/01/1972,2/03/2018,PMCC013-P,P,64,DCIS,Mammography,Left,Upper,Central (incl. nipple),Yes,Geelong,postmenopausal,high,95,No information given,No information given
+PMCC014,Pathology report,1,1/01/1955,12/05/2018,PMCC014-P,P,36,DCIS,MRI screening,Right,Upper,Outer,Yes,PMCC,premenopausal,low,30,No information given,Positive
+PMCC015,Pathology report,1,1/01/1968,27/12/2017,PMCC015-P,P,44,DCIS,MRI screening,Left,Central (incl. nipple),Central (incl. nipple),Yes,PMCC,premenopausal,intermediate-high,21,Negative,Positive
+PMCC016,Pathology report,1,1/01/1972,2/03/2018,PMCC016-P,P,65,DCIS,Mammography,Right,Upper,Outer,Yes,St Vincent's Path,postmenopausal,intermediate,10,No information given,No information given
+PMCC017,Pathology report,1,1/01/1955,12/05/2018,PMCC017-P,P,66,DCIS,Mammography,Right,Upper,Central (incl. nipple),Yes,Healthscope,postmenopausal,intermediate,30,No information given,No information given
+PMCC018,Pathology report,1,1/01/1968,27/12/2017,PMCC018-P,P,63,DCIS,Mammography,Right,Lower,Outer,Yes,St Vincent's Path,postmenopausal,intermediate,11,No information given,No information given
+PMCC019,Pathology report,1,1/01/1972,2/03/2018,PMCC019-P,P,40,DCIS,Mammography,Left,NA,Inner,Yes,Gippsland Path,premenopausal,intermediate,50,No information given,No information given
+PMCC020,Pathology report,1,1/01/1955,12/05/2018,PMCC020-P,P,38,DCIS,MRI screening,Right,Upper,Central (incl. nipple),Yes,PMCC,premenopausal,low,10,No information given,No information given
+PMCC021,Pathology report,1,1/01/1968,27/12/2017,PMCC021-P,P,59,DCIS,Mammography,Left,Upper,Outer,Yes,St Vincent's Path,NA,intermediate,40,No information given,No information given
+PMCC022,Pathology report,1,1/01/1972,2/03/2018,PMCC022-P,P,91,DCIS,Paget's breast disease,Left,Central (incl. nipple),Central (incl. nipple),No,NA,postmenopausal,high,11,No information given,No information given
+PMCC023,Pathology report,1,1/01/1955,12/05/2018,PMCC023-P,P,51,DCIS,Mammography,Left,Upper,Outer,Yes,Healthscope,NA,intermediate,10,No information given,No information given
+PMCC024,Pathology report,1,1/01/1968,27/12/2017,PMCC024-P,P,55,DCIS,Self-detected by patient,Right,Lower,Outer,Yes,Pathcare,postmenopausal,high,24,Negative,Negative
+PMCC025,Pathology report,1,1/01/1972,2/03/2018,PMCC025-P,P,41,DCIS,Mammography,Left,Upper,Outer,Yes,St Vincent's Path,premenopausal,intermediate,50,No information given,No information given
+PMCC026,Pathology report,1,1/01/1955,12/05/2018,PMCC026-P,P,57,DCIS,Mammography,Left,Upper,Inner,Yes,St Vincent's Path,postmenopausal,high,44,Negative,Negative
+PMCC027,Pathology report,1,1/01/1968,27/12/2017,PMCC027-P,P,51,DCIS,Mammography,Left,Lower,Inner,Yes,Healthscope,NA,intermediate,24,No information given,No information given
+PMCC028,Pathology report,1,1/01/1972,2/03/2018,PMCC028-P,P,45,DCIS,Mammography,Left,Upper,Inner,Yes,St Vincent's Path,premenopausal,intermediate,10,No information given,No information given
+PMCC029,Pathology report,1,1/01/1955,12/05/2018,PMCC029-P,P,51,DCIS,Self-detected by patient,Right,Upper,Outer,Yes,St Vincent's Path,premenopausal,low-intermediate,20,No information given,No information given
+PMCC030,Pathology report,1,1/01/1968,27/12/2017,PMCC030-P,P,24,DCIS,Self-detected by patient,Right,Upper,Outer,Yes,Melbourne Pathology,premenopausal,high,80,Negative,Negative
+PMCC031,Pathology report,1,1/01/1972,2/03/2018,PMCC031-P,P,77,DCIS,Mammography,Right,Upper,Outer,Yes,Bendigo Health,postmenopausal,high,1.5,No information given,No information given
+PMCC032,Pathology report,1,1/01/1955,12/05/2018,PMCC032-P,P,46,DCIS,Mammography,Right,Upper,Outer,Yes,Geelong Breast,premenopausal,intermediate,23,No information given,No information given
+PMCC033,Pathology report,1,1/01/1968,27/12/2017,PMCC033-P,P,52,DCIS,Mammography,Right,Upper,Outer,Yes,Bendigo Health,postmenopausal,low,1.5,No information given,No information given
+PMCC034,Pathology report,1,1/01/1972,2/03/2018,PMCC034-P,P,55,DCIS,Mammography,Right,Upper,Outer,Yes,Dorevitch,postmenopausal,high,4,No information given,No information given
+PMCC035,Pathology report,1,1/01/1955,12/05/2018,PMCC035-P,P,65,DCIS,Mammography,Right,Upper,Outer,Yes,Gouldburn Valley Health Pathology,postmenopausal,intermediate-high,20,No information given,No information given
+PMCC036,Pathology report,1,1/01/1968,27/12/2017,PMCC036-P,P,57,DCIS,Mammography,Left,Upper,Inner,Yes,St Vincent's Path,postmenopausal,high,47,No information given,No information given
+PMCC037,Pathology report,1,1/01/1972,2/03/2018,PMCC037-P,P,50,DCIS,Mammography,Left,Lower,Central (incl. nipple),Yes,Gouldburn Valley Health Pathology,premenopausal,intermediate,15,Negative,Negative
+PMCC038,Pathology report,1,1/01/1955,12/05/2018,PMCC038-P,P,50,DCIS,Mammography,Left,Upper,Outer,Yes,Melbourne Health (incl. RMH),postmenopausal,intermediate-high,3,No information given,No information given
+PMCC039,Pathology report,1,1/01/1968,27/12/2017,PMCC039-P,P,42,DCIS,Self-detected by patient,Right,Upper,Outer,Yes,PMCC,premenopausal,high,135,No information given,No information given
+PMCC041,Pathology report,1,1/01/1955,12/05/2018,PMCC041-P,P,30,DCIS,Self-detected by patient,Left,Lower,Outer,Yes,PMCC,premenopausal,high,41,Negative,Negative
+PMCC042,Pathology report,1,1/01/1968,27/12/2017,PMCC042-P,P,52,DCIS,MRI screening,Right,NA,NA,Yes,PMCC,NA,intermediate,99,No information given,No information given
+PMCC043,Pathology report,1,1/01/1972,2/03/2018,PMCC043-P,P,33,DCIS,Mammography,Right,Lower,Outer,Yes,PMCC,premenopausal,intermediate-high,30,Negative,Positive
+PMCC044,Pathology report,1,1/01/1955,12/05/2018,PMCC044-P,P,55,DCIS,Mammography,Left,Upper,Outer,Yes,Gouldburn Valley Health Pathology,postmenopausal,high,10,No information given,Positive
+PMCC045,Pathology report,1,1/01/1968,27/12/2017,PMCC045-P,P,56,DCIS,Mammography,Left,Upper,Inner,Yes,St Vincent's Path,postmenopausal,high,10,No information given,No information given
+PMCC046,Pathology report,1,1/01/1972,2/03/2018,PMCC046-P,P,44,DCIS,Mammography,Left,Lower,Outer,Yes,St Vincent's Path,premenopausal,high,130,No information given,Positive
+PMCC047,Pathology report,1,1/01/1955,12/05/2018,PMCC047-P,P,56,DCIS,Mammography,Right,Upper,Outer,Yes,St Vincent's Path,postmenopausal,high,15,No information given,No information given
+PMCC048,Pathology report,1,1/01/1968,27/12/2017,PMCC048-P,P,73,DCIS,Mammography,Right,Upper,Outer,Yes,PMCC,postmenopausal,intermediate,36,No information given,No information given
+PMCC049,Pathology report,1,1/01/1972,2/03/2018,PMCC049-P,P,52,DCIS,Mammography,Right,Upper,Outer,Yes,Melbourne Pathology,postmenopausal,low,16,No information given,No information given
+PMCC050,Pathology report,1,1/01/1955,12/05/2018,PMCC050-P,P,46,DCIS,Mammography,Right,Upper,Outer,Yes,Dorevitch,premenopausal,high,45,No information given,No information given
+PMCC051,Pathology report,1,1/01/1968,27/12/2017,PMCC051-P,P,51,DCIS,Mammography,Left,NA,Inner,Yes,St Vincent's Path,premenopausal,low-intermediate,0,No information given,No information given
+PMCC052,Pathology report,1,1/01/1972,2/03/2018,PMCC052-P,P,42,DCIS,Mammography,Left,Lower,Outer,Yes,Melbourne Pathology,premenopausal,intermediate,50,No information given,No information given
+PMCC053,Pathology report,1,1/01/1955,12/05/2018,PMCC053-P,P,52,DCIS,Mammography,Right,Upper,Outer,Yes,Healthscope,NA,high,64,Test not performed,Test not performed
+PMCC054,Pathology report,1,1/01/1968,27/12/2017,PMCC054-P,P,59,DCIS,Mammography,Left,Upper,Outer,Yes,Dorevitch,NA,high,60,No information given,No information given
+PMCC055,Pathology report,1,1/01/1972,2/03/2018,PMCC055-P,P,40,DCIS,Other,Left,Upper,Inner,Yes,TissuePath,premenopausal,low-intermediate,18,No information given,No information given
+PMCC056,Pathology report,1,1/01/1955,12/05/2018,PMCC056-P,P,43,DCIS,MRI screening,Right,Upper,Outer,Yes,PMCC,NA,high,4,Positive,No information given
+PMCC057,Pathology report,1,1/01/1968,27/12/2017,PMCC057-P,P,44,DCIS,Mammography,Left,Upper,Outer,Yes,PMCC,premenopausal,intermediate-high,35,No information given,No information given
+PMCC058,Pathology report,1,1/01/1972,2/03/2018,PMCC058-P,P,48,DCIS,Self-detected by patient,Left,Upper,Outer,Yes,TissuePath,premenopausal,high,0,Test not performed,Test not performed
+PMCC059,Pathology report,1,1/01/1955,12/05/2018,PMCC059-P,P,38,DCIS,Mammography,Right,Lower,Central (incl. nipple),Yes,PMCC,premenopausal,high,2,No information given,No information given
+PMCC060,Pathology report,1,1/01/1968,27/12/2017,PMCC060-P,P,55,DCIS,Mammography,Right,Lower,Outer,Yes,Gippsland Path,postmenopausal,intermediate,99,No information given,No information given
+PMCC061,Pathology report,1,1/01/1972,2/03/2018,PMCC061-P,P,66,DCIS,Mammography,Right,Upper,Outer,Yes,PMCC,postmenopausal,intermediate,24,No information given,No information given
+PMCC062,Pathology report,1,1/01/1955,12/05/2018,PMCC062-P,P,50,DCIS,Mammography,Right,Upper,Outer,Yes,Specialist on Drummond,NA,high,70,No information given,No information given
+PMCC063,Pathology report,1,1/01/1968,27/12/2017,PMCC063-P,P,42,DCIS,Mammography,Right,Upper,Outer,Yes,Gippsland Path,premenopausal,intermediate,25,No information given,No information given
+PMCC064,Pathology report,1,1/01/1972,2/03/2018,PMCC064-P,P,57,DCIS,Self-detected by patient,Left,Upper,Outer,Yes,Southern Health,postmenopausal,high,14,No information given,No information given
+PMCC065,Pathology report,1,1/01/1955,12/05/2018,PMCC065-P,P,51,DCIS,Mammography,Left,Upper,Outer,Yes,St Vincent's Path,premenopausal,intermediate,3.5,No information given,No information given
+PMCC066,Pathology report,1,1/01/1968,27/12/2017,PMCC066-P,P,50,DCIS,Mammography,Left,NA,NA,Yes,St Vincent's Path,premenopausal,intermediate,85,No information given,No information given
+PMCC067,Pathology report,1,1/01/1972,2/03/2018,PMCC067-P,P,70,DCIS,Mammography,Right,Lower,Inner,Yes,Melbourne Health (incl. RMH),postmenopausal,high,31,No information given,No information given
+PMCC068,Pathology report,1,1/01/1955,12/05/2018,PMCC068-P,P,41,DCIS,After preventive surgery,Left,NA,NA,No,NA,premenopausal,intermediate,8,Positive,Positive
+PMCC069,Pathology report,1,1/01/1968,27/12/2017,PMCC069-P,P,47,DCIS,Mammography,Right,Upper,Outer,Yes,PMCC,premenopausal,low,20,No information given,No information given
+PMCC070,Pathology report,1,1/01/1972,2/03/2018,PMCC070-P,P,68,DCIS,Mammography,Left,Upper,NA,Yes,Bendigo Breast Screen,postmenopausal,high,38,No information given,No information given
+PMCC071,Pathology report,1,1/01/1955,12/05/2018,PMCC071-P,P,32,DCIS,Self-detected by patient,Left,Lower,Outer,Yes,TissuePath,premenopausal,high,100,No information given,No information given
+PMCC072,Pathology report,1,1/01/1968,27/12/2017,PMCC072-P,P,43,DCIS,Mammography,Right,Upper,Outer,Yes,PMCC,postmenopausal,intermediate,9,Negative,Negative
+PMCC073,Pathology report,1,1/01/1972,2/03/2018,PMCC073-P,P,47,DCIS,Self-detected by patient,Left,Central (incl. nipple),Central (incl. nipple),No,NA,postmenopausal,low,8,No information given,No information given
+PMCC074,Pathology report,1,1/01/1955,12/05/2018,PMCC074-P,P,59,DCIS,Mammography,Left,Lower,Inner,Yes,St Vincent's Path,postmenopausal,low-intermediate,9,No information given,No information given
+PMCC075,Pathology report,1,1/01/1968,27/12/2017,PMCC075-P,P,58,DCIS,Mammography,Right,Upper,Outer,Yes,Dorevitch,postmenopausal,low-intermediate,16,No information given,No information given
+PMCC076,Pathology report,1,1/01/1972,2/03/2018,PMCC076-P,P,67,DCIS,Mammography,Right,Upper,Outer,Yes,St Vincent's Path,postmenopausal,high,24,No information given,No information given
+PMCC077,Pathology report,1,1/01/1955,12/05/2018,PMCC077-P,P,71,DCIS,Mammography,Right,NA,Inner,Yes,St Vincent's Path,postmenopausal,intermediate-high,190,No information given,No information given
+PMCC078,Pathology report,1,1/01/1968,27/12/2017,PMCC078-P,P,57,DCIS,Mammography,Left,Lower,Outer,Yes,St Vincent's Path,postmenopausal,high,6,No information given,No information given
+PMCC079,Pathology report,1,1/01/1972,2/03/2018,PMCC079-P,P,78,DCIS,Mammography,Right,Upper,Outer,Yes,Dorevitch,postmenopausal,high,20,No information given,No information given
+PMCC080,Pathology report,1,1/01/1955,12/05/2018,PMCC080-P,P,51,DCIS,Mammography,Left,Upper,Outer,Yes,St Vincent's Path,postmenopausal,high,115,No information given,No information given
+PMCC081,Pathology report,1,1/01/1968,27/12/2017,PMCC081-P,P,49,DCIS,Mammography,Right,Upper,Outer,Yes,St Vincent's Path,premenopausal,intermediate,14,No information given,No information given
+PMCC082,Pathology report,1,1/01/1972,2/03/2018,PMCC082-P,P,52,DCIS,Mammography,Right,Upper,Inner,Yes,PMCC,NA,high,99,No information given,No information given
+PMCC083,Pathology report,1,1/01/1955,12/05/2018,PMCC083-,NA,66,DCIS,NA,Right,Upper,Outer,NA,NA,NA,low-intermediate,40,No information given,No information given
+PMCC085,Pathology report,1,1/01/1972,2/03/2018,PMCC085-P,P,43,DCIS,Mammography,Right,Upper,Outer,Yes,Geelong,premenopausal,intermediate-high,32,No information given,No information given
+PMCC086,Pathology report,1,1/01/1955,12/05/2018,PMCC086-P,P,40,Invasive tumour,Mammography,Left,Upper,Outer,Yes,PMCC,premenopausal,NA,NA,Negative,Negative
+PMCC087,Pathology report,1,1/01/1968,27/12/2017,PMCC087-P,P,55,DCIS,Mammography,Right,Lower,Outer,Yes,St Vincent's Path,postmenopausal,intermediate,8,No information given,No information given
+PMCC088,Pathology report,1,1/01/1972,2/03/2018,PMCC088-P,P,64,DCIS,Mammography,Left,Central (incl. nipple),Central (incl. nipple),Yes,Monash Breast Screen,postmenopausal,intermediate,18,No information given,No information given
+PMCC090,Pathology report,1,1/01/1972,2/03/2018,PMCC090-P,P,76,DCIS,Mammography,Right,Upper,Inner,Yes,Royal Children's Lab Service,postmenopausal,high,90,No information given,No information given
