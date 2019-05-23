@@ -1,0 +1,49 @@
+---
+title: "Introduction to R: Week 4 Practice"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: Interactive volcano plot challenge
+---
+
+#### Challenge
+
+You've learnt how to made a volcano plot of your RNA-seq results in this course and you can now create static plots that you can include in your paper. However, you'd like to also be able to interactively explore the plot to see what genes the points represent.
+
+The aim of this challenge is to generate an **interactive** volcano plot of the luminal RNA-seq results using the cool **plotly** package. The code we already wrote to generate the static plot is below, you can modify that to create the interactive plot.
+
+
+```{r echo = FALSE}
+library(tidyverse)
+library(plotly)
+de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
+de_results <- mutate(de_results, signif=ifelse((adj.P.Val < 0.05 & logFC > 1), "Up", ifelse((adj.P.Val < 0.05 & logFC < -1), "Down", "Not signif")))
+p <- ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), colour=signif, Gene=SYMBOL)) +
+  geom_point() +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
+ggplotly(p, tooltip="Gene")
+```
+
+
+### Steps
+
+* To make the interactive plot you will need to load both the tidyverse and the plotly packages.
+* After you load the packages, run the code below to first make the static volcano plot.
+```{r eval=FALSE}
+# read in the data
+de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
+
+# add column to colour significant genes
+de_results <- mutate(de_results, signif=ifelse((adj.P.Val < 0.05 & logFC > 1), "Up", ifelse((adj.P.Val < 0.05 & logFC < -1), "Down", "Not signif")))
+
+# create volcano plot
+ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), colour=signif)) +
+  geom_point() +
+  scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
+```
+* Then take a look at the help for the `ggplotly` function, especially the `tooltip` argument (and Google), to see how to modify the ggplot code above and create the interactive volcanoplot.
+* Email the instructor your code.
