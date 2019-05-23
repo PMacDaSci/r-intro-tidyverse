@@ -39,7 +39,7 @@ After this course you should be able to:
 
 ### Week 4
 - [FACS challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/facs_challenge.html)
-- [Interactive volcano plot challenge](https://https://mblue9.github.io/r-intro-tidyverse/challenges/interactive_volcanoplot_challenge.html)
+- [Interactive volcano plot challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/interactive_volcanoplot_challenge.html)
 
 ### Course Cheatsheet
 - [Cheatsheet](https://mblue9.github.io/r-intro-tidyverse/cheatsheet.html)
