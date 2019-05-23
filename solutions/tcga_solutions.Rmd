@@ -1,0 +1,39 @@
+---
+title: "Introduction to R: Week 4 Practice"
+author: "Maria Doyle"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output: 
+  html_notebook:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+subtitle: TCGA challenge
+---
+
+## Challenge
+
+You've been studying the RNA-seq basal anad luminal samples from the mouse model of breast cancer in this course. Now you want to check the expression of some genes in human basal and luminal breast cancer samples. You decide to use the [TCGA breast cancer](https://www.nature.com/articles/nature11412) dataset as it has many (hundreds) of samples and the RNA-seq counts are available to download.
+
+The aim of this challenge is to generate boxplots of RNA-seq expression for several genes, similar to below. The subtypes (e.g. basal, luminal) have been added to the counts file and it has been formatted and subsetted for you. Feel free to choose different colours and add any other modifications that you think makes it look better. 
+
+
+```{r}
+exp <- read_tsv("../data/tcga_rna.tsv.gz")
+
+# boxplot for ESR1 gene 
+esr1 <- filter(exp, Gene == "ESR1")
+ggplot(esr1, aes(x=PAM50, y=log2(Value))) +
+  geom_boxplot()
+
+
+# boxplots for the set of genes
+mygenes <- c("ESR1", "ERBB2", "CD8A", "CD3D", "AURKA", "IFNG")
+exp_mygenes <- filter(exp, Gene %in% mygenes)
+exp_mygenes <- drop_na(exp_mygenes, PAM50)
+pdf("TCGA_boxplots.pdf")
+ggplot(exp_mygenes, aes(x=PAM50, y=log2(Value+1))) +
+  geom_boxplot() +
+  facet_wrap(~Gene) +
+  labs(x="Subtype", y="Expression")
+dev.off()
+```
