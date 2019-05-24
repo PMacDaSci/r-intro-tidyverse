@@ -12,7 +12,7 @@ subtitle: TCGA challenge
 
 ## Challenge
 
-You've been studying the RNA-seq basal anad luminal samples from the mouse model of breast cancer in this course. Now you want to check the expression of some genes in human basal and luminal breast cancer samples. You decide to use the [TCGA breast cancer](https://www.nature.com/articles/nature11412) dataset as it has many (hundreds) of samples and the RNA-seq counts are available to download.
+You've been working with RNA-seq samples from mouse mammary gland basal and luminal cells, to try to better understand breast cancer. Now you want to check the expression of some genes in *human* basal and luminal breast cancer samples. You decide to use the [TCGA breast cancer](https://www.nature.com/articles/nature11412) dataset as it has many (hundreds) of samples and the RNA-seq counts are available to download.
 
 The aim of this challenge is to generate boxplots of RNA-seq expression for several genes, similar to below. The subtypes (e.g. basal, luminal) have been added to the counts file and it has been formatted and subsetted for you. Feel free to choose different colours and add any other modifications that you think makes it look better. 
 
