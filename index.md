@@ -40,8 +40,8 @@ After this course you should be able to:
 ### Week 4
 - [TCGA challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/tcga_challenge.html)
 - [Interactive volcano plot challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/interactive_volcanoplot_challenge.html)
-- [REDCAP challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/redcap_challenge.html)
 - [FACS challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/facs_challenge.html)
+- [REDCap challenge](https://mblue9.github.io/r-intro-tidyverse/challenges/redcap_challenge.html)
 
 ### Course Cheatsheet
 - [Cheatsheet](https://mblue9.github.io/r-intro-tidyverse/cheatsheet.html)
