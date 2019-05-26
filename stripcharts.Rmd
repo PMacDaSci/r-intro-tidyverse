@@ -196,6 +196,12 @@ Take a closer look with `View()`
 View(top10_counts)
 ```
 
+We can also specify the columns we *don't* want gather to reformat if that's easier and let gather format the rest. For example, the code below would reformat all columns except SYMBOL i.e. all the MCL columns. It would produce the same result as when we specified the columns we wanted with `starts_with("MCL")`.
+
+```{r eval=FALSE}
+gather(top10_counts, key=Sample, value=Norm_counts, -SYMBOL)
+```
+
 #### Exercise
 
  * Try running `gather()` on the `norm_counts` object and save it as an object called `testing` (i.e. run `testing <- gather(norm_counts)`. What do you think of the output? Can you improve it so that there is a column with sample ids and a column with counts.
@@ -229,14 +235,14 @@ View(top10_counts)
 
 ## Creating stripcharts with `geom_jitter()`
 
-Now we can make a stripchart. We plot the Group on the X axis and the Norm_counts on the y axis. We will use `+ geom_jitter()` to create a jitter plot. A jitter plot is similar to a scatter plot but adds a small amount of random variation to the location of each point so they don't overlap. Why do we not just use a scatter plot? Let's take a look. 
+Now we can make a stripchart. We plot the Group on the X axis and the Norm_counts on the y axis. We will use `+ geom_jitter()` to create a jitter plot. A jitter plot is similar to a scatter plot. Why do we not just use a scatter plot? Let's take a look. 
 
 ```{r}
 ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
   geom_point()
 ```
 
-Some of the points are overlapping so we use `geom_jitter()` to avoid having overlapping points.
+Some of the points are overlapping so we use `geom_jitter()` to add a small amount of random variation to the location of each point so they don't overlap.
 
 ```{r}
 ggplot(data=top10_counts, mapping=aes(x=Group, y=Norm_counts)) +
@@ -317,7 +323,7 @@ The Group and the Group_f column look the same but take a look by typing `top10_
 top10_counts
 ```
 
-Notice that the Group column has <chr> under the heading, that indicates is a character data type, while the Group_f column has <fct> under the heading, indicating it is a factor data type. The `str()` command that we saw in first plots tutorial is useful to check the data types in objects.
+Notice that the Group column has `<chr>` under the heading, that indicates is a character data type, while the Group_f column has `<fct>` under the heading, indicating it is a factor data type. The `str()` command that we saw in first plots tutorial is useful to check the data types in objects.
 
 ```{r}
 str(top10_counts)

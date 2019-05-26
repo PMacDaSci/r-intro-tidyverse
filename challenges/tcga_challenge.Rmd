@@ -25,7 +25,7 @@ The aim of this challenge is to generate boxplots of RNA-seq expression for seve
 
 * Read in the file called `tcga_rna.tsv.gz`, save it as an object called exp.
 * First make a boxplot for the ESR1 gene (estrogen receptor). Plot the subtypes (PAM50 column) on the X axis and the RNA-seq counts (Value column) on the y. Hint: use filter.
-* Then make boxplots for the genes ESR1, ERBB2, CD8A, CD3D, AURKA, INFG. Hint: use facet_wrap
+* Then make boxplots for the genes ESR1, ERBB2, CD8A, CD3D, AURKA, IFNG. Hint: use facet_wrap
 * Remove the NA on the x axis and legend. Hint: use drop_na.
 * Change the X axis label to Subtype and the Y axis to Expression. 
 * Save the boxplots as a PDF called `TCGA_boxplots.pdf`.
