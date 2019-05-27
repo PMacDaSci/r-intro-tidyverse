@@ -17,15 +17,15 @@ You've learnt how to made a volcano plot of your RNA-seq results in this course 
 The aim of this challenge is to generate an **interactive** volcano plot of the luminal RNA-seq results, similar to below, using the cool **plotly** package. 
 
 
-```{r echo = FALSE}
+```{r message=FALSE, echo = FALSE}
 library(tidyverse)
 library(plotly)
 de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
 de_results <- mutate(de_results, signif=ifelse((adj.P.Val < 0.05 & logFC > 1), "Up", ifelse((adj.P.Val < 0.05 & logFC < -1), "Down", "Not signif")))
-p <- ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), colour=signif, Gene=SYMBOL)) +
+p <- ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), colour=signif, text=SYMBOL)) +
   geom_point() +
   scale_colour_manual(values=c("Up"="red", "Not signif"="grey", "Down"="blue"))
-ggplotly(p, tooltip="Gene")
+ggplotly(p, tooltip="text")
 ```
 
 
