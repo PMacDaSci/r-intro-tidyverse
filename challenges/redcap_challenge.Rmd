@@ -46,5 +46,5 @@ patients
 * Use the vector of patients ids to extract the information for single occurance patients from the `patients` object. Write out the file as `redcap_single.csv`. Hint: use filter and %in%
 * Use the vector of patients ids to extract the information for multiple occurance patients from the `patients` object. Write out the file as `redcap_recur.csv`. Hint: use filter, %in% and ! (! means not).
 * Email the instructor your code and the csv files.
-* Extra task is to identify the recurrance patients where the recurrance is in the same location. The location is given in the column called breast_side. Hint: use dplyr's group_by function followed by filter. Write out the file as `redcap_recur_same_loc.csv`
+* Extra task is to identify the recurrance patients who have had at least two tumours occur in the same location. The location is given in the column called breast_side. Hint: use dplyr's group_by function followed by filter. Write out the file as `redcap_recur_same_loc.csv`
 

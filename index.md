@@ -49,6 +49,18 @@ After this course you should be able to:
 ## Acknowledgements
 This course is run by the Peter Mac Data Science Training team.
 
+## Course Presenter
+
+Maria Doyle, Research Computing Facility
+
+## Course Helpers
+
+Liz Christie, Bowtell Lab
+Miriam Yeung, Dawson Labs
+Roxane Legaie, Pathology Department
+David Ma, Pathology Department
+Anna Trigos, Goode Lab
+
 ## Useful Resources
 [The ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)  
 [base R cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/05/base-r.pdf)  
