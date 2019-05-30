@@ -52,11 +52,11 @@ Maria Doyle, Research Computing Facility
 
 ## Course Helpers
 
-Liz Christie, Bowtell Lab
-Miriam Yeung, Dawson Labs
-Roxane Legaie, Pathology Department
-David Ma, Pathology Department
-Anna Trigos, Goode Lab
+Liz Christie, Bowtell Lab  
+Miriam Yeung, Dawson Labs  
+Roxane Legaie, Pathology Department  
+David Ma, Pathology Department  
+Anna Trigos, Goode Lab  
 
 ## Acknowledgements
 This course has been created and run by the Peter Mac Data Science Training team. Some of the material is based on the resources below and others as attributed.
