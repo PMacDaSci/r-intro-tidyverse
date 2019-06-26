@@ -87,12 +87,12 @@ To see what the `read_tsv()` function (or any function in R) does, type a `?` be
 ?read_tsv
 ```
 
-The counts file we will use is stored on the server at the location `/training/r-intro-tidyverse/data/counts.tsv.gz`.
+We will use the counts file called `counts.tsv.gz` that's in a folder called `data` i.e. the path to the file should be `data/counts.tsv.gz`.
 
 We can read the counts file into R with the command below. We'll store the contents of the counts file in an **object** called `counts`. This stores the file contents in R's memory making it easier to use.
 
 ```{r}
-counts <- read_tsv("/training/r-intro-tidyverse/data/counts.tsv.gz")
+counts <- read_tsv("data/counts.tsv.gz")
 ```
 
 In R we use `<-` to assign values to objects. `<-` is the **assignment operator**.  It assigns values on the right to objects on the left. So to create an object, we need to give it a name (e.g. `counts), followed by the assignment operator `<-`, and the value we want to give it. We can read in a file from a path on our computer on on the web and use this as the value. Note that we need to put quotes ("") around file paths.
@@ -390,7 +390,7 @@ dev.off()
 It is recommended to use bar plots only for visualising *single values*, for example, the total counts per sample here. Dynamite plots, a type of bar plot commonly used by scientists and in journals, are not recommended, see this post called ["Dynamite plots must die"](https://simplystatistics.org/2019/02/21/dynamite-plots-must-die/) for an explanation. Box plots, violin plots and density plots can be a better way to visualise distributions of data.
 
 #### Exercise
-* Read in the normalised counts (from "/training/r-intro-tidyverse/data/normcounts.tsv.gz"). This is the `counts` data after filtering lowly expressed genes and normalising for differences in sequencing depth and composition bias.
+* Read in the normalised counts (from "data/normcounts.tsv.gz"). This is the `counts` data after filtering lowly expressed genes and normalising for differences in sequencing depth and composition bias.
 * How many rows and columns are in the file?
 * What are the column names?
 * In the first row, what is the sample id, the gene symbol and the value for the counts?

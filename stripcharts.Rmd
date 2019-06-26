@@ -53,7 +53,7 @@ library(tidyverse)
 Next we load in our data, the RNA-seq normalised counts. The file we will use is tab-separated, so again we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `norm_counts`.
 
 ```{r results = 'hide'}
-norm_counts <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_normalised_counts.tsv.gz")
+norm_counts <- read_tsv("data/limma-voom_normalised_counts.tsv.gz")
 ```
 
 Let's take a look at the `norm_counts` data.

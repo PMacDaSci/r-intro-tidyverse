@@ -117,7 +117,7 @@ R enables making **complex, publication-quality, reproducible** plots. An exampl
 \  
 
 ##Getting started
-- In this course we use a server that has everything already installed for you.
+- In this course we can use a server that has everything already installed for you or you can use your own laptop.
 - If you want to install on your own computer you can get the latest release of R from https://www.r-project.org/
     + Base package and Contributed packages (general purpose extras)
     + `r length(XML:::readHTMLTable("http://cran.r-project.org/web/packages/available_packages_by_date.html")[[1]][[2]])` available packages as of `r date()`

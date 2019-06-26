@@ -57,7 +57,7 @@ library(ggrepel)
 Next we load in our RNA-seq data. The file we will use is tab-separated, so we will use the `read_tsv()` function from the tidyverse readr package to read it in. We will store the contents of our file in an object called `de_results`.
 
 ```{r}
-de_results <- read_tsv("/training/r-intro-tidyverse/data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
+de_results <- read_tsv("data/limma-voom_luminalpregnant-luminallactate.tsv.gz")
 ```
 
 There should be 15,804 rows and 8 columns. We can see that in the Environment tab on the right.
@@ -273,7 +273,7 @@ ggplot(data=de_results, mapping=aes(x=logFC, y=-log10(P.Value), col=signif)) +
 We can label one or more genes of interest in a volcano plot. This enables us to visualize where these genes are in terms of significance and in comparison to the other genes. In the original paper using this dataset, there is a heatmap of 31 genes in Figure 6b. These genes are a set of 30 cytokines/growth factor identified as differentially expressed, and the authors’ main gene of interest, Mcl1. These genes are provided in the volcano genes file and shown below. We will label these genes in the volcano plot. We'll read in the genes and store it in an object called `goi`.
 
 ```{r}
-goi <- read_tsv("/training/r-intro-tidyverse/data/volcano_genes")
+goi <- read_tsv("data/volcano_genes")
 ```
 
 Let's take a look at what's in `goi`
