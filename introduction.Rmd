@@ -163,9 +163,9 @@ When you first open RStudio, you will be greeted by three panels:
 
 
 Once you open files, such as R scripts, an editor panel will also open
-in the top left.
+in the top left, as shown below.
 
-![RStudio layout with .R file open](images/rstudio-script.png)
+![](images/rstudio-script.png)
 
 \  
 \  
@@ -236,3 +236,31 @@ Insert a comment into your script such as below.
 1 + 1
 ```
 
+### Working directory
+Every file on your computer is located in a specific location. This location can be referred to by a path. In Mac, paths look something like this: `/Users/doylemaria/Documents/`. In Windows, paths look something like this: `C:\Users\doylemaria\Documents\`.
+
+When you open a R session, it launches from a specific location. You can find out where this is using the command `getwd()`. This location called the ‘working directory’. R will, by default, look in this directory when reading in data and write out files/plots to this directory. It is often useful to have your data and R Scripts in the same directory and set this as your working directory.
+
+You can set your working directory to be anywhere you like and we will now do this:
+
+Make a folder for this course, somewhere sensible on your computer that you will be able to easily find. Name the folder for example, "Intro_R_course".
+
+Go back to your RStudio window, go to the bottom right panel, click on the ‘Files’ tab and then click on the three dots on the top right hand corner, as shown below.
+
+![](images/three_dots.png)
+
+This will open up a new window which lets you explore the files and folders on your computer. Find the new folder you created, click on it, then click ‘Open’.
+
+The files tab will now show the contents of your new folder (which should be empty). At the top of the files tab, click on `More > Set As Working Directory`, as shown below.
+
+![](images/working_directory.png)
+
+Please set your working directory to be this folder at the start of EVERY session.
+
+
+### Data files
+The data files required for this workshop are available on [GitHub](https://github.com/PMacDaSci/r-intro-tidyverse/tree/master/data). To download a data file, click on the file you wish to download then click 'Download', as shown below (or if it is an uncompressed file, right click 'Raw' > 'Save Link As…'). Alternatively, the files may have been provided to you by the instructor. 
+
+Store these files in your working directory in a folder called `data`.
+
+![](images/download_data.png)
