@@ -5,7 +5,7 @@ output:
   html_notebook:
     toc: yes
     toc_float: yes
-    toc_depth: 2
+    toc_depth: 3
 subtitle: R and RStudio
 ---
 \  
@@ -261,6 +261,6 @@ Please set your working directory to be this folder at the start of EVERY sessio
 ### Data files
 The data files required for this workshop are available on [GitHub](https://github.com/PMacDaSci/r-intro-tidyverse/tree/master/data). To download a data file, click on the file you wish to download then click 'Download', as shown below (or if it is an uncompressed file, right click 'Raw' > 'Save Link As…'). Alternatively, the files may have been provided to you by the instructor. 
 
-Store these files in your working directory in a folder called `data`.
+Store these input files in your working directory in a folder called `data`.
 
 ![](images/download_data.png)
