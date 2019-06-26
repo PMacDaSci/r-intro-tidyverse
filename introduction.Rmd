@@ -243,13 +243,13 @@ When you open a R session, it launches from a specific location. You can find ou
 
 You can set your working directory to be anywhere you like and we will now do this:
 
-Make a folder for this course, somewhere sensible on your computer that you will be able to easily find. Name the folder for example, "Intro_R_course".
+Make a folder for this course, somewhere sensible on your computer that you will be able to easily find. Name the folder for example, `Intro_R_course`.
 
 Go back to your RStudio window, go to the bottom right panel, click on the ‘Files’ tab and then click on the three dots on the top right hand corner, as shown below.
 
 ![](images/three_dots.png)
 
-This will open up a new window which lets you explore the files and folders on your computer. Find the new folder you created, click on it, then click ‘Open’.
+This will open up a new window which lets you explore the files and folders on your computer. Find the new folder you created (e.g. `Intro_R_course`), click on it, then click ‘Open’.
 
 The files tab will now show the contents of your new folder (which should be empty). At the top of the files tab, click on `More > Set As Working Directory`, as shown below.
 
